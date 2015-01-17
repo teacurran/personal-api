@@ -5,7 +5,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 
 
@@ -20,4 +19,17 @@ public interface FitBitApiClient {
 	@Path("/1/user/-/profile.json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserProfile();
+
+
+	@GET
+	@Path("/1/user/-/body/date/{date}.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getuserBodyDate(
+			@PathParam("date") String date
+	);
+
+	@GET
+	@Path("/1/user/-/body/log/weight/date/2010-02-21.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserBodyLogWeightDate();
 }

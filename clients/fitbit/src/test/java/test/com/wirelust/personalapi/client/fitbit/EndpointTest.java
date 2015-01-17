@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
+import com.wirelust.personalapi.client.fitbit.representations.BodyType;
+import com.wirelust.personalapi.client.fitbit.representations.GoalsType;
+import com.wirelust.personalapi.client.fitbit.representations.UserBodyDateResponseType;
+import com.wirelust.personalapi.client.fitbit.representations.UserResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserType;
 import junit.framework.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -53,6 +57,12 @@ public class EndpointTest {
 		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_profile.json"),
 				"/1/user/-/profile.json");
 
+		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_date.json"),
+				"/1/user/-/body/date/2010-04-25.json");
+
+		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_log_weight_date.json"),
+				"/1/user/-/body/log/weight/date/2010-02-21.json");
+
 		File dir = new File("src/test/resources/WEB-INF");
 		addFilesToWebArchive(testWar, dir);
 
@@ -81,11 +91,12 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserProfile() throws Exception {
 
-		Response userProfileResponse = fitbitClient.getUserProfile();
+		Response response = fitbitClient.getUserProfile();
 
-		Assert.assertEquals(HttpServletResponse.SC_OK, userProfileResponse.getStatus());
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
-		UserType userType = userProfileResponse.readEntity(UserType.class);
+		UserResponseType userResponse = response.readEntity(UserResponseType.class);
+		UserType userType = userResponse.getUser();
 
 		Assert.assertEquals("I live in San Francisco.", userType.getAboutMe());
 
@@ -100,6 +111,22 @@ public class EndpointTest {
 		Double usersHeight = Double.parseDouble("176.75");
 		Assert.assertEquals(usersHeight, userType.getHeight());
 
+	}
+
+	@Test
+	public void deserializeUserBodyDate() throws Exception {
+
+		Response response = fitbitClient.getuserBodyDate("2010-04-25");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserBodyDateResponseType bodyResponse = response.readEntity(UserBodyDateResponseType.class);
+
+		BodyType bodyType = bodyResponse.getBody();
+		GoalsType goalsType = bodyResponse.getGoals();
+
+		Assert.assertEquals(Double.parseDouble("16.14"), bodyType.getBmi());
+		Assert.assertEquals(Double.parseDouble("75"), goalsType.getWeight());
 	}
 
 	private static void addFilesToWebArchive(WebArchive war, File dir) throws IllegalArgumentException {
