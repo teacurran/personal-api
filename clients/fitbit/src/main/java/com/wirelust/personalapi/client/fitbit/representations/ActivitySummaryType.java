@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @Author T. Curran
  */
-public class SummaryType {
+public class ActivitySummaryType {
 
 	Integer activityCalories;
 	Integer caloriesBMR;

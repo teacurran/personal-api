@@ -12,10 +12,12 @@ import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
 import com.wirelust.personalapi.client.fitbit.representations.ActivityType;
 import com.wirelust.personalapi.client.fitbit.representations.BodyType;
 import com.wirelust.personalapi.client.fitbit.representations.DistanceType;
+import com.wirelust.personalapi.client.fitbit.representations.FoodType;
 import com.wirelust.personalapi.client.fitbit.representations.GoalsType;
-import com.wirelust.personalapi.client.fitbit.representations.SummaryType;
+import com.wirelust.personalapi.client.fitbit.representations.ActivitySummaryType;
 import com.wirelust.personalapi.client.fitbit.representations.UserActivitiesDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserBodyDateResponseType;
+import com.wirelust.personalapi.client.fitbit.representations.UserFoodLogDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserType;
 import junit.framework.Assert;
@@ -24,8 +26,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
@@ -66,7 +66,10 @@ public class EndpointTest {
 				"/1/user/-/body/date/2010-04-25.json");
 
 		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_log_weight_date.json"),
-				"/1/user/-/body/log/weight/date/2010-02-21.json");
+				"/1/user/-/body/log/weight/date/2010-04-25.json");
+
+		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_food_log_date.json"),
+				"/1/user/-/foods/log/date/2010-04-25.json");
 
 		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_profile.json"),
 				"/1/user/-/profile.json");
@@ -120,7 +123,7 @@ public class EndpointTest {
 		Assert.assertEquals(Double.parseDouble("8.05"), goals.getDistance());
 		Assert.assertEquals(150, goals.getFloors().intValue());
 
-		SummaryType summary = responseType.getSummary();
+		ActivitySummaryType summary = responseType.getSummary();
 		Assert.assertEquals(8, summary.getDistances().size());
 
 		DistanceType distance1 = summary.getDistances().get(0);
@@ -142,6 +145,39 @@ public class EndpointTest {
 
 		GoalsType goalsType = bodyResponse.getGoals();
 		Assert.assertEquals(Double.parseDouble("75"), goalsType.getWeight());
+	}
+
+	@Test
+	public void deserializeUserBodyLogWeightDate() throws Exception {
+		Response response = fitbitClient.getUserBodyLogWeightDate("2010-04-25");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+
+	}
+
+	@Test
+	public void deserializeUserFoodsLogDate() throws Exception {
+
+		Response response = fitbitClient.getUserFoodLogDate("2010-04-25");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserFoodLogDateResponseType responseType = response.readEntity(UserFoodLogDateResponseType.class);
+
+		List<FoodType> foods = responseType.getFoods();
+		Assert.assertEquals(2, foods.size());
+
+		FoodType food1 = foods.get(0);
+		Assert.assertEquals("Chocolate, Milk", food1.getLoggedFood().getName());
+		Assert.assertEquals(147L, food1.getLoggedFood().getUnit().getId().longValue());
+
+		Assert.assertEquals(752, food1.getNutritionalValues().getCalories().intValue());
+		Assert.assertEquals(66.5, food1.getNutritionalValues().getCarbs());
+		Assert.assertEquals(49d, food1.getNutritionalValues().getFat());
+		Assert.assertEquals(0.5, food1.getNutritionalValues().getFiber());
+		Assert.assertEquals(12.5, food1.getNutritionalValues().getProtein());
+		Assert.assertEquals(186d, food1.getNutritionalValues().getSodium());
 	}
 
 	@Test
