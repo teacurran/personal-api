@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  */
 @JsonRootName("user")
 public class UserType implements Serializable {
-	String aboutMe;
 
+	String aboutMe;
 	String avatar;
 	String avatar150;
 	String city;

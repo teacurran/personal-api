@@ -11,7 +11,7 @@ public class UserActivitiesDateResponseType {
 
 	List<ActivityType> activities;
 	GoalsType goals;
-	SummaryType summary;
+	ActivitySummaryType summary;
 
 	public List<ActivityType> getActivities() {
 		return activities;
@@ -29,11 +29,11 @@ public class UserActivitiesDateResponseType {
 		this.goals = goals;
 	}
 
-	public SummaryType getSummary() {
+	public ActivitySummaryType getSummary() {
 		return summary;
 	}
 
-	public void setSummary(SummaryType summary) {
+	public void setSummary(ActivitySummaryType summary) {
 		this.summary = summary;
 	}
 }
