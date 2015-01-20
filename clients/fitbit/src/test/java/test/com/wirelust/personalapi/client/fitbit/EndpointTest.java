@@ -143,6 +143,21 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void deserializeUserActivitiesGoalsWeekly() throws Exception {
+
+		Response response = fitbitClient.getUserActivitiesGoalsWeekly();
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserActivitiesDateResponseType responseType = response.readEntity(UserActivitiesDateResponseType.class);
+
+		ActivityGoalsType goals = responseType.getGoals();
+		Assert.assertEquals(60d, goals.getDistance());
+		Assert.assertEquals(250, goals.getFloors().intValue());
+		Assert.assertEquals(70000, goals.getSteps().intValue());
+	}
+
+	@Test
 	public void deserializeUserBodyDate() throws Exception {
 
 		Response response = fitbitClient.getuserBody("2010-04-25");
