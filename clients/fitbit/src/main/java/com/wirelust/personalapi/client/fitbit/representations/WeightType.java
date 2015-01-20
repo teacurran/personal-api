@@ -27,11 +27,11 @@ public class WeightType {
 	}
 
 	public Date getDate() {
-		return date;
+		return (date == null) ? null : new Date(date.getTime());
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.date = (date == null) ? null : new Date(date.getTime());
 	}
 
 	public Long getLogId() {
