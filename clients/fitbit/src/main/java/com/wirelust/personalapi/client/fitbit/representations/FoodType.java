@@ -27,11 +27,11 @@ public class FoodType {
 	}
 
 	public Date getLogDate() {
-		return logDate;
+		return (logDate == null) ? null : new Date(logDate.getTime());
 	}
 
 	public void setLogDate(Date logDate) {
-		this.logDate = logDate;
+		this.logDate = (logDate == null) ? null : new Date(logDate.getTime());
 	}
 
 	public Long getLogId() {

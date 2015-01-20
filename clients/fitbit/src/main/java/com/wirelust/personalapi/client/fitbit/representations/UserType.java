@@ -84,11 +84,11 @@ public class UserType implements Serializable {
 	}
 
 	public Date getDateOfBirth() {
-		return dateOfBirth;
+		return (dateOfBirth == null) ? null : new Date(dateOfBirth.getTime());
 	}
 
 	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+		this.dateOfBirth = (dateOfBirth == null) ? null : new Date(dateOfBirth.getTime());
 	}
 
 	public String getDisplayName() {
@@ -172,11 +172,11 @@ public class UserType implements Serializable {
 	}
 
 	public Date getMemberSince() {
-		return memberSince;
+		return (memberSince == null) ? null : new Date(memberSince.getTime());
 	}
 
 	public void setMemberSince(Date memberSince) {
-		this.memberSince = memberSince;
+		this.memberSince = (memberSince == null) ? null : new Date(memberSince.getTime());;;
 	}
 
 	public Long getOffsetFromUTCMillis() {
