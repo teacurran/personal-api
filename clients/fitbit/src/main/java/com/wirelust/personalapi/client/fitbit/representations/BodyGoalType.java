@@ -15,6 +15,7 @@ public class BodyGoalType {
 	Date startDate;
 	Double startWeight;
 	Double weight;
+	Double fat;
 
 	public Double getWeight() {
 		return weight;
@@ -38,5 +39,13 @@ public class BodyGoalType {
 
 	public void setStartWeight(Double startWeight) {
 		this.startWeight = startWeight;
+	}
+
+	public Double getFat() {
+		return fat;
+	}
+
+	public void setFat(Double fat) {
+		this.fat = fat;
 	}
 }
