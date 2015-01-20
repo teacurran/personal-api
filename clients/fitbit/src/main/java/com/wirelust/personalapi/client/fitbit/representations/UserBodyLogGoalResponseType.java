@@ -5,7 +5,7 @@ package com.wirelust.personalapi.client.fitbit.representations;
  *
  * @Author T. Curran
  */
-public class UserBodyLogWeightGoalResponseType {
+public class UserBodyLogGoalResponseType {
 
 	BodyGoalType goal;
 
