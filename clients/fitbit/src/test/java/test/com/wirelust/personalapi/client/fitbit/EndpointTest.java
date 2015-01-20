@@ -63,25 +63,10 @@ public class EndpointTest {
 		testWar.addPackages(true, "com.wirelust.personalapi.client.fitbit");
 		testWar.addPackage("test.com.wirelust.personalapi.client.fitbit.providers");
 
-		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_activities_date.json"),
-				"/1/user/-/activities/date/2010-04-25.json");
-
-		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_date.json"),
-				"/1/user/-/body/date/2010-04-25.json");
-
-		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_log_fat_date.json"),
-				"/1/user/-/body/log/fat/date/2010-04-25.json");
-
-		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_log_weight_date.json"),
-				"/1/user/-/body/log/weight/date/2010-04-25.json");
-
-		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_food_log_date.json"),
-				"/1/user/-/foods/log/date/2010-04-25.json");
-
 		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_profile.json"),
 				"/1/user/-/profile.json");
 
-		File dir = new File("src/test/resources/WEB-INF");
+		File dir = new File("src/test/resources");
 		addFilesToWebArchive(testWar, dir);
 
 		System.out.println("test.war:" + testWar.toString(true));
