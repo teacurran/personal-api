@@ -115,7 +115,7 @@ public class EndpointTest {
 
 		ActivityGoalsType goals = responseType.getGoals();
 		Assert.assertEquals(2826, goals.getCaloriesOut().intValue());
-		Assert.assertEquals(Double.parseDouble("8.05"), goals.getDistance());
+		Assert.assertEquals(8.05, goals.getDistance());
 		Assert.assertEquals(150, goals.getFloors().intValue());
 
 		ActivitySummaryType summary = responseType.getSummary();
@@ -124,6 +124,22 @@ public class EndpointTest {
 		DistanceType distance1 = summary.getDistances().get(0);
 		Assert.assertEquals(Double.parseDouble("1.32"), distance1.getDistance());
 
+	}
+
+	@Test
+	public void deserializeUserActivitiesGoalsDaily() throws Exception {
+
+		Response response = fitbitClient.getUserActivitiesGoalsDaily();
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserActivitiesDateResponseType responseType = response.readEntity(UserActivitiesDateResponseType.class);
+
+		ActivityGoalsType goals = responseType.getGoals();
+		Assert.assertEquals(2500, goals.getCaloriesOut().intValue());
+		Assert.assertEquals(8.05, goals.getDistance());
+		Assert.assertEquals(15, goals.getFloors().intValue());
+		Assert.assertEquals(10000, goals.getSteps().intValue());
 	}
 
 	@Test
