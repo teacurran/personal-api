@@ -12,11 +12,13 @@ import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
 import com.wirelust.personalapi.client.fitbit.representations.ActivityType;
 import com.wirelust.personalapi.client.fitbit.representations.BodyType;
 import com.wirelust.personalapi.client.fitbit.representations.DistanceType;
+import com.wirelust.personalapi.client.fitbit.representations.FatType;
 import com.wirelust.personalapi.client.fitbit.representations.FoodType;
 import com.wirelust.personalapi.client.fitbit.representations.GoalsType;
 import com.wirelust.personalapi.client.fitbit.representations.ActivitySummaryType;
 import com.wirelust.personalapi.client.fitbit.representations.UserActivitiesDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserBodyDateResponseType;
+import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogFatDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogWeightDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserFoodLogDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserResponseType;
@@ -66,6 +68,9 @@ public class EndpointTest {
 
 		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_date.json"),
 				"/1/user/-/body/date/2010-04-25.json");
+
+		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_log_fat_date.json"),
+				"/1/user/-/body/log/fat/date/2010-04-25.json");
 
 		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_body_log_weight_date.json"),
 				"/1/user/-/body/log/weight/date/2010-04-25.json");
@@ -147,6 +152,32 @@ public class EndpointTest {
 
 		GoalsType goalsType = bodyResponse.getGoals();
 		Assert.assertEquals(Double.parseDouble("75"), goalsType.getWeight());
+	}
+
+	@Test
+	public void deserializeUserBodyLogFatDate() throws Exception {
+		Response response = fitbitClient.getUserBodyLogFatDate("2010-04-25");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserBodyLogFatDateResponseType responseType = response.readEntity(UserBodyLogFatDateResponseType.class);
+
+		List<FatType> fats = responseType.getFat();
+		Assert.assertEquals(2, fats.size());
+
+		Date weightDate = simpleDateFormat.parse("2012-03-05");
+
+		FatType fat1 = fats.get(0);
+		Assert.assertEquals(14d, fat1.getFat());
+		Assert.assertEquals(weightDate, fat1.getDate());
+		Assert.assertEquals(1330991999000L, fat1.getLogId().longValue());
+		Assert.assertEquals("23:59:59", fat1.getTime());
+
+		FatType fat2 = fats.get(1);
+		Assert.assertEquals(13.5, fat2.getFat());
+		Assert.assertEquals(weightDate, fat2.getDate());
+		Assert.assertEquals(1330991999000L, fat2.getLogId().longValue());
+		Assert.assertEquals("21:20:59", fat2.getTime());
 	}
 
 	@Test
