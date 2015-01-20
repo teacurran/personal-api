@@ -10,16 +10,19 @@ import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
 import com.wirelust.personalapi.client.fitbit.representations.ActivityType;
+import com.wirelust.personalapi.client.fitbit.representations.BodyGoalType;
+import com.wirelust.personalapi.client.fitbit.representations.BodyGoalsType;
 import com.wirelust.personalapi.client.fitbit.representations.BodyType;
 import com.wirelust.personalapi.client.fitbit.representations.DistanceType;
 import com.wirelust.personalapi.client.fitbit.representations.FatType;
 import com.wirelust.personalapi.client.fitbit.representations.FoodType;
-import com.wirelust.personalapi.client.fitbit.representations.GoalsType;
+import com.wirelust.personalapi.client.fitbit.representations.ActivityGoalsType;
 import com.wirelust.personalapi.client.fitbit.representations.ActivitySummaryType;
 import com.wirelust.personalapi.client.fitbit.representations.UserActivitiesDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserBodyDateResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogFatDateResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogWeightDateResponseType;
+import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogFatResponseType;
+import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogWeightGoalResponseType;
+import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogWeightResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserFoodLogDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserType;
@@ -110,7 +113,7 @@ public class EndpointTest {
 		ActivityType activity2 = activities.get(1);
 		Assert.assertEquals(51002L, activity2.getActivityId().longValue());
 
-		GoalsType  goals = responseType.getGoals();
+		ActivityGoalsType goals = responseType.getGoals();
 		Assert.assertEquals(2826, goals.getCaloriesOut().intValue());
 		Assert.assertEquals(Double.parseDouble("8.05"), goals.getDistance());
 		Assert.assertEquals(150, goals.getFloors().intValue());
@@ -126,26 +129,26 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserBodyDate() throws Exception {
 
-		Response response = fitbitClient.getuserBodyDate("2010-04-25");
+		Response response = fitbitClient.getuserBody("2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
-		UserBodyDateResponseType bodyResponse = response.readEntity(UserBodyDateResponseType.class);
+		UserBodyDateResponseType responseType = response.readEntity(UserBodyDateResponseType.class);
 
-		BodyType bodyType = bodyResponse.getBody();
+		BodyType bodyType = responseType.getBody();
 		Assert.assertEquals(Double.parseDouble("16.14"), bodyType.getBmi());
 
-		GoalsType goalsType = bodyResponse.getGoals();
+		BodyGoalsType goalsType = responseType.getGoals();
 		Assert.assertEquals(Double.parseDouble("75"), goalsType.getWeight());
 	}
 
 	@Test
 	public void deserializeUserBodyLogFatDate() throws Exception {
-		Response response = fitbitClient.getUserBodyLogFatDate("2010-04-25");
+		Response response = fitbitClient.getUserBodyLogFat("2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
-		UserBodyLogFatDateResponseType responseType = response.readEntity(UserBodyLogFatDateResponseType.class);
+		UserBodyLogFatResponseType responseType = response.readEntity(UserBodyLogFatResponseType.class);
 
 		List<FatType> fats = responseType.getFat();
 		Assert.assertEquals(2, fats.size());
@@ -167,11 +170,10 @@ public class EndpointTest {
 
 	@Test
 	public void deserializeUserBodyLogWeightDate() throws Exception {
-		Response response = fitbitClient.getUserBodyLogWeightDate("2010-04-25");
-
+		Response response = fitbitClient.getUserBodyLogWeight("2010-04-25");
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
-		UserBodyLogWeightDateResponseType responseType = response.readEntity(UserBodyLogWeightDateResponseType.class);
+		UserBodyLogWeightResponseType responseType = response.readEntity(UserBodyLogWeightResponseType.class);
 
 		List<WeightType> weights = responseType.getWeight();
 		Assert.assertEquals(2, weights.size());
@@ -194,9 +196,24 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void deserializeUserBodyLogWeightGoal() throws Exception {
+		Response response = fitbitClient.getUserBodyLogWeightGoal();
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		Date goalDate = simpleDateFormat.parse("2012-03-05");
+
+		UserBodyLogWeightGoalResponseType responseType = response.readEntity(UserBodyLogWeightGoalResponseType.class);
+
+		BodyGoalType goalType = responseType.getGoal();
+		Assert.assertEquals(goalDate, goalType.getStartDate());
+		Assert.assertEquals(70d, goalType.getStartWeight());
+		Assert.assertEquals(75d, goalType.getWeight());
+	}
+
+	@Test
 	public void deserializeUserFoodsLogDate() throws Exception {
 
-		Response response = fitbitClient.getUserFoodLogDate("2010-04-25");
+		Response response = fitbitClient.getUserFoodLog("2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 

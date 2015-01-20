@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @Author T. Curran
  */
-public class UserBodyLogWeightDateResponseType {
+public class UserBodyLogWeightResponseType {
 
 	List<WeightType> weight;
 

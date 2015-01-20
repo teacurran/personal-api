@@ -7,7 +7,7 @@ package com.wirelust.personalapi.client.fitbit.representations;
  */
 public class UserBodyDateResponseType {
 	BodyType body;
-	GoalsType goals;
+	BodyGoalsType goals;
 
 	public BodyType getBody() {
 		return body;
@@ -17,11 +17,11 @@ public class UserBodyDateResponseType {
 		this.body = body;
 	}
 
-	public GoalsType getGoals() {
+	public BodyGoalsType getGoals() {
 		return goals;
 	}
 
-	public void setGoals(GoalsType goals) {
+	public void setGoals(BodyGoalsType goals) {
 		this.goals = goals;
 	}
 }

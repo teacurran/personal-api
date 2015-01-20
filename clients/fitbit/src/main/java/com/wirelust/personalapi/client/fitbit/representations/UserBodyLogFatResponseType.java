@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @Author T. Curran
  */
-public class UserBodyLogFatDateResponseType {
+public class UserBodyLogFatResponseType {
 
 	List<FatType> fat;
 

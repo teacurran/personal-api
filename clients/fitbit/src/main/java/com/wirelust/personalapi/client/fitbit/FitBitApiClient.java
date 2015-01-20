@@ -24,22 +24,37 @@ public interface FitBitApiClient {
 	@GET
 	@Path("/1/user/-/body/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getuserBodyDate(@PathParam("date") String date);
+	public Response getuserBody(@PathParam("date") String date);
 
 	@GET
 	@Path("/1/user/-/body/log/fat/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogFatDate(@PathParam("date") String date);
+	public Response getUserBodyLogFat(@PathParam("date") String date);
+
+	@GET
+	@Path("/1/user/-/body/log/fat/date/{date}/{period}.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserBodyLogFat(@PathParam("date") String date, @PathParam("date") String period);
 
 	@GET
 	@Path("/1/user/-/body/log/weight/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogWeightDate(@PathParam("date") String date);
+	public Response getUserBodyLogWeight(@PathParam("date") String date);
+
+	@GET
+	@Path("/1/user/-/body/log/weight/date/{date}/{period}.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserBodyLogWeight(@PathParam("date") String date, @PathParam("date") String period);
+
+	@GET
+	@Path("/1/user/-/body/log/weight/goal.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserBodyLogWeightGoal();
 
 	@GET
 	@Path("/1/user/-/foods/log/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserFoodLogDate(@PathParam("date") String date);
+	public Response getUserFoodLog(@PathParam("date") String date);
 
 	@GET
 	@Path("/1/user/-/profile.json")

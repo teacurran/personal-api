@@ -10,7 +10,7 @@ import java.util.List;
 public class UserActivitiesDateResponseType {
 
 	List<ActivityType> activities;
-	GoalsType goals;
+	ActivityGoalsType goals;
 	ActivitySummaryType summary;
 
 	public List<ActivityType> getActivities() {
@@ -21,11 +21,11 @@ public class UserActivitiesDateResponseType {
 		this.activities = activities;
 	}
 
-	public GoalsType getGoals() {
+	public ActivityGoalsType getGoals() {
 		return goals;
 	}
 
-	public void setGoals(GoalsType goals) {
+	public void setGoals(ActivityGoalsType goals) {
 		this.goals = goals;
 	}
 
