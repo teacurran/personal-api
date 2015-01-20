@@ -17,9 +17,11 @@ import com.wirelust.personalapi.client.fitbit.representations.GoalsType;
 import com.wirelust.personalapi.client.fitbit.representations.ActivitySummaryType;
 import com.wirelust.personalapi.client.fitbit.representations.UserActivitiesDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserBodyDateResponseType;
+import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogWeightDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserFoodLogDateResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserResponseType;
 import com.wirelust.personalapi.client.fitbit.representations.UserType;
+import com.wirelust.personalapi.client.fitbit.representations.WeightType;
 import junit.framework.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -153,7 +155,26 @@ public class EndpointTest {
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
+		UserBodyLogWeightDateResponseType responseType = response.readEntity(UserBodyLogWeightDateResponseType.class);
 
+		List<WeightType> weights = responseType.getWeight();
+		Assert.assertEquals(2, weights.size());
+
+		Date weightDate = simpleDateFormat.parse("2012-03-05");
+
+		WeightType weight1 = weights.get(0);
+		Assert.assertEquals(23.57, weight1.getBmi());
+		Assert.assertEquals(weightDate, weight1.getDate());
+		Assert.assertEquals(1330991999000L, weight1.getLogId().longValue());
+		Assert.assertEquals("23:59:59", weight1.getTime());
+		Assert.assertEquals(73d, weight1.getWeight());
+
+		WeightType weight2 = weights.get(1);
+		Assert.assertEquals(22.57, weight2.getBmi());
+		Assert.assertEquals(weightDate, weight2.getDate());
+		Assert.assertEquals(1330991999000L, weight2.getLogId().longValue());
+		Assert.assertEquals("21:10:59", weight2.getTime());
+		Assert.assertEquals(72.5, weight2.getWeight());
 	}
 
 	@Test
