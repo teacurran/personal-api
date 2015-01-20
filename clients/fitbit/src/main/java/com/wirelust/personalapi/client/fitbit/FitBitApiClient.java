@@ -27,6 +27,11 @@ public interface FitBitApiClient {
 	public Response getUserActivitiesGoalsDaily();
 
 	@GET
+	@Path("/1/user/-/activities/goals/weekly.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserActivitiesGoalsWeekly();
+
+	@GET
 	@Path("/1/user/-/body/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getuserBody(@PathParam("date") String date);
