@@ -27,6 +27,11 @@ public interface FitBitApiClient {
 	public Response getuserBodyDate(@PathParam("date") String date);
 
 	@GET
+	@Path("/1/user/-/body/log/fat/date/{date}.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserBodyLogFatDate(@PathParam("date") String date);
+
+	@GET
 	@Path("/1/user/-/body/log/weight/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserBodyLogWeightDate(@PathParam("date") String date);
