@@ -9,24 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
-import com.wirelust.personalapi.client.fitbit.representations.ActivityType;
-import com.wirelust.personalapi.client.fitbit.representations.BodyGoalType;
-import com.wirelust.personalapi.client.fitbit.representations.BodyGoalsType;
-import com.wirelust.personalapi.client.fitbit.representations.BodyType;
-import com.wirelust.personalapi.client.fitbit.representations.DistanceType;
-import com.wirelust.personalapi.client.fitbit.representations.FatType;
-import com.wirelust.personalapi.client.fitbit.representations.FoodType;
-import com.wirelust.personalapi.client.fitbit.representations.ActivityGoalsType;
-import com.wirelust.personalapi.client.fitbit.representations.ActivitySummaryType;
-import com.wirelust.personalapi.client.fitbit.representations.UserActivitiesDateResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserBodyDateResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogFatResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogGoalResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserBodyLogWeightResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserFoodLogDateResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserResponseType;
-import com.wirelust.personalapi.client.fitbit.representations.UserType;
-import com.wirelust.personalapi.client.fitbit.representations.WeightType;
+import com.wirelust.personalapi.client.fitbit.representations.*;
 import junit.framework.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -274,6 +257,27 @@ public class EndpointTest {
 		Assert.assertEquals(0.5, food1.getNutritionalValues().getFiber());
 		Assert.assertEquals(12.5, food1.getNutritionalValues().getProtein());
 		Assert.assertEquals(186d, food1.getNutritionalValues().getSodium());
+	}
+
+	@Test
+	public void deserializeUserFoodsLogWaterDate() throws Exception {
+
+		Response response = fitbitClient.getUserWaterLog("2010-04-25");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserWaterLogDateResponseType responseType = response.readEntity(UserWaterLogDateResponseType.class);
+
+		WaterSummaryType summary = responseType.getSummary();
+		Assert.assertEquals(800d, summary.getWater());
+
+		List<WaterType> water = responseType.getWater();
+		Assert.assertEquals(3, water.size());
+
+		WaterType water1 = water.get(0);
+		Assert.assertEquals(500d, water1.getAmount());
+		Assert.assertEquals(950L, water1.getLogId().longValue());
+
 	}
 
 	@Test
