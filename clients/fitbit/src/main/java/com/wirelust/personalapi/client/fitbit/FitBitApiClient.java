@@ -11,88 +11,108 @@ import javax.ws.rs.core.Response;
 /**
  * 1/16/15
  *
- * @Author T. Curran
+ * @author T. Curran
  */
 public interface FitBitApiClient {
 
 
 	@GET
-	@Path("/1/user/-/activities/date/{date}.json")
+	@Path("/1/user/{user-id}/activities/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserActivitiesDate(@PathParam("date") String date);
+	public Response getUserActivitiesDate(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
 
 	@GET
-	@Path("/1/user/-/activities/goals/daily.json")
+	@Path("/1/user/{user-id}/activities/goals/daily.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserActivitiesGoalsDaily();
+	public Response getUserActivitiesGoalsDaily(@PathParam("user-id") String userId);
 
 	@GET
-	@Path("/1/user/-/activities/goals/weekly.json")
+	@Path("/1/user/{user-id}/activities/goals/weekly.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserActivitiesGoalsWeekly();
+	public Response getUserActivitiesGoalsWeekly(@PathParam("user-id") String userId);
 
 	@GET
-	@Path("/1/user/-/body/date/{date}.json")
+	@Path("/1/user/{user-id}/body/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getuserBody(@PathParam("date") String date);
+	public Response getuserBody(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
 
 	@GET
-	@Path("/1/user/-/body/log/fat/date/{date}.json")
+	@Path("/1/user/{user-id}/body/log/fat/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogFat(@PathParam("date") String date);
+	public Response getUserBodyLogFat(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
 
 	@GET
-	@Path("/1/user/-/body/log/fat/date/{date}/{period}.json")
+	@Path("/1/user/{user-id}/body/log/fat/date/{date}/{period}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogFat(@PathParam("date") String date, @PathParam("date") String period);
+	public Response getUserBodyLogFat(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date,
+			@PathParam("period") String period);
 
 	@GET
-	@Path("/1/user/-/body/log/weight/date/{date}.json")
+	@Path("/1/user/{user-id}/body/log/weight/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogWeight(@PathParam("date") String date);
+	public Response getUserBodyLogWeight(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
 
 	@GET
-	@Path("/1/user/-/body/log/weight/date/{date}/{period}.json")
+	@Path("/1/user/{user-id}/body/log/weight/date/{date}/{period}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogWeight(@PathParam("date") String date, @PathParam("date") String period);
+	public Response getUserBodyLogWeight(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date,
+			@PathParam("period") String period);
 
 	@GET
-	@Path("/1/user/-/body/log/fat/goal.json")
+	@Path("/1/user/{user-id}/body/log/fat/goal.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogFatGoal();
+	public Response getUserBodyLogFatGoal(@PathParam("user-id") String userId);
 
 	@GET
-	@Path("/1/user/-/body/log/weight/goal.json")
+	@Path("/1/user/{user-id}/body/log/weight/goal.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserBodyLogWeightGoal();
+	public Response getUserBodyLogWeightGoal(@PathParam("user-id") String userId);
 
 	@GET
-	@Path("/1/user/-/foods/log/date/{date}.json")
+	@Path("/1/user/{user-id}/foods/log/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserFoodLog(@PathParam("date") String date);
+	public Response getUserFoodLog(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
 
 	@GET
-	@Path("/1/user/-/foods/log/goal.json")
+	@Path("/1/user/{user-id}/foods/log/goal.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserFoodLogGoal();
+	public Response getUserFoodLogGoal(@PathParam("user-id") String userId);
 
 	@GET
-	@Path("/1/user/-/foods/log/water/date/{date}.json")
+	@Path("/1/user/{user-id}/foods/log/water/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserWaterLog(@PathParam("date") String date);
+	public Response getUserWaterLog(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
 
 	@GET
-	@Path("/1/user/-/foods/log/water/goal.json")
+	@Path("/1/user/{user-id}/foods/log/water/goal.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserWaterLogGoal();
+	public Response getUserWaterLogGoal(@PathParam("user-id") String userId);
 
 	@GET
-	@Path("/1/user/-/profile.json")
+	@Path("/1/user/{user-id}/profile.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserProfile();
+	public Response getUserProfile(@PathParam("user-id") String userId);
 
 	@GET
-	@Path("/1/user/-/sleep/date/{date}.json")
+	@Path("/1/user/{user-id}/sleep/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserSleepDate(@PathParam("date") String date);
+	public Response getUserSleepDate(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
 }

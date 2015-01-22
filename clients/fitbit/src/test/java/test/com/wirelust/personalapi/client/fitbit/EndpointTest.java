@@ -39,6 +39,8 @@ public class EndpointTest {
 	static final String DATE_FORMAT = "yyyy-MM-dd";
 	static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
+	static final String MOCK_USER_ID = "-";
+
 	ResteasyClient client;
 	ResteasyWebTarget target;
 	FitBitApiClient fitbitClient;
@@ -86,7 +88,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserActivitiesDate() throws Exception {
 
-		Response response = fitbitClient.getUserActivitiesDate("2010-04-25");
+		Response response = fitbitClient.getUserActivitiesDate(MOCK_USER_ID, "2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -118,7 +120,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserActivitiesGoalsDaily() throws Exception {
 
-		Response response = fitbitClient.getUserActivitiesGoalsDaily();
+		Response response = fitbitClient.getUserActivitiesGoalsDaily(MOCK_USER_ID);
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -134,7 +136,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserActivitiesGoalsWeekly() throws Exception {
 
-		Response response = fitbitClient.getUserActivitiesGoalsWeekly();
+		Response response = fitbitClient.getUserActivitiesGoalsWeekly(MOCK_USER_ID);
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -149,7 +151,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserBodyDate() throws Exception {
 
-		Response response = fitbitClient.getuserBody("2010-04-25");
+		Response response = fitbitClient.getuserBody(MOCK_USER_ID, "2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -164,7 +166,7 @@ public class EndpointTest {
 
 	@Test
 	public void deserializeUserBodyLogFatDate() throws Exception {
-		Response response = fitbitClient.getUserBodyLogFat("2010-04-25");
+		Response response = fitbitClient.getUserBodyLogFat(MOCK_USER_ID, "2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -190,7 +192,7 @@ public class EndpointTest {
 
 	@Test
 	public void deserializeUserBodyLogFatGoal() throws Exception {
-		Response response = fitbitClient.getUserBodyLogFatGoal();
+		Response response = fitbitClient.getUserBodyLogFatGoal(MOCK_USER_ID);
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
 		UserBodyLogGoalResponseType responseType = response.readEntity(UserBodyLogGoalResponseType.class);
@@ -201,7 +203,7 @@ public class EndpointTest {
 
 	@Test
 	public void deserializeUserBodyLogWeightDate() throws Exception {
-		Response response = fitbitClient.getUserBodyLogWeight("2010-04-25");
+		Response response = fitbitClient.getUserBodyLogWeight(MOCK_USER_ID, "2010-04-25");
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
 		UserBodyLogWeightResponseType responseType = response.readEntity(UserBodyLogWeightResponseType.class);
@@ -228,7 +230,7 @@ public class EndpointTest {
 
 	@Test
 	public void deserializeUserBodyLogWeightGoal() throws Exception {
-		Response response = fitbitClient.getUserBodyLogWeightGoal();
+		Response response = fitbitClient.getUserBodyLogWeightGoal(MOCK_USER_ID);
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
 		Date goalDate = simpleDateFormat.parse("2012-03-05");
@@ -244,7 +246,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserFoodsLogDate() throws Exception {
 
-		Response response = fitbitClient.getUserFoodLog("2010-04-25");
+		Response response = fitbitClient.getUserFoodLog(MOCK_USER_ID, "2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -268,7 +270,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserFoodsLogGoal() throws Exception {
 
-		Response response = fitbitClient.getUserFoodLogGoal();
+		Response response = fitbitClient.getUserFoodLogGoal(MOCK_USER_ID);
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -287,7 +289,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserFoodsLogWaterDate() throws Exception {
 
-		Response response = fitbitClient.getUserWaterLog("2010-04-25");
+		Response response = fitbitClient.getUserWaterLog(MOCK_USER_ID, "2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -308,7 +310,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserFoodsLogWaterGoal() throws Exception {
 
-		Response response = fitbitClient.getUserWaterLogGoal();
+		Response response = fitbitClient.getUserWaterLogGoal(MOCK_USER_ID);
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
@@ -320,7 +322,7 @@ public class EndpointTest {
 	@Test
 	public void deserializeUserProfile() throws Exception {
 
-		Response response = fitbitClient.getUserProfile();
+		Response response = fitbitClient.getUserProfile(MOCK_USER_ID);
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
 		UserResponseType userResponse = response.readEntity(UserResponseType.class);
@@ -343,7 +345,7 @@ public class EndpointTest {
 
 	public void deserializeUserSleepDate() throws Exception {
 
-		Response response = fitbitClient.getUserSleepDate("2010-04-25");
+		Response response = fitbitClient.getUserSleepDate(MOCK_USER_ID, "2010-04-25");
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
 		UserSleepDateResponseType responseType = response.readEntity(UserSleepDateResponseType.class);
