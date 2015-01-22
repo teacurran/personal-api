@@ -300,6 +300,18 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void deserializeUserFoodsLogWaterGoal() throws Exception {
+
+		Response response = fitbitClient.getUserWaterLogGoal();
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		WaterGoalType responseType = response.readEntity(WaterGoalType.class);
+
+		Assert.assertEquals(15d, responseType.getGoal());
+	}
+
+	@Test
 	public void deserializeUserProfile() throws Exception {
 
 		Response response = fitbitClient.getUserProfile();
