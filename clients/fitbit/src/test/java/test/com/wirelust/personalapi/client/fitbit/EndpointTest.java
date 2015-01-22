@@ -260,6 +260,25 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void deserializeUserFoodsLogGoal() throws Exception {
+
+		Response response = fitbitClient.getUserFoodLogGoal();
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserFoodLogGoalResponseType responseType = response.readEntity(UserFoodLogGoalResponseType.class);
+
+		FoodGoalsType goals = responseType.getGoals();
+		Assert.assertEquals(1800, goals.getCalories().intValue());
+
+		FoodPlanType foodPlan = responseType.getFoodPlan();
+		Date date = simpleDateFormat.parse("2012-12-31");
+		Assert.assertEquals("MEDIUM", foodPlan.getIntensity());
+		Assert.assertEquals(date, foodPlan.getEstimatedDate());
+		Assert.assertEquals(true, foodPlan.getPersonalized().booleanValue());
+	}
+
+	@Test
 	public void deserializeUserFoodsLogWaterDate() throws Exception {
 
 		Response response = fitbitClient.getUserWaterLog("2010-04-25");
