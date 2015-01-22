@@ -37,11 +37,13 @@ public class EndpointTest {
 
 	static final String ROOT_URL = "http://localhost:8080/test";
 	static final String DATE_FORMAT = "yyyy-MM-dd";
+	static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
 	ResteasyClient client;
 	ResteasyWebTarget target;
 	FitBitApiClient fitbitClient;
 	SimpleDateFormat simpleDateFormat;
+	SimpleDateFormat simpleDateTimeFormat;
 
 	@Deployment
 	public static WebArchive create() {
@@ -68,9 +70,13 @@ public class EndpointTest {
 		target = client.target(ROOT_URL);
 		fitbitClient = target.proxy(FitBitApiClient.class);
 
+		TimeZone gmtZone = TimeZone.getTimeZone("GMT+0");
+
 		simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
-		TimeZone zone = TimeZone.getTimeZone("GMT+0");
-		simpleDateFormat.setTimeZone(zone);
+		simpleDateFormat.setTimeZone(gmtZone);
+
+		simpleDateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT);
+		simpleDateTimeFormat.setTimeZone(gmtZone);
 	}
 
 	@After
@@ -315,7 +321,6 @@ public class EndpointTest {
 	public void deserializeUserProfile() throws Exception {
 
 		Response response = fitbitClient.getUserProfile();
-
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
 		UserResponseType userResponse = response.readEntity(UserResponseType.class);
@@ -334,6 +339,29 @@ public class EndpointTest {
 		Double usersHeight = Double.parseDouble("176.75");
 		Assert.assertEquals(usersHeight, userType.getHeight());
 
+	}
+
+	public void deserializeUserSleepDate() throws Exception {
+
+		Response response = fitbitClient.getUserSleepDate("2010-04-25");
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserSleepDateResponseType responseType = response.readEntity(UserSleepDateResponseType.class);
+
+		SleepSummaryType summary = responseType.getSummary();
+		Assert.assertEquals(518, summary.getTotalMinutesAsleep().intValue());
+		Assert.assertEquals(2, summary.getTotalSleepRecords().intValue());
+		Assert.assertEquals(540, summary.getTotalTimeInBed().intValue());
+
+		List<SleepType> sleeps = responseType.getSleep();
+		Assert.assertEquals(2, sleeps.size());
+
+		SleepType sleep1 = sleeps.get(0);
+		Date date1 = simpleDateTimeFormat.parse("2011-06-16T14:08:25.125");
+		Assert.assertEquals(date1, sleep1.getStartTime());
+
+		List<SleepMinuteType> minuteData1 = sleep1.getMinuteData();
+		Assert.assertEquals(3, minuteData1.size());
 	}
 
 	private static void addFilesToWebArchive(WebArchive war, File dir) throws IllegalArgumentException {
