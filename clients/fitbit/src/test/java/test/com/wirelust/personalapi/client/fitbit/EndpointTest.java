@@ -320,6 +320,22 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void deserializeUserHeartDate() throws Exception {
+
+		Response response = fitbitClient.getUserHeartDate(MOCK_USER_ID, "2010-04-25");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserHeartDateResponseType responseType = response.readEntity(UserHeartDateResponseType.class);
+
+		List<HeartType> averages = responseType.getAverage();
+		Assert.assertEquals(4, averages.size());
+
+		List<HeartType> logs = responseType.getHeart();
+		Assert.assertEquals(7, logs.size());
+	}
+
+	@Test
 	public void deserializeUserProfile() throws Exception {
 
 		Response response = fitbitClient.getUserProfile(MOCK_USER_ID);

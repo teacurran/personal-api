@@ -105,6 +105,13 @@ public interface FitBitApiClient {
 	public Response getUserWaterLogGoal(@PathParam("user-id") String userId);
 
 	@GET
+	@Path("/1/user/{user-id}/heart/date/{date}.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserHeartDate(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
+
+	@GET
 	@Path("/1/user/{user-id}/profile.json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserProfile(@PathParam("user-id") String userId);
