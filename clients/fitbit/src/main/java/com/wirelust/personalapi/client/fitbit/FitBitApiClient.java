@@ -90,4 +90,9 @@ public interface FitBitApiClient {
 	@Path("/1/user/-/profile.json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserProfile();
+
+	@GET
+	@Path("/1/user/-/sleep/date/{date}.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserSleepDate(@PathParam("date") String date);
 }
