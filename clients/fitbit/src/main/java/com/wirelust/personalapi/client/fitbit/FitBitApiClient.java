@@ -76,6 +76,13 @@ public interface FitBitApiClient {
 	public Response getUserBodyLogFatGoal(@PathParam("user-id") String userId);
 
 	@GET
+	@Path("/1/user/{user-id}/bp/date/{date}.json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserBloodPressure(
+			@PathParam("user-id") String userId,
+			@PathParam("date") String date);
+
+	@GET
 	@Path("/1/user/{user-id}/body/log/weight/goal.json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserBodyLogWeightGoal(@PathParam("user-id") String userId);
