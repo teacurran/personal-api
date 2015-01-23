@@ -244,6 +244,22 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void deserializeUserBloodPressureDate() throws Exception {
+		Response response = fitbitClient.getUserBloodPressure(MOCK_USER_ID, "2010-04-25");
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		UserBloodPressureResponseType responseType = response.readEntity(UserBloodPressureResponseType.class);
+
+		BloodPressureAverageType average = responseType.getAverage();
+		Assert.assertEquals("Prehypertension", average.getCondition());
+		Assert.assertEquals(85, average.getDiastolic().intValue());
+		Assert.assertEquals(115, average.getSystolic().intValue());
+
+		List<BloodPressureType> log = responseType.getBp();
+		Assert.assertEquals(2, log.size());
+	}
+
+	@Test
 	public void deserializeUserFoodsLogDate() throws Exception {
 
 		Response response = fitbitClient.getUserFoodLog(MOCK_USER_ID, "2010-04-25");
