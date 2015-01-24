@@ -336,9 +336,29 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void deserializeUserGlucose() throws Exception {
+
+		Response response = fitbitClient.getUserGlucose(MOCK_USER_ID, "2010-04-25");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		GlucoseType glucose = response.readEntity(GlucoseType.class);
+
+		Assert.assertEquals(4.5, glucose.getHba1c());
+
+		List<GlucoseLogType> log = glucose.getLog();
+		Assert.assertEquals(4, log.size());
+
+		GlucoseLogType log1 = log.get(0);
+
+		GlucoseLogType log2 = log.get(1);
+		Assert.assertEquals(5.5, log2.getGlucose());
+	}
+
+	@Test
 	public void deserializeUserHeartDate() throws Exception {
 
-		Response response = fitbitClient.getUserHeartDate(MOCK_USER_ID, "2010-04-25");
+		Response response = fitbitClient.getUserHeartRate(MOCK_USER_ID, "2010-04-25");
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
