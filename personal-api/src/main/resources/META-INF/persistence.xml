@@ -1,0 +1,46 @@
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                       http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="personalapi" transaction-type="JTA">
+		<jta-data-source>personalapi-ds</jta-data-source>
+
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+
+		<properties>
+
+			<!-- use a custom plural naming strategy -->
+			<property name="hibernate.ejb.naming_strategy" value="com.approachingpi.jpa.PluralNamingStrategy"/>
+
+			<property name="hibernate.archive.autodetection" value="class, hbm"/>
+
+			<!--
+			<property name="hibernate.hbm2ddl.auto" value="validate"/>
+			-->
+
+ 			<!--   <property name="hibernate.hbm2ddl.auto" value="update" /> -->
+			<property name="hibernate.show_sql" value="false" />
+
+			<!-- Hibernate Search -->
+			<!--
+			<property name="hibernate.search.default.directory_provider" value="filesystem" />
+			<property name="hibernate.search.default.exclusive_index_use" value="false" />
+			<property name="hibernate.search.default.indexBase" value="/usr/local/share/personalapi/lucene" />
+			<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+			<property name="hibernate.search.default.locking_strategy" value="single"/>
+			-->
+
+			<!-- 2nd Level Cache -->
+			<property name="hibernate.cache.use_second_level_cache" value="true" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+
+			<!--
+			<property name="hibernate.cache.infinispan.cachemanager" value="java:jboss/infinispan/hibernate"/>
+			-->
+			<property name="hibernate.cache.region.factory_class" value="org.jboss.as.jpa.hibernate4.infinispan.InfinispanRegionFactory"/>
+
+		</properties>
+	</persistence-unit>
+</persistence>
