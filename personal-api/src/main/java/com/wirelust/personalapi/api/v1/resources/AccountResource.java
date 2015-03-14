@@ -26,6 +26,9 @@ import com.wirelust.personalapi.data.model.Authorization;
 import com.wirelust.personalapi.api.exceptions.ApplicationException;
 
 import com.wirelust.personalapi.data.model.RestrictedUsername;
+import com.wirelust.personalapi.helpers.AccountHelper;
+import com.wirelust.personalapi.services.AccountService;
+import com.wirelust.personalapi.services.AuthorizationService;
 import com.wirelust.personalapi.services.Configuration;
 import com.wirelust.personalapi.util.StringUtils;
 import org.slf4j.Logger;
@@ -53,6 +56,12 @@ public class AccountResource {
 
 	@Inject
 	Configuration configuration;
+
+	@Inject
+	AccountService accountService;
+
+	@Inject
+	AuthorizationService authorizationService;
 
 	/**
 	 * [ restricted, working ]
@@ -169,9 +178,6 @@ public class AccountResource {
 		authType.setToken(authorization.getToken());
 		authType.setCreated(authorization.getDateCreated());
 		authType.setAccount(AccountHelper.toRepresentation(account, true));
-
-		// bind the user to this session
-		sessionService.setAccount(account);
 
 		return authType;
 	}
