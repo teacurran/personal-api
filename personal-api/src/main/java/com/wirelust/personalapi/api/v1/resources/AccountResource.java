@@ -3,7 +3,7 @@ package com.wirelust.personalapi.api.v1.resources;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Query;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -19,9 +19,15 @@ import javax.ws.rs.core.MediaType;
 
 import com.wirelust.personalapi.api.v1.representations.AccountType;
 import com.wirelust.personalapi.api.v1.representations.AuthType;
+import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
+import com.wirelust.personalapi.data.model.Account;
+import com.wirelust.personalapi.data.model.ApiApplication;
 import com.wirelust.personalapi.data.model.Authorization;
 import com.wirelust.personalapi.api.exceptions.ApplicationException;
 
+import com.wirelust.personalapi.data.model.RestrictedUsername;
+import com.wirelust.personalapi.services.Configuration;
+import com.wirelust.personalapi.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +47,12 @@ public class AccountResource {
 	public static final String PASSWORD_BYPASS_STRING = "8fkjd6jXG392knd927ur98oijljKHjhjj66kjhkSDSWEXF";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
+
+	@Inject
+	transient EntityManager em;
+
+	@Inject
+	Configuration configuration;
 
 	/**
 	 * [ restricted, working ]
@@ -74,7 +86,7 @@ public class AccountResource {
 			final String inUsername,
 
 			@NotNull
-			@Email
+			//@Email
 			@FormParam("email")
 			final String inEmail,
 
@@ -96,10 +108,11 @@ public class AccountResource {
 		LOGGER.debug("register()");
 
 		String testingAccessCode = configuration.getSetting("accesscode.testing", "");
-		if (!testingAccessCode.equals(inAccessCode)
-				&& !sessionService.getAccessCode().equals(inAccessCode)) {
-			throw new ApplicationException(EnumErrorCode.ACCESS_CODE_INVALID);
-		}
+		// TODO: re-implement access codes
+		//if (!testingAccessCode.equals(inAccessCode)
+		//		&& !sessionService.getAccessCode().equals(inAccessCode)) {
+		//	throw new ApplicationException(EnumErrorCode.ACCESS_CODE_INVALID);
+		//}
 
 		ApiApplication apiApplication = em.find(ApiApplication.class, inClientId);
 		if (apiApplication == null) {
@@ -235,62 +248,7 @@ public class AccountResource {
 			@FormParam("password")
 			final String inPassword) {
 
-		// TODO: allow the client to pass in ApiApplication.secret as a client_id
-		// it will also have to check that the registered application has permissions to
-		// behave like this.  This will enable our client app and others we approve
-		// to use restricted methods with just their secret.
-		// on second thought, we might want to add a different "secret" type string to
-		// api_application meant for code that is going to be distributed and at risk
-		// of being decompiled.
-		if (!configuration.getSetting("accesscode.testing", "").equals(inAccessCode)
-				&& !sessionService.getAccessCode().equals(inAccessCode)) {
-			throw new ApplicationException(EnumErrorCode.ACCESS_CODE_INVALID);
-		}
-
-		ApiApplication apiApplication = em.find(ApiApplication.class, inClientId);
-		if (apiApplication == null) {
-			throw new ApplicationException(EnumErrorCode.CLIENT_ID_INVALID);
-		}
-
-		Account account = null;
-
-		// look for an account with this username
-		TypedQuery<Account> usernameQuery = em.createNamedQuery(Account.QUERY_BY_USERNAME_NORMALIZED, Account.class);
-		usernameQuery.setParameter("username", StringUtils.normalizeUsername(inUsername));
-
-		List<Account> usernameResults = usernameQuery.getResultList();
-		if (usernameResults != null && usernameResults.size() > 0) {
-			account = usernameResults.get(0);
-		} else {
-			// If we didn't find them based on the username, check by email
-			TypedQuery<Account> emailQuery = em.createNamedQuery(Account.QUERY_BY_EMAIL, Account.class);
-			emailQuery.setParameter("email", inUsername);
-
-			List<Account> emailResults = emailQuery.getResultList();
-			if (emailResults != null && emailResults.size() > 0) {
-				account = emailResults.get(0);
-			} else {
-				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
-			}
-		}
-
-		if (!accountService.checkPassword(account, inPassword)) {
-			throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
-		}
-
-
-		// create a new login session for this app/user
-		Authorization authorization = authorizationService.getNewSession(apiApplication, account);
-
-		AuthType authType = new AuthType();
-		authType.setToken(authorization.getToken());
-		authType.setCreated(authorization.getDateCreated());
-		authType.setAccount(AccountHelper.toRepresentation(account, true));
-
-		// bind the user to this session
-		sessionService.setAccount(account);
-
-		return authType;
+		return null;
 	}
 
 	/**
@@ -335,7 +293,6 @@ public class AccountResource {
 			@FormParam("bio")
 			String inBio,
 
-			@Email
 			@FormParam("email")
 			String inEmail,
 
@@ -387,7 +344,7 @@ public class AccountResource {
 	 * @param inAccountId  id of account to get info about
 	 * @return accountType
 	 */
-	@Path("/{accountId}/info")
+	@Path("/{accountId}")
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public AccountType info(
@@ -400,123 +357,7 @@ public class AccountResource {
 			final String inAccountId
 	) {
 
-	}
-
-	/**
-	 * [ working ] Gets a list of accounts the current account is following
-	 *
-	 * @param inOauthToken oauth_token
-	 * @param inAccountId  id of account to get info about
-	 * @param inMax        max
-	 * @param inOffset     offset
-	 * @return accountListType
-	 */
-	@Path("/{accountId}/following")
-	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public AccountListType following(
-			@NotNull
-			@QueryParam("oauth_token")
-			final String inOauthToken,
-
-			@NotNull
-			@PathParam("accountId")
-			final String inAccountId,
-
-			@QueryParam("max") Integer inMax,
-			@QueryParam("offset") Integer inOffset
-	) {
-
-	}
-
-	/**
-	 * [ working ] Gets a list of accounts following the currnet account.
-	 *
-	 * @param inOauthToken oauth_token
-	 * @param inAccountId  id of account to get info about
-	 * @param inMax
-	 * @param inOffset
-	 * @return accountListType
-	 */
-	@Path("/{accountId}/followers")
-	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public AccountListType followers(
-			@NotNull
-			@QueryParam("oauth_token")
-			final String inOauthToken,
-
-			@NotNull
-			@PathParam("accountId")
-			final String inAccountId,
-
-			@QueryParam("max") Integer inMax,
-			@QueryParam("offset") Integer inOffset
-	) {
-
-	}
-
-	/**
-	 * [ working ] Follows an account
-	 *
-	 * @param inOauthToken oauth_token
-	 * @param inAccountId  User to Follow
-	 */
-	@Path("/follow")
-	@POST
-	public void follow(
-			@NotNull
-			@FormParam("oauth_token")
-			String inOauthToken,
-
-			@NotNull
-			@FormParam("accountId")
-			Long inAccountId) {
-
-
-	}
-
-	/**
-	 * [ working ] Unfollows an account
-	 *
-	 * @param inOauthToken oauth_token
-	 * @param inAccountId  Account to unfollow
-	 */
-	@Path("/unfollow")
-	@POST
-	public void unfollow(
-			@NotNull
-			@FormParam("oauth_token")
-			String inOauthToken,
-
-			@NotNull
-			@FormParam("accountId")
-			Long inAccountId) {
-
-		Authorization auth = authorizationService.getAuthorization(inOauthToken);
-		if (auth == null) {
-			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
-		}
-
-		Account authAccount = auth.getAccount();
-		if (authAccount == null) {
-			// this should never happen
-			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
-		}
-
-
-		Account target = em.find(Account.class, inAccountId);
-		if (target == null) {
-			throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
-		}
-
-		if (authAccount.getFollowing().contains(target)) {
-			authAccount.getFollowing().remove(target);
-			em.merge(authAccount);
-
-			accountDao.updateTotals(authAccount);
-			accountDao.updateTotals(target);
-		}
+		return null;
 	}
 
 
