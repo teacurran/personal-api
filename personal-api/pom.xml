@@ -157,12 +157,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-arquillian-container-embedded</artifactId>
-			<version>${version.wildfly}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.wildfly</groupId>
 			<artifactId>wildfly-embedded</artifactId>
 			<version>${version.wildfly}</version>
 			<scope>test</scope>
@@ -215,49 +209,6 @@
 						</webResources>
 					</configuration>
 				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.8</version>
-					<executions>
-						<execution>
-							<id>unpack</id>
-							<phase>process-test-classes</phase>
-							<goals>
-								<goal>unpack</goal>
-							</goals>
-							<configuration>
-								<artifactItems>
-									<artifactItem>
-										<groupId>org.wildfly</groupId>
-										<artifactId>wildfly-dist</artifactId>
-										<version>${version.wildfly}</version>
-										<type>zip</type>
-										<overWrite>false</overWrite>
-										<outputDirectory>../../target</outputDirectory>
-									</artifactItem>
-								</artifactItems>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.17</version>
-					<configuration>
-						<!-- Fork every test because it will launch a separate AS instance -->
-						<forkMode>always</forkMode>
-						<systemPropertyVariables>
-							<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-							<!-- the maven dependency plugin will have already downloaded the server on /target -->
-							<jboss.home>${project.basedir}/../../target/wildfly-${version.wildfly}</jboss.home>
-							<module.path>${project.basedir}/../../target/wildfly-${version.wildfly}/modules</module.path>
-						</systemPropertyVariables>
-						<redirectTestOutputToFile>false</redirectTestOutputToFile>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -293,4 +244,107 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>arquillian-jboss-managed</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-arquillian-container-embedded</artifactId>
+					<version>${version.wildfly}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+					</testResource>
+					<testResource>
+						<directory>src/test/resources-wildfly-embedded</directory>
+					</testResource>
+				</testResources>
+				<plugins>
+
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.17</version>
+						<configuration>
+							<!-- Fork every test because it will launch a separate AS instance -->
+							<forkMode>always</forkMode>
+							<systemPropertyVariables>
+								<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+								<!-- the maven dependency plugin will have already downloaded the server on /target -->
+								<jboss.home>${project.basedir}/../../target/wildfly-${version.wildfly}</jboss.home>
+								<module.path>${project.basedir}/../../target/wildfly-${version.wildfly}/modules
+								</module.path>
+							</systemPropertyVariables>
+							<redirectTestOutputToFile>false</redirectTestOutputToFile>
+
+							<systemProperties>
+
+								<property>
+									<name>java.util.logging.manager</name>
+									<value>org.jboss.logmanager.LogManager</value>
+								</property>
+
+								<!--
+								<systemProperty>
+									<name>jboss.server.config.file.name</name>
+									<value>src/deployment/test/jboss-personalapi.xml</value>
+								</systemProperty>
+								-->
+
+								<systemProperty>
+									<name>org.apache.deltaspike.ProjectStage</name>
+									<value>UnitTest</value>
+								</systemProperty>
+
+							</systemProperties>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.8</version>
+						<executions>
+							<execution>
+								<id>unpack</id>
+								<phase>process-test-classes</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.wildfly</groupId>
+											<artifactId>wildfly-dist</artifactId>
+											<version>${version.wildfly}</version>
+											<type>zip</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>../../target</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

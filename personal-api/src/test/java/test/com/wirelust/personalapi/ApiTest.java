@@ -6,6 +6,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +27,22 @@ public class ApiTest {
 		testWar.addPackages(true, "com.wirelust.personalapi");
 		testWar.addPackage("test.com.wirelust.personalapi");
 
+		// change the persistence to the test persistence
+		//testWar.addAsResource("persistence-test.xml", "META-INF/persistence.xml");
+
 		System.out.println("test.war:" + testWar.toString(true));
 		LOGGER.debug("test deployment: {}", testWar.toString(true));
 
 		return testWar;
+	}
+
+	@Test
+	public void shouldBeAbleToCreateAccount() throws Exception {
+
+
+		// This will always fail because we are passing in an invalid authCode
+		//Assert.assertEquals(response.getStatus(), Status.OK.getStatusCode());
+
 	}
 
 }

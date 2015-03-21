@@ -1,0 +1,29 @@
+<!-- Development mode JPA -->
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                       http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="personalapi" transaction-type="JTA">
+
+		<jta-data-source>java:jboss/datasources/personalapi-ds</jta-data-source>
+
+		<class>com.wirelust.personalapi.data.model.Account</class>
+		<class>com.wirelust.personalapi.data.model.AccountSetting</class>
+		<class>com.wirelust.personalapi.data.model.ApiApplication</class>
+		<class>com.wirelust.personalapi.data.model.LinkedService</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+
+		<properties>
+			<!-- Only included here because the data bootstrapper looks for a value in this property -->
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(schemaAction='drop,add',foreignKeys=true)"/>
+
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.show_sql" value="true" />
+
+			<!-- <property name="hibernate.search.default.indexBase" value="./target/lucene_indexes" /> -->
+			<property name="hibernate.search.default.directory_provider" value="org.hibernate.search.store.impl.RAMDirectoryProvider"/>
+
+		</properties>
+	</persistence-unit>
+</persistence>
