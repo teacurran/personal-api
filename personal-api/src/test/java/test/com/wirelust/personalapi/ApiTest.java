@@ -27,6 +27,7 @@ public class ApiTest {
 	@Deployment
 	public static WebArchive create() {
 		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "personal-api-test.war");
+		testWar.addPackages(true, "com.approachingpi");
 		testWar.addPackages(true, "com.wirelust.personalapi");
 		testWar.addPackage("test.com.wirelust.personalapi");
 

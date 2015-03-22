@@ -2,7 +2,6 @@ package com.approachingpi.jpa;
 
 import org.hibernate.cfg.ImprovedNamingStrategy;
 
-import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.jvnet.inflector.Noun;
 
 /**

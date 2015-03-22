@@ -15,14 +15,15 @@
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 
 		<properties>
-			<!-- Only included here because the data bootstrapper looks for a value in this property -->
-			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(schemaAction='drop,add',foreignKeys=true)"/>
+			<!-- use a custom plural naming strategy -->
+			<property name="hibernate.ejb.naming_strategy" value="com.approachingpi.jpa.PluralNamingStrategy"/>
 
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.show_sql" value="true" />
 
 			<!-- <property name="hibernate.search.default.indexBase" value="./target/lucene_indexes" /> -->
-			<property name="hibernate.search.default.directory_provider" value="org.hibernate.search.store.impl.RAMDirectoryProvider"/>
+			<property name="hibernate.search.default.directory_provider"
+					  value="org.hibernate.search.store.impl.RAMDirectoryProvider"/>
 
 		</properties>
 	</persistence-unit>
