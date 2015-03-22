@@ -15,11 +15,11 @@ import javax.persistence.PersistenceContextType;
 public class EntityManagerProducer {
 
 	@PersistenceContext
-	private EntityManagerFactory entityManagerFactory;
+	private EntityManager entityManager;
 
 	@Produces
 	public EntityManager create() {
-		return this.entityManagerFactory.createEntityManager();
+		return this.entityManager;
 	}
 
 	public void close(@Disposes EntityManager em) {
