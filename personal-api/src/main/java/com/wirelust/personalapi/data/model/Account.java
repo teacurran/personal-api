@@ -30,11 +30,6 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Access( AccessType.FIELD )
-@Table(indexes = {
-		@Index(name="ix_accounts_username", columnList="username"),
-		@Index(name="ix_accounts_username_normalized", columnList="username_normalized"),
-		@Index(name="ix_accounts_fullname", columnList="full_name")
-})
 @Cacheable
 @NamedQueries({
 		@NamedQuery(name = Account.QUERY_ALL,
@@ -84,10 +79,10 @@ public class Account implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Basic
+	@Column(unique = true)
 	protected String username;
 
-	@Basic
+	@Column(unique = true)
 	protected String usernameNormalized;
 
 	@Column(length=200)
