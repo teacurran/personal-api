@@ -5,6 +5,9 @@ import java.io.File;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
+import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +26,26 @@ public class ApiTest {
 
 	@Deployment
 	public static WebArchive create() {
-		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "test.war");
+		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "personal-api-test.war");
 		testWar.addPackages(true, "com.wirelust.personalapi");
 		testWar.addPackage("test.com.wirelust.personalapi");
+
+		testWar.addAsWebInfResource(new FileAsset(new File("src/main/webapp/WEB-INF/beans.xml")), "beans.xml");
+		testWar.addAsWebInfResource(new FileAsset(new File("src/main/webapp/WEB-INF/web.xml")), "web.xml");
+		testWar.addAsWebInfResource(new FileAsset(new File("src/main/webapp/WEB-INF/jboss-deployment-structure.xml")),
+				"jboss-deployment-structure.xml");
+
+		testWar.addAsLibraries(Maven.resolver().loadPomFromFile("pom.xml")
+				.importDependencies(ScopeType.RUNTIME)
+				.resolve()
+				.withTransitivity().asFile());
+		testWar.addAsLibraries(Maven.resolver().loadPomFromFile("pom.xml")
+				.importDependencies(ScopeType.COMPILE)
+				.resolve()
+				.withTransitivity().asFile());
+
+		testWar.addAsResource("persistence-test.xml", "META-INF/persistence.xml");
+		testWar.addAsWebInfResource("personalapi-test-ds.xml");
 
 		// change the persistence to the test persistence
 		//testWar.addAsResource("persistence-test.xml", "META-INF/persistence.xml");

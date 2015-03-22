@@ -35,7 +35,7 @@ import test.com.wirelust.personalapi.client.fitbit.providers.JacksonConfiguratio
 public class EndpointTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EndpointTest.class);
 
-	static final String ROOT_URL = "http://localhost:8080/test";
+	static final String ROOT_URL = "http://localhost:8080/fitbit-client-test";
 	static final String DATE_FORMAT = "yyyy-MM-dd";
 	static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
@@ -49,7 +49,7 @@ public class EndpointTest {
 
 	@Deployment
 	public static WebArchive create() {
-		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "test.war");
+		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "fitbit-client-test.war");
 		testWar.addPackages(true, "com.wirelust.personalapi.client.fitbit");
 		testWar.addPackage("test.com.wirelust.personalapi.client.fitbit.providers");
 

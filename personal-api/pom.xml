@@ -156,6 +156,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-depchain</artifactId>
+			<scope>test</scope>
+			<type>pom</type>
+		</dependency>
+		<dependency>
 			<groupId>org.wildfly</groupId>
 			<artifactId>wildfly-embedded</artifactId>
 			<version>${version.wildfly}</version>
@@ -272,7 +278,7 @@
 						<directory>src/test/resources</directory>
 					</testResource>
 					<testResource>
-						<directory>src/test/resources-wildfly-embedded</directory>
+						<directory>src/test/resources-wildfly</directory>
 					</testResource>
 				</testResources>
 				<plugins>
