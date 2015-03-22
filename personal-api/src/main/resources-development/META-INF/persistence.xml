@@ -1,0 +1,28 @@
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                       http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="personalapi" transaction-type="RESOURCE_LOCAL">
+
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+
+			<!-- use a custom plural naming strategy -->
+			<property name="hibernate.ejb.naming_strategy" value="com.approachingpi.jpa.PluralNamingStrategy"/>
+
+			<property name="hibernate.archive.autodetection" value="class, hbm"/>
+
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+			<property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1/personalapi?useUnicode=true&amp;characterEncoding=utf8&amp;connectionCollation=utf8_unicode_ci"/>
+			<property name="hibernate.connection.username" value="root"/>
+			<property name="hibernate.connection.password" value="root"/>
+			<property name="hibernate.connection.characterEncoding" value="utf8"/>
+			<property name="hibernate.connection.useDynamicCharsetInfo" value="true"/>
+			<property name="hibernate.bytecode.use_reflection_optimizer" value="false"/>
+			<property name="hibernate.connection.autocommit" value="true"/>
+			<property name="hibernate.current_session_context_class" value="thread"/>
+			<property name="hibernate.max_fetch_depth" value="3"/>
+			<property name="hibernate.cache.use_second_level_cache" value="false"/>
+
+		</properties>
+	</persistence-unit>
+</persistence>

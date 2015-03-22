@@ -1,4 +1,5 @@
 *.class
+transaction.log
 
 # Package Files #
 *.jar

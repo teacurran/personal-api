@@ -352,5 +352,222 @@
 				</plugins>
 			</build>
 		</profile>
+
+		<profile>
+			<id>hibernate</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<dependencies>
+				<dependency>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+					<version>${version.mysql.connector}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>${version.hibernate.tools.hibernate}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>${version.hibernate.tools.hibernate}</version>
+					<scope>test</scope>
+				</dependency>
+				<!--
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-infinispan</artifactId>
+					<version>${version.hibernate.tools.hibernate}</version>
+					<scope>test</scope>
+				</dependency>
+				-->
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-jpa-hibernate4</artifactId>
+					<version>7.1.1.Final</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-tools</artifactId>
+					<version>${version.hibernate.tools}</version>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>commons-logging</groupId>
+							<artifactId>commons-logging</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${basedir}/target/classes</outputDirectory>
+
+									<resources>
+										<resource>
+											<directory>src/main/resources/default</directory>
+											<filtering>false</filtering>
+											<excludes>
+												<exclude>META-INF/*</exclude>
+											</excludes>
+										</resource>
+										<resource>
+											<directory>src/main/resources-development</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<!-- Hibernatetool will generate everything before running tests -->
+								<phase>compile</phase>
+								<configuration>
+									<target>
+										<!--
+											For an introduction to the <hibernatetool> Ant Task see
+											http://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#ant
+										-->
+										<echo message="Ant target, through maven-antrun-plugin, started"/>
+
+										<property name="maven_compile_classpath" refid="maven.compile.classpath"/>
+										<property name="maven_test_classpath" refid="maven.test.classpath"/>
+										<property name="maven_runtime_classpath" refid="maven.runtime.classpath"/>
+										<path id="hibernatetool.path">
+											<!--
+												Despite what states the documentation about
+												referencing the Maven classpaths at
+												http://maven.apache.org/plugins/maven-antrun-plugin/examples/classpaths.html
+												writing:
+													<pathelement path="maven.test.classpath" />
+												does not work for this project. So I have set ant
+												properties that refer to appropriate Maven
+												classpathes.
+											-->
+											<pathelement path="${maven_compile_classpath}"/>
+											<pathelement path="${maven_test_classpath}"/>
+											<pathelement path="${maven_runtime_classpath}"/>
+										</path>
+
+										<!-- Doesn't do anything, just for outputting classpaths -->
+										<path id="hibernatetool.path.compile">
+											<pathelement path="${maven_compile_classpath}"/>
+										</path>
+										<property name="hibernatetool.classpath.compile" refid="hibernatetool.path.compile"/>
+										<echo message="maven.compile.classpath : ${hibernatetool.classpath.compile}"/>
+
+										<path id="hibernatetool.path.test">
+											<pathelement path="${maven_test_classpath}"/>
+										</path>
+										<property name="hibernatetool.classpath.test" refid="hibernatetool.path.test"/>
+										<echo message="maven.test.classpath : ${hibernatetool.classpath.test}"/>
+
+										<path id="hibernatetool.path.runtime">
+											<pathelement path="${maven_runtime_classpath}"/>
+										</path>
+										<property name="hibernatetool.classpath.runtime" refid="hibernatetool.path.runtime"/>
+										<echo message="maven.runtime.classpath : ${hibernatetool.classpath.runtime}"/>
+
+										<!--
+											As described in "Using tasks not included in Ant's default jar" at
+											http://maven.apache.org/plugins/maven-antrun-plugin/examples/customTasks.html
+											I should have:
+												* used classpathref="maven.plugin.classpath"
+												* written all hibernatetool dependencies
+											but because there are too many dependencies to write, as shown at
+											http://mvnrepository.com/artifact/org.hibernate/hibernate-tools/4.0.0-CR1,
+											I have preferred to leverage on Maven dependency management.
+
+											So I have declared hibernate-tools artifact as one of my project
+											dependency leaving Maven finding out the transitive dependencies.
+											But because dependencies on maven.plugin.classpath are not packaged
+											in the jar I have explicity excluded hibernate-tools, and its
+											dependencies, from my project packaging declaring them in the
+											"test" scope.
+											Thus hibernate-tools dependencies were both on the
+											maven.compile.classpath and the maven.test.classpath, so I have
+											defined a "hibernatetool.path" that groups the compile and the
+											test classpath.
+										-->
+										<taskdef name="hibernatetool"
+												 classname="org.hibernate.tool.ant.HibernateToolTask"
+												 classpathref="hibernatetool.path"/>
+
+										<property name="generatedByHibernate.outputDirectory"
+												  value="${project.build.directory}/generated/hibernate"/>
+										<mkdir dir="${generatedByHibernate.outputDirectory}"/>
+
+										<!--
+										<copy todir="${generatedByHibernate.outputDirectory}/classpath">
+											<fileset dir="${project.build.directory}/classes"/>
+										</copy>
+										<copy todir="${generatedByHibernate.outputDirectory}/classpath"
+											  overwrite="true">
+											<fileset dir="${project.basedir}/src/main/resources/development"/>
+										</copy>
+										-->
+
+										<!--
+										<copy todir="${project.build.directory}/classes"
+											  overwrite="true">
+											<fileset dir="${project.basedir}/src/main/resources/development"/>
+										</copy>
+										-->
+
+										<hibernatetool destdir="${generatedByHibernate.outputDirectory}">
+											<classpath>
+												<path location="${project.build.directory}/classes"/>
+											</classpath>
+
+											<jpaconfiguration persistenceunit="personalapi"
+															  propertyfile="${project.basedir}/src/main/resources-development/database.properties"/>
+
+											<hbm2ddl create="true" export="false" drop="true" outputfilename="drop-create-ddl.sql"
+													 format="true" console="true"/>
+
+											<hbm2ddl create="true" export="false" drop="false" outputfilename="create-ddl.sql" format="true"
+													 console="true"/>
+
+											<hbm2ddl update="true" export="false" outputfilename="update-ddl.sql" format="true"
+													 console="true"/>
+
+										</hibernatetool>
+
+										<echo message="Ant target, through maven-antrun-plugin, terminated"/>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
 	</profiles>
 </project>
