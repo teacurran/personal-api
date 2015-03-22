@@ -32,7 +32,7 @@ import javax.persistence.TemporalType;
 @Access( AccessType.FIELD )
 @Table(indexes = {
 		@Index(name="ix_accounts_username", columnList="username"),
-		@Index(name="ix_accounts_usernamenormalized", columnList="username_normalized"),
+		@Index(name="ix_accounts_username_normalized", columnList="username_normalized"),
 		@Index(name="ix_accounts_fullname", columnList="full_name")
 })
 @Cacheable
