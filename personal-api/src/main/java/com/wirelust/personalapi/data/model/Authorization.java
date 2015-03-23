@@ -10,14 +10,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Basic;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Index;
 
 /**
  * Date: 11-03-2015
@@ -27,6 +28,11 @@ import org.hibernate.annotations.Index;
 @Entity
 @Access( AccessType.FIELD )
 @Cacheable
+@Table(indexes = {
+		@Index(name = "ix_authorization_request_code", columnList = "request_code", unique = true),
+		@Index(name = "ix_authorizations_refresh_token", columnList = "refresh_token", unique = true),
+		@Index(name = "ix_authorizations_token", columnList = "token", unique = true),
+})
 @NamedQueries({
 		@NamedQuery(name = Authorization.QUERY_BY_UUID,
 				query = "SELECT S " +
@@ -70,15 +76,12 @@ public class Authorization {
 	protected String uuid;
 
 	@Basic
-	@Index(name="authorization_requestcode")
 	protected String requestCode;
 
 	@Basic
-	@Index(name="authorization_token")
 	protected String token;
 
 	@Basic
-	@Index(name="authorization_refreshtoken")
 	protected String refreshToken;
 
 	@ManyToOne
