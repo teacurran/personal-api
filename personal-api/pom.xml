@@ -11,6 +11,10 @@
 	<artifactId>personal-api</artifactId>
 	<packaging>war</packaging>
 
+	<properties>
+		<webapp.dir>${project.build.directory}/${project.build.finalName}-exploded.war</webapp.dir>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.wirelust.personal-api.clients</groupId>
@@ -275,6 +279,27 @@
 					</testResource>
 				</testResources>
 				<plugins>
+
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+
+							<failOnMissingWebXml>false</failOnMissingWebXml>
+
+							<archive>
+								<!-- Note, manifest not written to exploded directory.
+								http://jira.codehaus.org/browse/MWAR-167
+								-->
+								<manifestEntries>
+									<Specification-Title>${project.name}</Specification-Title>
+									<Specification-Version>${project.version}</Specification-Version>
+									<Implementation-Version>${build.number}</Implementation-Version>
+									<Implementation-Build>${buildNumber}</Implementation-Build>
+								</manifestEntries>
+							</archive>
+							<webappDirectory>${webapp.dir}</webappDirectory>
+						</configuration>
+					</plugin>
 
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
