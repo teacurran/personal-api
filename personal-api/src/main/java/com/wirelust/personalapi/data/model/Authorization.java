@@ -29,8 +29,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Access( AccessType.FIELD )
 @Cacheable
 @Table(indexes = {
-		@Index(name = "ix_authorization_request_code", columnList = "request_code", unique = true),
-		@Index(name = "ix_authorizations_refresh_token", columnList = "refresh_token", unique = true),
+		@Index(name = "ix_authorization_request_code", columnList = "requestCode", unique = true),
+		@Index(name = "ix_authorizations_refresh_token", columnList = "refreshToken", unique = true),
 		@Index(name = "ix_authorizations_token", columnList = "token", unique = true),
 })
 @NamedQueries({
