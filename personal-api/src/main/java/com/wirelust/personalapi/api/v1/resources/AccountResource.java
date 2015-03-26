@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  *
  * @Author T. Curran
  */
-@Path("/account")
+@Path("/accounts")
 @Named
 public class AccountResource {
 
