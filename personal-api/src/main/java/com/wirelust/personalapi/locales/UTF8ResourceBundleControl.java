@@ -50,7 +50,9 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 						throw new ClassCastException(bundleClass.getName() + " cannot be cast to ResourceBundle");
 					}
 				} catch (ClassNotFoundException e) {
-					LOGGER.error("unable to initilize bundle:{}", bundleName, e);
+					InstantiationException ie = new InstantiationException("unable to initialize bundle");
+					ie.setStackTrace(e.getStackTrace());
+					throw ie;
 				}
 				break;
 			case "java.properties":
