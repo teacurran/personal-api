@@ -5,7 +5,10 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import com.wirelust.personalapi.api.providers.ApplicationExceptionMapperProvider;
+import com.wirelust.personalapi.api.providers.GeneralExceptionMapperProvider;
 import com.wirelust.personalapi.api.providers.JacksonConfigurationProvider;
+import com.wirelust.personalapi.api.providers.ValidationExceptionMapperProvider;
 import com.wirelust.personalapi.api.v1.resources.AccountResource;
 
 
@@ -24,6 +27,10 @@ public class V1Application extends Application {
 		classes.add(AccountResource.class);
 
 		classes.add(JacksonConfigurationProvider.class);
+
+		classes.add(ApplicationExceptionMapperProvider.class);
+		classes.add(ValidationExceptionMapperProvider.class);
+		classes.add(GeneralExceptionMapperProvider.class);
 
 		return classes;
 	}
