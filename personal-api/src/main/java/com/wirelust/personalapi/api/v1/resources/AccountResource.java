@@ -342,7 +342,7 @@ public class AccountResource {
 	}
 
 	/**
-	 * [ working ] Gets information about an account. if account specified is same as logged in account, more information will be provided.
+	 * Gets information about an account. if account specified is same as logged in account, more information will be provided.
 	 * <p/>
 	 * accountId can be either the numberic id or a username. if 'self' is passed as account id it will return data for the user of the oauth_token.
 	 *
