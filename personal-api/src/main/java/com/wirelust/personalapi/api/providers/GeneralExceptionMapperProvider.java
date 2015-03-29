@@ -1,10 +1,6 @@
 package com.wirelust.personalapi.api.providers;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import javax.inject.Inject;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -13,7 +9,6 @@ import javax.ws.rs.ext.Provider;
 import com.wirelust.personalapi.api.exceptions.ApplicationException;
 import com.wirelust.personalapi.api.v1.representations.ApplicationError;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
-import com.wirelust.personalapi.api.v1.representations.ParameterErrorType;
 import com.wirelust.personalapi.services.Configuration;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.slf4j.Logger;
@@ -25,15 +20,15 @@ import org.slf4j.LoggerFactory;
  * @Author T. Curran
  */
 @Provider
-public class ExceptionMapperProvider
+public class GeneralExceptionMapperProvider
 		implements ExceptionMapper<Exception> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionMapperProvider.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GeneralExceptionMapperProvider.class);
 
 	@Inject
 	Configuration configuration;
 
-	public ExceptionMapperProvider() {
+	public GeneralExceptionMapperProvider() {
 	}
 
 	private Exception resolveCause(
@@ -128,7 +123,7 @@ public class ExceptionMapperProvider
 
 		// Initialize the entity response
 		response =
-				Response.status(ExceptionMapperProvider.resolveStatus(applicationError.getCode()))
+				Response.status(GeneralExceptionMapperProvider.resolveStatus(applicationError.getCode()))
 						.entity(applicationError).build();
 
 		LOGGER.debug(
