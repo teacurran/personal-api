@@ -69,37 +69,6 @@ public class GeneralExceptionMapperProvider
 			applicationError.setCode(applicationException.getErrorCode());
 			applicationError.setDetail(applicationException.getMessage());
 
-//		} else if (cause instanceof MethodConstraintViolationException) {
-//
-//			MethodConstraintViolationException mcve = (MethodConstraintViolationException) cause;
-//
-//			applicationError.setCode(EnumErrorCode.ILLEGAL_ARGUMENT_ERROR);
-//
-//			for (MethodConstraintViolation mcv : mcve.getConstraintViolations()) {
-//				Method method = mcv.getMethod();
-//
-//				ParameterErrorType parameterErrorType = new ParameterErrorType();
-//				parameterErrorType.setParameter(mcv.getParameterName());
-//				parameterErrorType.setMessage(mcv.getMessage());
-//
-//				// attempt to get the parameter name
-//				Annotation[][] annotations = method.getParameterAnnotations();
-//				if (annotations.length >= mcv.getParameterIndex()+1) {
-//					Annotation[] parameterAnnotations = annotations[mcv.getParameterIndex()];
-//					for (Annotation annotation : parameterAnnotations) {
-//						if (annotation instanceof FormParam) {
-//							FormParam formParam = (FormParam)annotation;
-//							parameterErrorType.setParameter(formParam.value());
-//						}
-//						if (annotation instanceof QueryParam) {
-//							QueryParam queryParam = (QueryParam)annotation;
-//							parameterErrorType.setParameter(queryParam.value());
-//						}
-//					}
-//				}
-//
-//				applicationError.addParameterError(parameterErrorType);
-//			}
 		} else {
 
 			applicationError.setCode(EnumErrorCode.GENERIC_ERROR);
