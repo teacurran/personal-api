@@ -2,6 +2,7 @@ package com.wirelust.personalapi.api.providers;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -16,7 +17,10 @@ import com.wirelust.personalapi.api.exceptions.ApplicationException;
 import com.wirelust.personalapi.api.v1.representations.ApplicationError;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.api.v1.representations.ParameterErrorType;
+import com.wirelust.personalapi.locales.I18n;
+import com.wirelust.personalapi.qualifiers.Localization;
 import com.wirelust.personalapi.services.Configuration;
+import org.apache.deltaspike.jsf.api.message.JsfMessage;
 import org.jboss.resteasy.api.validation.ResteasyConstraintViolation;
 import org.jboss.resteasy.api.validation.ResteasyViolationException;
 import org.jboss.resteasy.spi.NotFoundException;
@@ -26,7 +30,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Date: 28-03-2015
  *
- * @Author T. Curran
+ * @author T. Curran
  */
 @Provider
 public class ValidationExceptionMapperProvider implements ExceptionMapper<ValidationException> {
@@ -36,8 +40,12 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 	@Inject
 	Configuration configuration;
 
-	public ValidationExceptionMapperProvider() {
-	}
+	@Inject
+	JsfMessage<I18n> messages;
+
+	@Inject
+	@Localization
+	transient protected ResourceBundle locale;
 
 	private Exception resolveCause(final Exception inException) {
 
@@ -143,15 +151,14 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 		if (errorCode == null) {
 			errorCode = EnumErrorCode.GENERIC_ERROR;
 		}
-		// TODO: get the message from I18N
-		//applicationError.setText(configuration.getMessage("api.v1.error." + errorCode.value(), errorCode.name()));
 
-		LOGGER.debug("Initialized application error response: code=[{}] message=[{}]", applicationError.getCode(),
-				applicationError.getDetail());
+		applicationError.setText(locale.getString("api.v1.error." + errorCode.value()));
+
+		LOGGER.debug("Initialized application error response: code=[{}] message=[{}]", applicationError
+				.getCode(), applicationError.getDetail());
 
 		// Initialize the entity response
-		response = Response.status(ValidationExceptionMapperProvider.resolveStatus(applicationError.getCode())).entity
-				(applicationError).build();
+		response = Response.status(Response.Status.BAD_REQUEST.getStatusCode()).entity(applicationError).build();
 
 		LOGGER.debug("Returning error response: status=[{}] entity=[{}]", new Object[]{response.getStatus(), response
 				.getEntity() == null ? null : response.getEntity().getClass()});
