@@ -18,6 +18,7 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.shrinkwrap.api.Filters;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
@@ -39,7 +40,7 @@ public class ApiTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApiTest.class);
 
-	private static final String ROOT_URL = "http://127.0.0.1:8080";
+	private static final String ROOT_URL = "http://127.0.0.1:8080/test";
 
 	ResteasyClient client;
 	ResteasyWebTarget target;
@@ -48,9 +49,11 @@ public class ApiTest {
 
 	@Deployment
 	public static WebArchive create() {
-		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "personal-api-test.war");
+		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "test.war");
 		testWar.addPackages(true, "com.approachingpi");
-		testWar.addPackages(true, "com.wirelust.personalapi");
+		testWar.addPackages(true,
+				Filters.exclude(".*com/wirelust/personalapi/client/.*"),
+				"com.wirelust.personalapi");
 		testWar.addPackage("test.com.wirelust.personalapi");
 
 		testWar.addAsWebInfResource(new FileAsset(new File("src/main/webapp/WEB-INF/beans.xml")), "beans.xml");
