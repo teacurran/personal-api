@@ -70,6 +70,9 @@ public class ApiTest {
 				.resolve()
 				.withTransitivity().asFile());
 
+		File dir = new File("src/main/resources");
+		addFilesToWebArchive(testWar, dir, "/WEB-INF/classes/");
+
 		testWar.addAsResource("persistence-test.xml", "META-INF/persistence.xml");
 		testWar.addAsWebInfResource("personalapi-test-ds.xml");
 
@@ -109,4 +112,17 @@ public class ApiTest {
 
 	}
 
+	private static void addFilesToWebArchive(WebArchive war, File dir, String root) throws IllegalArgumentException {
+		if (dir == null || !dir.isDirectory()) {
+			throw new IllegalArgumentException("not a directory");
+		}
+		for (File f : dir.listFiles()) {
+			if (f.isFile()) {
+				war.addAsWebResource(f, root + f.getPath().replaceAll("\\\\", "/").substring("src/main/resources/".length())
+				);
+			} else {
+				addFilesToWebArchive(war, f, root);
+			}
+		}
+	}
 }
