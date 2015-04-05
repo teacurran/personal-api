@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 public interface V1ApplicationClient {
 
 	@POST
-	@Path("/api/v1/register")
+	@Path("/api/v1/accounts/register")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response register(
 			@NotNull
