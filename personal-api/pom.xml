@@ -269,7 +269,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
-					<artifactId>wildfly-arquillian-container-embedded</artifactId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
 					<version>${version.wildfly}</version>
 					<scope>test</scope>
 				</dependency>
@@ -335,29 +335,13 @@
 								<jboss.home>${project.basedir}/../../target/wildfly-${version.wildfly}</jboss.home>
 								<module.path>${project.basedir}/../../target/wildfly-${version.wildfly}/modules
 								</module.path>
+								<!-- Do not use ./test/resources-wildfly/configuration because jboss will write to the
+								config directory and we don't want these files to change -->
+								<jboss.server.config.dir>${project.basedir}/target/test-classes/configuration</jboss.server.config.dir>
+								<org.apache.deltaspike.ProjectStage>UnitTest</org.apache.deltaspike.ProjectStage>
 							</systemPropertyVariables>
 							<redirectTestOutputToFile>false</redirectTestOutputToFile>
 
-							<systemProperties>
-
-								<property>
-									<name>java.util.logging.manager</name>
-									<value>org.jboss.logmanager.LogManager</value>
-								</property>
-
-								<!--
-								<systemProperty>
-									<name>jboss.server.config.file.name</name>
-									<value>src/deployment/test/jboss-personalapi.xml</value>
-								</systemProperty>
-								-->
-
-								<systemProperty>
-									<name>org.apache.deltaspike.ProjectStage</name>
-									<value>UnitTest</value>
-								</systemProperty>
-
-							</systemProperties>
 						</configuration>
 					</plugin>
 

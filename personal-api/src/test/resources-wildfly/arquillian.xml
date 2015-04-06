@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="
+        http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+	<container qualifier="wildfly8.2" default="true">
+		<configuration>
+			<!--
+			<property name="jbossHome">target/jboss-as-7.1.1.Final</property>
+			<property name="javaVmArguments">-Xms1024m -Xmx1027m -XX:MaxPermSize=512m</property>
+			-->
+
+			<!-- use these uncommented javaVmArguments to allow remote debugging on 8787 from Eclipse  -->
+			<!-- <property name="javaVmArguments">-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y -Xms1024m -Xmx1027m -XX:MaxPermSize=512m</property> -->
+		</configuration>
+	</container>
+
+
+	<extension qualifier="persistence">
+		<property name="defaultDataSource">java:jboss/datasources/personalapi-ds</property>
+	</extension>
+
+</arquillian>
