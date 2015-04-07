@@ -4,12 +4,17 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.api.v1.V1ApplicationClient;
 import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
+import com.wirelust.personalapi.data.model.ApiApplication;
 import junit.framework.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -24,6 +29,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
 import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,6 +52,11 @@ public class ApiTest {
 	ResteasyWebTarget target;
 	V1ApplicationClient v1ApplicationClient;
 
+	@Inject
+	EntityManager em;
+
+	@Inject
+	UserTransaction utx;
 
 	@Deployment
 	public static WebArchive create() {
@@ -86,18 +97,32 @@ public class ApiTest {
 	}
 
 	@Before
-	public void init() {
+	public void init() throws Exception {
 		client = new ResteasyClientBuilder().build();
 		target = client.target(ROOT_URL);
 		v1ApplicationClient = target.proxy(V1ApplicationClient.class);
+
+	}
+
+	@After
+	public void commitTransaction() throws Exception {
+	    //utx.commit();
 	}
 
 	@Test
 	public void shouldBeAbleToCreateAccount() throws Exception {
 
+		utx.begin();
+
+		ApiApplication apiApplication = new ApiApplication();
+		em.persist(apiApplication);
+		em.flush();
+
+		utx.commit();
+
 		Response response = v1ApplicationClient.register(
-			"xxxxxx",
-			"xxxxxx",
+			apiApplication.getUuid(),
+			apiApplication.getUuid(),
 			"tea",
 			"tea@grilledcheese.com",
 			"Pas5w0rd!",
