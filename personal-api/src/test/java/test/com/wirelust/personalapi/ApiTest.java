@@ -100,8 +100,8 @@ public class ApiTest {
 			"xxxxxx",
 			"tea",
 			"tea@grilledcheese.com",
+			"Pas5w0rd!",
 			"Terrence Curran",
-			"1234",
 			"1234"
 		);
 
