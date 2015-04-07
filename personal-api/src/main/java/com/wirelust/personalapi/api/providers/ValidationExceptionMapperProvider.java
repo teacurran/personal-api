@@ -64,8 +64,6 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 	@Override
 	public Response toResponse(final ValidationException inException) {
 
-		LOGGER.debug("Mapping exception to response: ", inException);
-
 		final Response response;
 
 		final ApplicationError applicationError = new ApplicationError();
@@ -142,6 +140,8 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 					}
 				}
 
+				LOGGER.debug("Parameter error:{} message:{}",
+						parameterErrorType.getParameter(), parameterErrorType.getMessage());
 				applicationError.addParameterError(parameterErrorType);
 			}
 		}
@@ -154,14 +154,11 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 
 		applicationError.setText(locale.getString("api.v1.error." + errorCode.value()));
 
-		LOGGER.debug("Initialized application error response: code=[{}] message=[{}]", applicationError
-				.getCode(), applicationError.getDetail());
-
 		// Initialize the entity response
 		response = Response.status(Response.Status.BAD_REQUEST.getStatusCode()).entity(applicationError).build();
 
-		LOGGER.debug("Returning error response: status=[{}] entity=[{}]", new Object[]{response.getStatus(), response
-				.getEntity() == null ? null : response.getEntity().getClass()});
+		LOGGER.debug("Returning error: status=[{}] code=[{}] message=[{}]",
+				response.getStatus(), applicationError.getCode(), applicationError.getDetail());
 
 		return response;
 	}
