@@ -1,1 +1,15 @@
 # personal-api
+
+This is an application that will be for aggregating data from several sources into a single API.
+
+This was inspired by http://api.naveen.com/
+
+This project is not intended to ever be finished but is a testing ground for Java techniques and libraries.
+
+Currently this project incorporates the following technologies:
+* Java EE7
+* Wildfly 8.2
+* JPA2
+* Arquillian
+* RestEasy
+
