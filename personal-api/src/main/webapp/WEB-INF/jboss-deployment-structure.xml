@@ -3,6 +3,8 @@
 
 		<dependencies>
 
+			<module name="com.sun.xml.bind" />
+
 			<module name="org.apache.commons.beanutils"/>
 			<module name="org.apache.commons.collections"/>
 			<module name="org.apache.commons.codec"/>
