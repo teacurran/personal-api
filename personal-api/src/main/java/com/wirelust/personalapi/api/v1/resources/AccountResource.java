@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -79,6 +80,7 @@ public class AccountResource {
 	@Path("/register")
 	@POST
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Transactional
 	public AuthType register(
 			@NotNull
 			@FormParam("accessCode")
