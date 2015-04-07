@@ -3,6 +3,8 @@ package com.wirelust.personalapi.api.providers;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -46,6 +48,8 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 	@Inject
 	@Localization
 	transient protected ResourceBundle locale;
+
+	Pattern argumentPattern = Pattern.compile("^(.*)\\..*(\\d)$");
 
 	private Exception resolveCause(final Exception inException) {
 
@@ -114,9 +118,12 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 				if (method != null) {
 
 					Integer parameterNumber = null;
-					if (rcv.getPath().startsWith("info.arg")) {
+
+					Matcher matcher = argumentPattern.matcher(rcv.getPath());
+
+					if (matcher.matches()) {
 						try {
-							parameterNumber = Integer.parseInt(rcv.getPath().substring("info.arg".length()));
+							parameterNumber = Integer.parseInt(matcher.group(2));
 						} catch (NumberFormatException nfe) {
 							LOGGER.warn("unable to get parameter number:{}", rcv.getPath());
 						}
