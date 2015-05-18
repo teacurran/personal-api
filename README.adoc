@@ -15,3 +15,18 @@ This project is not intended to ever be finished but is a testing ground for Jav
 * RestEasy
 * MyBatis Migrations
 
+## Building and Running
+
+.Prerequisites
+* MySQL
+* Apache Maven
+* Java 8
+
+.To get up and running:
+1. Create a MySQL database called personalapi
+2. Set your MySQL username/password to root/root
+3. From the command line, change to personal-api-db directory
+4. run the command: mvn migration:up
+5. from the base directory, run the command: mvn package
+6. take the build war file from ./target/ and deploy it to WildFly 8
+
