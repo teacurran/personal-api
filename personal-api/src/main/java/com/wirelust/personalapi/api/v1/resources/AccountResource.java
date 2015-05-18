@@ -365,7 +365,34 @@ public class AccountResource {
 			final String inAccountId
 	) {
 
-		return null;
+		Authorization auth = authorizationService.getAuthorization(inOauthToken);
+		if (auth == null) {
+			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+		}
+
+		Account authAccount = auth.getAccount();
+		if (authAccount == null) {
+			// this should never happen
+			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+		}
+
+		Account account;
+		if ("self".equalsIgnoreCase(inAccountId) || "me".equalsIgnoreCase(inAccountId)) {
+			account = authAccount;
+		} else {
+			account = accountService.find(inAccountId);
+			if (account == null) {
+				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+			}
+		}
+
+		AccountType at = AccountHelper.toRepresentation(account, true);
+
+		if (account.getId().equals(authAccount.getId())) {
+			at.setEmail(account.getEmail());
+		}
+
+		return at;
 	}
 
 
