@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.api.v1.V1ApplicationClient;
+import com.wirelust.personalapi.api.v1.representations.AccountType;
+import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
 import com.wirelust.personalapi.data.model.ApiApplication;
 import junit.framework.Assert;
@@ -51,6 +53,8 @@ public class ApiTest {
 	ResteasyClient client;
 	ResteasyWebTarget target;
 	V1ApplicationClient v1ApplicationClient;
+
+	AuthType authorization;
 
 	@Inject
 	EntityManager em;
@@ -132,8 +136,18 @@ public class ApiTest {
 
 		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 
-		// This will always fail because we are passing in an invalid authCode
-		//Assert.assertEquals(response.getStatus(), Status.OK.getStatusCode());
+		authorization = response.readEntity(AuthType.class);
+		Assert.assertNotNull(authorization);
+		Assert.assertNotNull(authorization.getToken());
+	}
+
+	public void shouldBeAbleToGetInfo() throws Exception {
+		Response response = v1ApplicationClient.info(authorization.getToken(), "me");
+
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		AccountType accountType = response.readEntity(AccountType.class);
+		Assert.assertEquals(accountType.getEmail(), "tea@grilledcheese.com");
 
 	}
 

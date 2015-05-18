@@ -4,11 +4,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.wirelust.personalapi.api.v1.representations.AccountType;
 
 /**
  * Date: 04-Apr-2015
@@ -53,4 +58,17 @@ public interface V1ApplicationClient {
 
 			@FormParam("inviteCode")
 			final String inInviteCode);
+
+	@Path("/{accountId}")
+	@GET
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response info(
+			@NotNull
+			@QueryParam("oauth_token")
+			final String inOauthToken,
+
+			@NotNull
+			@PathParam("accountId")
+			final String inAccountId);
+
 }
