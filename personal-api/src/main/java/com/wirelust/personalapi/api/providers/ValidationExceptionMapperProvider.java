@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.QueryParam;
@@ -15,8 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.wirelust.personalapi.api.exceptions.ApplicationException;
-import com.wirelust.personalapi.api.v1.representations.ApplicationError;
+import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.api.v1.representations.ParameterErrorType;
 import com.wirelust.personalapi.locales.I18n;
@@ -25,7 +23,6 @@ import com.wirelust.personalapi.services.Configuration;
 import org.apache.deltaspike.jsf.api.message.JsfMessage;
 import org.jboss.resteasy.api.validation.ResteasyConstraintViolation;
 import org.jboss.resteasy.api.validation.ResteasyViolationException;
-import org.jboss.resteasy.spi.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +67,7 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 
 		final Response response;
 
-		final ApplicationError applicationError = new ApplicationError();
+		final ApplicationErrorType applicationError = new ApplicationErrorType();
 
 		final Exception cause = this.resolveCause(inException);
 

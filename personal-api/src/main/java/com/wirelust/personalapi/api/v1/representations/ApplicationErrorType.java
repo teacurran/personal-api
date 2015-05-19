@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @XmlRootElement(name = "error")
 @JsonRootName("error")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ApplicationError {
+public class ApplicationErrorType {
 
 	@XmlElement(required = true)
 	protected EnumErrorCode code;
