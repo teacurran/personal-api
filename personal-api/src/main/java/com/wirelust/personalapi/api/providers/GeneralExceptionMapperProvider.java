@@ -7,7 +7,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.wirelust.personalapi.api.exceptions.ApplicationException;
-import com.wirelust.personalapi.api.v1.representations.ApplicationError;
+import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.services.Configuration;
 import org.jboss.resteasy.spi.NotFoundException;
@@ -55,7 +55,7 @@ public class GeneralExceptionMapperProvider
 
 		final Response response;
 
-		final ApplicationError applicationError = new ApplicationError();
+		final ApplicationErrorType applicationError = new ApplicationErrorType();
 
 		final Exception cause = this.resolveCause(inException);
 

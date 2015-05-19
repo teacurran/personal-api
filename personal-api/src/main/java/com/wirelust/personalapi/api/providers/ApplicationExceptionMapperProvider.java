@@ -1,17 +1,14 @@
 package com.wirelust.personalapi.api.providers;
 
 import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.wirelust.personalapi.api.exceptions.ApplicationException;
-import com.wirelust.personalapi.api.v1.representations.ApplicationError;
+import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.services.Configuration;
-import javafx.application.Application;
-import org.jboss.resteasy.spi.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +35,7 @@ public class ApplicationExceptionMapperProvider implements ExceptionMapper<Appli
 
 		final Response response;
 
-		final ApplicationError applicationError = new ApplicationError();
+		final ApplicationErrorType applicationError = new ApplicationErrorType();
 
 
 		applicationError.setCode(inException.getErrorCode());
@@ -70,6 +67,7 @@ public class ApplicationExceptionMapperProvider implements ExceptionMapper<Appli
 		final int status;
 		switch (inErrorCode) {
 			case RESOURCE_NOT_FOUND:
+			case OBJECT_NOT_FOUND:
 				status = Response.Status.NOT_FOUND.getStatusCode();
 				break;
 			case REPRESENTATION_PARSE_ERROR:
@@ -79,8 +77,11 @@ public class ApplicationExceptionMapperProvider implements ExceptionMapper<Appli
 			case ILLEGAL_ARGUMENT_ERROR:
 				status = Response.Status.BAD_REQUEST.getStatusCode();
 				break;
-			default:
+			case GENERIC_ERROR:
 				status = Response.Status.INTERNAL_SERVER_ERROR.getStatusCode();
+				break;
+			default:
+				status = Response.Status.BAD_REQUEST.getStatusCode();
 				break;
 		}
 
