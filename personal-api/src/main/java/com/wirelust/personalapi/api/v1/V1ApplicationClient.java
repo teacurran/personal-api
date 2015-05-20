@@ -59,7 +59,7 @@ public interface V1ApplicationClient {
 			@FormParam("inviteCode")
 			final String inInviteCode);
 
-	@Path("/{accountId}")
+	@Path("/api/v1/accounts/{accountId}")
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response info(
