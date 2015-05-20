@@ -32,6 +32,7 @@ import com.wirelust.personalapi.services.AccountService;
 import com.wirelust.personalapi.services.AuthorizationService;
 import com.wirelust.personalapi.services.Configuration;
 import com.wirelust.personalapi.util.StringUtils;
+import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,7 +98,7 @@ public class AccountResource {
 			final String inUsername,
 
 			@NotNull
-			//@Email
+			@Email
 			@FormParam("email")
 			final String inEmail,
 
