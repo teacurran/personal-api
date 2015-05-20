@@ -185,6 +185,47 @@ public class ApiTest {
 		Assert.assertEquals(error.getCode().value(), EnumErrorCode.USERNAME_EXISTS.value());
 	}
 
+	/**
+	 * Tests that a user cannot create an account with an existing username or email address
+	 * @throws Exception
+	 */
+	@Test
+	public void shouldNotBeAbleToCreateAccountWithBadUsernameOrEmail() throws Exception {
+
+		// Validate that we are unable ot pass in a bad username
+		Response badUsernameResponse = v1ApplicationClient.register(
+				application.getUuid(),
+				application.getUuid(),
+				"xx",
+				REG_USER_1_EMAIL,
+				"Pas5w0rd!",
+				"Terrence Curran",
+				REG_INVITE_CODE);
+		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, badUsernameResponse.getStatus());
+		ApplicationErrorType accountError = badUsernameResponse.readEntity(ApplicationErrorType.class);
+		Assert.assertEquals(accountError.getCode().value(), EnumErrorCode.ILLEGAL_ARGUMENT_ERROR.value());
+		Assert.assertEquals(accountError.getParameterErrors().size(), 1);
+		Assert.assertEquals(accountError.getParameterErrors().get(0).getParameter(), "username");
+
+		// validate that we are not able to pass in an email
+		Response badEmailResponse = v1ApplicationClient.register(
+				application.getUuid(),
+				application.getUuid(),
+				REG_USER_1_USERNAME,
+				"invalid-email",
+				"Pas5w0rd!",
+				"Terrence Curran",
+				REG_INVITE_CODE);
+		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, badUsernameResponse.getStatus());
+		ApplicationErrorType emailError = badEmailResponse.readEntity(ApplicationErrorType.class);
+
+		Assert.assertEquals(emailError.getCode().value(), EnumErrorCode.ILLEGAL_ARGUMENT_ERROR.value());
+		Assert.assertEquals(emailError.getParameterErrors().size(), 1);
+		Assert.assertEquals(emailError.getParameterErrors().get(0).getParameter(), "email");
+
+	}
+
+
 	@Test
 	public void shouldBeAbleToGetInfo() throws Exception {
 		Response response = v1ApplicationClient.info(authorization.getToken(), "me");
