@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.api.v1.representations.AccountType;
+import com.wirelust.personalapi.util.PAConstants;
 
 /**
  * Date: 04-Apr-2015
@@ -70,5 +71,15 @@ public interface V1ApplicationClient {
 			@NotNull
 			@PathParam("accountId")
 			final String inAccountId);
+
+	@Path("/api/v1/accounts/checkUsername")
+	@POST
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response checkUsername(
+		@NotNull
+		@Size(min = 3, max = 20)
+		@Pattern(regexp = PAConstants.USERNAME_PATTERN)
+		@FormParam("username")
+		final String inUsername);
 
 }

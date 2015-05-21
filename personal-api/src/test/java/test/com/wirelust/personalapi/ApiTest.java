@@ -13,6 +13,8 @@ import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
 import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.data.model.ApiApplication;
+import com.wirelust.personalapi.data.model.RestrictedUsername;
+import com.wirelust.personalapi.util.StringUtils;
 import org.junit.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -249,6 +251,26 @@ public class ApiTest {
 
 		AccountType accountType = response.readEntity(AccountType.class);
 		Assert.assertNull(accountType.getEmail());
+	}
+
+	@Test
+	public void shouldNotAllowRestrictedUsername() throws Exception {
+		// insert a restricted username
+		utx.begin();
+		RestrictedUsername restrictedUsername = new RestrictedUsername();
+		restrictedUsername.setUsername("restricted_username");
+		restrictedUsername.setUsernameNormalized(StringUtils.normalizeUsername("restricted_username"));
+		em.persist(restrictedUsername);
+		em.flush();
+		utx.commit();
+
+		Response validResponse = v1ApplicationClient.checkUsername("valid_username");
+		Object entity = validResponse.getEntity();
+		System.out.println(entity);
+		Assert.assertEquals(HttpServletResponse.SC_NO_CONTENT, validResponse.getStatus());
+
+		Response invalidResponse = v1ApplicationClient.checkUsername("restricted_username");
+		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, invalidResponse.getStatus());
 	}
 
 	private static void addFilesToWebArchive(WebArchive war, File dir, String root) throws IllegalArgumentException {

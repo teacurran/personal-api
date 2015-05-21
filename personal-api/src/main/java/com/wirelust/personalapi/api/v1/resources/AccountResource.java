@@ -26,11 +26,12 @@ import com.wirelust.personalapi.data.model.ApiApplication;
 import com.wirelust.personalapi.data.model.Authorization;
 import com.wirelust.personalapi.api.exceptions.ApplicationException;
 
-import com.wirelust.personalapi.data.model.RestrictedUsername;
+import com.wirelust.personalapi.data.repositories.RestrictedUsernameRepository;
 import com.wirelust.personalapi.helpers.AccountHelper;
 import com.wirelust.personalapi.services.AccountService;
 import com.wirelust.personalapi.services.AuthorizationService;
 import com.wirelust.personalapi.services.Configuration;
+import com.wirelust.personalapi.util.PAConstants;
 import com.wirelust.personalapi.util.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Date: 13-03-2015
  *
- * @Author T. Curran
+ * @author T. Curran
  */
 @Path("/accounts")
 @Named
@@ -64,6 +65,9 @@ public class AccountResource {
 
 	@Inject
 	AuthorizationService authorizationService;
+
+	@Inject
+	RestrictedUsernameRepository restrictedUsernameRepository;
 
 	/**
 	 * [ restricted, working ]
@@ -93,7 +97,7 @@ public class AccountResource {
 
 			@NotNull
 			@Size(min = 3, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_]+$")
+			@Pattern(regexp = PAConstants.USERNAME_PATTERN)
 			@FormParam("username")
 			final String inUsername,
 
@@ -146,10 +150,9 @@ public class AccountResource {
 		}
 
 		// Make sure the username isn't restricted
-		TypedQuery<RestrictedUsername> restrictedCheckQuery = em.createNamedQuery(RestrictedUsername.QUERY_BY_USERNAME_NORMALIZED, RestrictedUsername.class);
-		restrictedCheckQuery.setParameter("username", usernameNormalized);
-		List<RestrictedUsername> restrictedCheckResults = restrictedCheckQuery.getResultList();
-		if (restrictedCheckResults != null && restrictedCheckResults.size() > 0) {
+		if (restrictedUsernameRepository.isRestricted(usernameNormalized)) {
+			// we're throwing username_exists because we
+			// don't want the end user to know that this username is restricted.
 			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
@@ -197,7 +200,7 @@ public class AccountResource {
 	public void checkUsername(
 			@NotNull
 			@Size(min = 3, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_]+$")
+			@Pattern(regexp = PAConstants.USERNAME_PATTERN)
 			@FormParam("username")
 			final String inUsername) {
 
@@ -211,11 +214,9 @@ public class AccountResource {
 			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
-		TypedQuery<RestrictedUsername> restrictedCheckQuery = em.createNamedQuery(RestrictedUsername.QUERY_BY_USERNAME_NORMALIZED, RestrictedUsername.class);
-		restrictedCheckQuery.setParameter("username", usernameNormalized);
-		List<RestrictedUsername> restrictedCheckResults = restrictedCheckQuery.getResultList();
-		if (restrictedCheckResults != null && restrictedCheckResults.size() > 0) {
-			// we're throwing username_exists because we don't want the end user to know that this username is restricted.
+		if (restrictedUsernameRepository.isRestricted(usernameNormalized)) {
+			// we're throwing username_exists because we
+			// don't want the end user to know that this username is restricted.
 			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
