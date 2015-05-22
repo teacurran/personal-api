@@ -1,11 +1,27 @@
 package com.wirelust.personalapi.api.v1.resources;
 
-import java.util.List;
+import com.wirelust.personalapi.api.exceptions.ApplicationException;
+import com.wirelust.personalapi.api.v1.representations.AccountType;
+import com.wirelust.personalapi.api.v1.representations.AuthType;
+import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
+import com.wirelust.personalapi.data.model.Account;
+import com.wirelust.personalapi.data.model.ApiApplication;
+import com.wirelust.personalapi.data.model.Authorization;
+import com.wirelust.personalapi.data.repositories.AccountRepository;
+import com.wirelust.personalapi.data.repositories.ApiApplicationRepository;
+import com.wirelust.personalapi.data.repositories.RestrictedUsernameRepository;
+import com.wirelust.personalapi.helpers.AccountHelper;
+import com.wirelust.personalapi.services.AccountService;
+import com.wirelust.personalapi.data.repositories.AuthorizationRepository;
+import com.wirelust.personalapi.services.Configuration;
+import com.wirelust.personalapi.util.PAConstants;
+import com.wirelust.personalapi.util.StringUtils;
+import org.hibernate.validator.constraints.Email;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -18,25 +34,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.wirelust.personalapi.api.v1.representations.AccountType;
-import com.wirelust.personalapi.api.v1.representations.AuthType;
-import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
-import com.wirelust.personalapi.data.model.Account;
-import com.wirelust.personalapi.data.model.ApiApplication;
-import com.wirelust.personalapi.data.model.Authorization;
-import com.wirelust.personalapi.api.exceptions.ApplicationException;
-
-import com.wirelust.personalapi.data.repositories.RestrictedUsernameRepository;
-import com.wirelust.personalapi.helpers.AccountHelper;
-import com.wirelust.personalapi.services.AccountService;
-import com.wirelust.personalapi.services.AuthorizationService;
-import com.wirelust.personalapi.services.Configuration;
-import com.wirelust.personalapi.util.PAConstants;
-import com.wirelust.personalapi.util.StringUtils;
-import org.hibernate.validator.constraints.Email;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Date: 13-03-2015
  *
@@ -46,16 +43,13 @@ import org.slf4j.LoggerFactory;
 @Named
 public class AccountResource {
 
-	/* PASSWORD_BYPASS_STRING is used in the case that we need to call register service without passing in a valid password.
-	It will get past validation but not set the password to the user's account.
+	/* PASSWORD_BYPASS_STRING is used in the case that we need to call register service without passing in a valid
+	password.  It will get past validation but not set the password to the user's account.
 	This is a UX edge case because of how we are implementing various oAuth providers.
 	 */
 	public static final String PASSWORD_BYPASS_STRING = "8fkjd6jXG392knd927ur98oijljKHjhjj66kjhkSDSWEXF";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
-
-	@Inject
-	transient EntityManager em;
 
 	@Inject
 	Configuration configuration;
@@ -64,7 +58,13 @@ public class AccountResource {
 	AccountService accountService;
 
 	@Inject
-	AuthorizationService authorizationService;
+	AuthorizationRepository authorizationService;
+
+	@Inject
+	ApiApplicationRepository apiApplicationRepository;
+
+	@Inject
+	AccountRepository accountRepository;
 
 	@Inject
 	RestrictedUsernameRepository restrictedUsernameRepository;
@@ -85,7 +85,6 @@ public class AccountResource {
 	@Path("/register")
 	@POST
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	@Transactional
 	public AuthType register(
 			@NotNull
 			@FormParam("accessCode")
@@ -108,7 +107,7 @@ public class AccountResource {
 
 			@NotNull
 			@Size(min = 5, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\|\\~\\`\\+\\=\\[\\]\\{\\}\\|\\\\]+$")
+			@Pattern(regexp = PAConstants.ACCOUNT_PASSWORD_PATTERN)
 			@FormParam("password")
 			final String inPassword,
 
@@ -130,43 +129,35 @@ public class AccountResource {
 		//	throw new ApplicationException(EnumErrorCode.ACCESS_CODE_INVALID);
 		//}
 
-		ApiApplication apiApplication = em.find(ApiApplication.class, inClientId);
+		ApiApplication apiApplication = apiApplicationRepository.findBy(inClientId);
 		if (apiApplication == null) {
 			throw new ApplicationException(EnumErrorCode.CLIENT_ID_INVALID);
 		}
 
-		// don't allow all numeric usernames
-		if (inUsername.matches("^[0-9]+$")) {
+		// check to make sure the username is valid
+		if (!accountRepository.usernameIsValid(inUsername)) {
 			throw new ApplicationException(EnumErrorCode.USERNAME_INVALID);
 		}
 
 		// Make sure the username isn't taken
-		String usernameNormalized = StringUtils.normalizeUsername(inUsername);
-		TypedQuery<Account> usernameCheckQuery = em.createNamedQuery(Account.QUERY_BY_USERNAME_NORMALIZED, Account.class);
-		usernameCheckQuery.setParameter("username", usernameNormalized);
-		List<Account> usernameCheckResults = usernameCheckQuery.getResultList();
-		if (usernameCheckResults != null && usernameCheckResults.size() > 0) {
+		if (accountRepository.usernameExists(inUsername)) {
 			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS);
 		}
 
 		// Make sure the username isn't restricted
-		if (restrictedUsernameRepository.isRestricted(usernameNormalized)) {
+		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
 			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
 		// Check for an account by email address to make sure it doesn't already exist
-		TypedQuery<Account> emailQuery = em.createNamedQuery(Account.QUERY_BY_EMAIL, Account.class);
-		emailQuery.setParameter("email", inUsername);
-		List<Account> emailResults = emailQuery.getResultList();
-		if (emailResults != null && emailResults.size() > 0) {
+		if (accountRepository.findAnyByEmail(inEmail) != null) {
 			throw new ApplicationException(EnumErrorCode.EMAIL_EXISTS);
 		}
 
 		Account account = new Account();
 		account.setUsername(inUsername);
-		account.setUsernameNormalized(usernameNormalized);
 		account.setEmail(inEmail);
 		account.setFullName(inFullName);
 
@@ -175,7 +166,7 @@ public class AccountResource {
 		}
 
 		// save the account
-		em.persist(account);
+		accountRepository.save(account);
 
 		// create a new login session for this app/user
 		Authorization authorization = authorizationService.getNewSession(null, account);
@@ -207,25 +198,20 @@ public class AccountResource {
 		// Normalize the username
 		String usernameNormalized = StringUtils.normalizeUsername(inUsername);
 
-		TypedQuery<Account> usernameCheckQuery = em.createNamedQuery(Account.QUERY_BY_USERNAME_NORMALIZED, Account.class);
-		usernameCheckQuery.setParameter("username", usernameNormalized);
-		List<Account> usernameCheckResults = usernameCheckQuery.getResultList();
-		if (usernameCheckResults != null && usernameCheckResults.size() > 0) {
+		if (accountRepository.usernameExists(inUsername)) {
 			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
-		if (restrictedUsernameRepository.isRestricted(usernameNormalized)) {
+		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
 			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
-		// don't allow all numeric usernames
-		if (inUsername.matches("^[0-9]+$")) {
-			// TODO: determine if we need to do anything special here for the front end to tell the user the exact problem.
+		// check to make sure the username is valid
+		if (!accountRepository.usernameIsValid(inUsername)) {
 			throw new ApplicationException(EnumErrorCode.USERNAME_INVALID);
 		}
-
 	}
 
 
@@ -307,7 +293,7 @@ public class AccountResource {
 			String inEmail,
 
 			@Size(min = 5, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\|\\~\\`\\+\\=\\[\\]\\{\\}\\|\\\\]+$")
+			@Pattern(regexp = PAConstants.ACCOUNT_PASSWORD_PATTERN)
 			@FormParam("password")
 			String inPassword,
 
@@ -346,9 +332,11 @@ public class AccountResource {
 	}
 
 	/**
-	 * Gets information about an account. if account specified is same as logged in account, more information will be provided.
+	 * Gets information about an account. if account specified is same as logged in account,
+	 * more information will be provided.
 	 * <p/>
-	 * accountId can be either the numberic id or a username. if 'self' is passed as account id it will return data for the user of the oauth_token.
+	 * accountId can be either the numberic id or a username. if 'self' is passed as account id it
+	 * will return data for the user of the oauth_token.
 	 *
 	 * @param inOauthToken oauth_token
 	 * @param inAccountId  id of account to get info about
@@ -367,7 +355,7 @@ public class AccountResource {
 			final String inAccountId
 	) {
 
-		Authorization auth = authorizationService.getAuthorization(inOauthToken);
+		Authorization auth = authorizationService.findAnyByToken(inOauthToken);
 		if (auth == null) {
 			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
 		}

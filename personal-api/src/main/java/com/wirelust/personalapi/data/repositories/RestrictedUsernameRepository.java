@@ -1,6 +1,7 @@
 package com.wirelust.personalapi.data.repositories;
 
 import com.wirelust.personalapi.data.model.RestrictedUsername;
+import com.wirelust.personalapi.util.StringUtils;
 import org.apache.deltaspike.data.api.AbstractEntityRepository;
 import org.apache.deltaspike.data.api.Repository;
 
@@ -15,7 +16,7 @@ public abstract class RestrictedUsernameRepository extends AbstractEntityReposit
 	public abstract RestrictedUsername findAnyByUsernameNormalized(final String usermane);
 
 	public boolean isRestricted(final String username) {
-		RestrictedUsername restrictedUsername = findAnyByUsernameNormalized(username);
+		RestrictedUsername restrictedUsername = findAnyByUsernameNormalized(StringUtils.normalizeUsername(username));
 		return (restrictedUsername != null);
 	}
 }
