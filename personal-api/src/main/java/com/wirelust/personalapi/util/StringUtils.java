@@ -70,22 +70,36 @@ public class StringUtils {
 		final char[] patternChars = pattern.toCharArray();
 		final StringBuffer retVal = new StringBuffer( pattern.length() );
 		final java.util.Random rndGen = new java.util.Random();
-		for ( int i = 0; i < patternChars.length; i++ ) {
-			if ( patternChars[i] == '#' ) {
-				retVal.append( NUMERIC_CHARS[rndGen.nextInt( NUMERIC_CHARS.length )] );
-			} else if ( patternChars[i] == 'L' ) {
-				retVal.append( LOWER_ALPHA_CHARS[rndGen.nextInt( LOWER_ALPHA_CHARS.length )] );
-			} else if ( patternChars[i] == 'U' ) {
-				retVal.append( UPPER_ALPHA_CHARS[rndGen.nextInt( UPPER_ALPHA_CHARS.length )] );
-			} else if ( patternChars[i] == 'S' ) {
-				retVal.append( SPECIAL_CHARS[rndGen.nextInt( SPECIAL_CHARS.length )] );
-			} else if ( patternChars[i] == '*' ) {
-				retVal.append( ALL_CHARS[rndGen.nextInt( ALL_CHARS.length )] );
+		for (char patternChar : patternChars) {
+			if (patternChar == '#') {
+				retVal.append(NUMERIC_CHARS[rndGen.nextInt(NUMERIC_CHARS.length)]);
+			} else if (patternChar == 'L') {
+				retVal.append(LOWER_ALPHA_CHARS[rndGen.nextInt(LOWER_ALPHA_CHARS.length)]);
+			} else if (patternChar == 'U') {
+				retVal.append(UPPER_ALPHA_CHARS[rndGen.nextInt(UPPER_ALPHA_CHARS.length)]);
+			} else if (patternChar == 'S') {
+				retVal.append(SPECIAL_CHARS[rndGen.nextInt(SPECIAL_CHARS.length)]);
+			} else if (patternChar == '*') {
+				retVal.append(ALL_CHARS[rndGen.nextInt(ALL_CHARS.length)]);
 			}
 		}
 		return retVal.toString();
 	}
 
+	/**
+	 * generates a username derivative with the goal is lessening spoofed usernames. <br/>
+	 * The following actions are taken:
+	 * <ul>
+	 *     <li>underscores are removed</li>
+	 *     <li>the number 1 is replaced with lowercase L</li>
+	 *     <li>uppercase I is replaced with lowercase l</li>
+	 *     <li>zero is replaced with lowercase o</li>
+	 *     <li>usernames are made lowercase</li>
+	 * </ul>
+	 * This means that the username Barack_Obama and Barack__0bama will both be transformed into: barackobama
+	 * @param inUsername
+	 * @return
+	 */
 	public static String normalizeUsername(final String inUsername) {
 
 		if (inUsername == null || inUsername.isEmpty()) {
@@ -97,7 +111,7 @@ public class StringUtils {
 		// strip out all underscores
 		normalized = normalized.replaceAll("_", "");
 
-		// replace common similar characters so users have a harder time impersinating others.
+		// replace common similar characters so users have a harder time impersonating others.
 		normalized = normalized.replaceAll("1", "l");
 		normalized = normalized.replaceAll("I", "l");
 		normalized = normalized.replaceAll("0", "O");

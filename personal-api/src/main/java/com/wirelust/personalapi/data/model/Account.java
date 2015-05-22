@@ -1,5 +1,7 @@
 package com.wirelust.personalapi.data.model;
 
+import com.wirelust.personalapi.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -170,6 +172,11 @@ public class Account implements java.io.Serializable {
 		return null;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+		this.setUsernameNormalized(StringUtils.normalizeUsername(username));
+	}
+
 	public String toString() {
 		return getUsername();
 	}
@@ -184,10 +191,6 @@ public class Account implements java.io.Serializable {
 
 	public String getUsername() {
 		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getFullName() {
