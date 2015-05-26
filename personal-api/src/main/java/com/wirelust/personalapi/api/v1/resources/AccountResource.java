@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -244,7 +245,34 @@ public class AccountResource {
 			@FormParam("password")
 			final String inPassword) {
 
-		return null;
+		ApiApplication apiApplication = apiApplicationRepository.findBy(inClientId);
+		if (apiApplication == null) {
+			throw new ApplicationException(EnumErrorCode.CLIENT_ID_INVALID);
+		}
+
+		Account account = accountRepository.findAnyByUsername(inUsername);
+
+		if (account == null) {
+			account = accountRepository.findAnyByEmail(inUsername);
+
+			if (account == null) {
+				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+			}
+		}
+
+		if (!accountService.checkPassword(account, inPassword)) {
+			throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+		}
+
+		// create a new login session for this app/user
+		Authorization authorization = authorizationService.getNewSession(apiApplication, account);
+
+		AuthType authType = new AuthType();
+		authType.setToken(authorization.getToken());
+		authType.setCreated(authorization.getDateCreated());
+		authType.setAccount(AccountHelper.toRepresentation(account, true));
+
+		return authType;
 	}
 
 	/**

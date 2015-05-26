@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.api.v1.representations.AccountType;
+import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.util.PAConstants;
 
 /**
@@ -81,5 +82,25 @@ public interface V1ApplicationClient {
 		@Pattern(regexp = PAConstants.USERNAME_PATTERN)
 		@FormParam("username")
 		final String inUsername);
+
+	@Path("/api/v1/accounts/login")
+	@POST
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response login(
+			@NotNull
+			@FormParam("accessCode")
+			final String inAccessCode,
+
+			@NotNull
+			@FormParam("client_id")
+			final String inClientId,
+
+			@NotNull
+			@FormParam("username")
+			final String inUsername,
+
+			@NotNull
+			@FormParam("password")
+			final String inPassword);
 
 }

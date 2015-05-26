@@ -52,6 +52,7 @@ public class ApiTest {
 	private static final String REG_INVITE_CODE = "1234";
 	private static final String REG_USER_1_USERNAME = "tea";
 	private static final String REG_USER_1_EMAIL = "spam+1@grilledcheese.com";
+	private static final String REG_USER_1_PASS = "Pas5w0rd!";
 
 	private static final String REG_USER_2_USERNAME = "tea2";
 	private static final String REG_USER_2_EMAIL = "spam+2@grilledcheese.com";
@@ -200,7 +201,7 @@ public class ApiTest {
 				application.getUuid(),
 				"xx",
 				REG_USER_1_EMAIL,
-				"Pas5w0rd!",
+				REG_USER_1_PASS,
 				"Terrence Curran",
 				REG_INVITE_CODE);
 		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, badUsernameResponse.getStatus());
@@ -215,7 +216,7 @@ public class ApiTest {
 				application.getUuid(),
 				REG_USER_1_USERNAME,
 				"invalid-email",
-				"Pas5w0rd!",
+				REG_USER_1_PASS,
 				"Terrence Curran",
 				REG_INVITE_CODE);
 		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, badUsernameResponse.getStatus());
@@ -227,6 +228,15 @@ public class ApiTest {
 
 	}
 
+	@Test
+	public void shouldBeAbleToLogIn() throws Exception {
+		Response response = v1ApplicationClient.login(application.getUuid(),
+				application.getUuid(),
+				REG_USER_1_USERNAME,
+				"Invalid password");
+		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+
+	}
 
 	@Test
 	public void shouldBeAbleToGetInfo() throws Exception {

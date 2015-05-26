@@ -18,6 +18,10 @@ public abstract class AccountRepository extends AbstractEntityRepository<Account
 
 	public abstract Account findAnyByUsernameNormalized(final String inUsername);
 
+	public Account findAnyByUsername(final String inUsername) {
+		return findAnyByUsernameNormalized(StringUtils.normalizeUsername(inUsername));
+	}
+
 	public boolean usernameExists(final String inUsername) {
 		Account restrictedUsername = findAnyByUsernameNormalized(StringUtils.normalizeUsername(inUsername));
 		return (restrictedUsername != null);
