@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import com.wirelust.personalapi.api.v1.representations.AccountType;
 import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.util.PAConstants;
+import org.hibernate.validator.constraints.Email;
 
 /**
  * Date: 04-Apr-2015
@@ -38,18 +39,18 @@ public interface V1ApplicationClient {
 
 			@NotNull
 			@Size(min = 3, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_]+$")
+			@Pattern(regexp = PAConstants.USERNAME_PATTERN)
 			@FormParam("username")
 			final String inUsername,
 
 			@NotNull
-			//@Email
+			@Email
 			@FormParam("email")
 			final String inEmail,
 
 			@NotNull
 			@Size(min = 5, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\|\\~\\`\\+\\=\\[\\]\\{\\}\\|\\\\]+$")
+			@Pattern(regexp = PAConstants.ACCOUNT_PASSWORD_PATTERN)
 			@FormParam("password")
 			final String inPassword,
 
