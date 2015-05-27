@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -59,7 +59,7 @@ public class AccountResource {
 	AccountService accountService;
 
 	@Inject
-	AuthorizationRepository authorizationService;
+	AuthorizationRepository authorizationRepository;
 
 	@Inject
 	ApiApplicationRepository apiApplicationRepository;
@@ -170,7 +170,7 @@ public class AccountResource {
 		accountRepository.save(account);
 
 		// create a new login session for this app/user
-		Authorization authorization = authorizationService.getNewSession(null, account);
+		Authorization authorization = authorizationRepository.getNewSession(null, account);
 
 		AuthType authType = new AuthType();
 		authType.setToken(authorization.getToken());
@@ -265,7 +265,7 @@ public class AccountResource {
 		}
 
 		// create a new login session for this app/user
-		Authorization authorization = authorizationService.getNewSession(apiApplication, account);
+		Authorization authorization = authorizationRepository.getNewSession(apiApplication, account);
 
 		AuthType authType = new AuthType();
 		authType.setToken(authorization.getToken());
@@ -287,6 +287,19 @@ public class AccountResource {
 			@FormParam("oauth_token")
 			String inOauthToken) {
 
+		Authorization auth =  authorizationRepository.findAnyByToken(inOauthToken);
+		if (auth == null) {
+			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+		}
+
+		Account account = auth.getAccount();
+		if (account == null) {
+			// this should never happen
+			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+		}
+
+
+		authorizationRepository.remove(auth);
 	}
 
 	/**
@@ -383,7 +396,7 @@ public class AccountResource {
 			final String inAccountId
 	) {
 
-		Authorization auth = authorizationService.findAnyByToken(inOauthToken);
+		Authorization auth = authorizationRepository.findAnyByToken(inOauthToken);
 		if (auth == null) {
 			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
 		}

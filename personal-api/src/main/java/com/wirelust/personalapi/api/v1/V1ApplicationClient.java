@@ -104,4 +104,10 @@ public interface V1ApplicationClient {
 			@FormParam("password")
 			final String inPassword);
 
+	@Path("/api/v1/accounts/logout")
+	@POST
+	public Response logout(
+			@NotNull
+			@FormParam("oauth_token")
+			String inOauthToken);
 }

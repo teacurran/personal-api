@@ -230,11 +230,26 @@ public class ApiTest {
 
 	@Test
 	public void shouldBeAbleToLogIn() throws Exception {
-		Response response = v1ApplicationClient.login(application.getUuid(),
+		Response responseWrongPassword = v1ApplicationClient.login(application.getUuid(),
 				application.getUuid(),
 				REG_USER_1_USERNAME,
 				"Invalid password");
-		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, responseWrongPassword.getStatus());
+		ApplicationErrorType error = responseWrongPassword.readEntity(ApplicationErrorType.class);
+		Assert.assertEquals(error.getCode().value(), EnumErrorCode.ACCOUNT_NOT_FOUND.value());
+
+		Response responseCorrectPassword = v1ApplicationClient.login(application.getUuid(),
+				application.getUuid(),
+				REG_USER_1_USERNAME,
+				REG_USER_1_PASS);
+		Assert.assertEquals(HttpServletResponse.SC_OK, responseCorrectPassword.getStatus());
+
+		AuthType loginAuth = responseCorrectPassword.readEntity(AuthType.class);
+		Assert.assertNotNull(loginAuth);
+		Assert.assertNotNull(loginAuth.getToken());
+
+		Response logoutResponse = v1ApplicationClient.logout(loginAuth.getToken());
+		Assert.assertEquals(HttpServletResponse.SC_NO_CONTENT, logoutResponse.getStatus());
 
 	}
 
