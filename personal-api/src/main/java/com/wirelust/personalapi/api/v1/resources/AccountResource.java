@@ -411,7 +411,7 @@ public class AccountResource {
 		if ("self".equalsIgnoreCase(inAccountId) || "me".equalsIgnoreCase(inAccountId)) {
 			account = authAccount;
 		} else {
-			account = accountService.find(inAccountId);
+			account = accountRepository.findAnyByAccountIdOrUsername(inAccountId);
 			if (account == null) {
 				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
 			}

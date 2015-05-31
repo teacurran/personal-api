@@ -3,12 +3,9 @@ package com.wirelust.personalapi.services;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import com.approachingpi.services.mail.MailService;
 import com.approachingpi.util.PasswordHash;
@@ -39,28 +36,6 @@ public class AccountService implements Serializable {
 	@Inject
 	Messages messages;
 
-	public Account find(final String inAccountId) {
-
-		try {
-			Long accountId = Long.parseLong(inAccountId);
-
-			return em.find(Account.class, accountId);
-		} catch (NumberFormatException nfe) {
-			// do nothing, perhaps they passed in a username;
-		}
-
-		String usernameNormalized = StringUtils.normalizeUsername(inAccountId);
-		TypedQuery<Account> query = em.createNamedQuery(Account.QUERY_BY_USERNAME_NORMALIZED, Account.class);
-		query.setParameter("username", usernameNormalized);
-
-		List<Account> results = query.getResultList();
-		if (results != null && results.size() > 0) {
-			return results.get(0);
-		}
-
-		return null;
-	}
-
 	public void setPassword(Account inAccount, String inPassword) throws ServiceException {
 		if (inAccount == null) {
 			return;
@@ -75,9 +50,7 @@ public class AccountService implements Serializable {
 			inAccount.setPasswordSalt(ph.getSalt());
 			inAccount.setPassword(ph.getHash());
 
-		} catch (NoSuchAlgorithmException e) {
-			throw new ServiceException(e);
-		} catch (InvalidKeySpecException e) {
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new ServiceException(e);
 		}
 	}
@@ -114,9 +87,7 @@ public class AccountService implements Serializable {
 
 		try {
 			return PasswordHash.check(inPassword, inAccount.getPasswordSalt(), inAccount.getPassword());
-		} catch (NoSuchAlgorithmException e) {
-			throw new ServiceException(e);
-		} catch (InvalidKeySpecException e) {
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new ServiceException(e);
 		}
 	}
