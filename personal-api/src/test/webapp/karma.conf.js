@@ -22,20 +22,22 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // bower:js
-      'bower_components/jquery/dist/jquery.js',
-      'bower_components/angular/angular.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
-      'bower_components/angular-animate/angular-animate.js',
-      'bower_components/angular-cookies/angular-cookies.js',
-      'bower_components/angular-resource/angular-resource.js',
-      'bower_components/angular-route/angular-route.js',
-      'bower_components/angular-sanitize/angular-sanitize.js',
-      'bower_components/angular-touch/angular-touch.js',
-      'bower_components/angular-mocks/angular-mocks.js',
+      '../main/webapp/scripts/components/jquery/dist/jquery.js',
+      '../main/webapp/scripts/components/angular/angular.js',
+      '../main/webapp/scripts/components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+      '../main/webapp/scripts/components/angular-animate/angular-animate.js',
+      '../main/webapp/scripts/components/angular-cookies/angular-cookies.js',
+      '../main/webapp/scripts/components/angular-resource/angular-resource.js',
+      '../main/webapp/scripts/components/angular-route/angular-route.js',
+      '../main/webapp/scripts/components/angular-sanitize/angular-sanitize.js',
+      '../main/webapp/scripts/components/angular-touch/angular-touch.js',
+      '../main/webapp/scripts/components/angular-mocks/angular-mocks.js',
       // endbower
-      "app/scripts/**/*.js",
-      "test/mock/**/*.js",
-      "test/spec/**/*.js"
+      '../main/webapp/scripts/app.js',
+      '../main/webapp/scripts/controllers/*.js',
+      "webapp/scripts/**/*.js",
+      "webapp/mock/**/*.js",
+      "webapp/spec/**/*.js"
     ],
 
     // list of files / patterns to exclude
@@ -43,7 +45,7 @@ module.exports = function(config) {
     ],
 
     // web server port
-    port: 8080,
+    port: 8083,
 
     // Start these browsers, currently available:
     // - Chrome
