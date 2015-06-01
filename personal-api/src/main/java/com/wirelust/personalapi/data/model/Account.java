@@ -1,7 +1,5 @@
 package com.wirelust.personalapi.data.model;
 
-import com.wirelust.personalapi.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,14 +13,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.wirelust.personalapi.util.StringUtils;
 
 /**
  * Date: 11-03-2015
@@ -43,35 +41,18 @@ import javax.persistence.TemporalType;
 						"FROM Account A " +
 						"WHERE A.id = :id"),
 
-		@NamedQuery(name = Account.QUERY_BY_USERNAME,
-				query = "SELECT A " +
-						"FROM Account A " +
-						"WHERE A.username = :username"),
-
-		@NamedQuery(name = Account.QUERY_BY_USERNAME_NORMALIZED,
-				query = "SELECT A " +
-						"FROM Account A " +
-						"WHERE A.usernameNormalized = :username"),
-
 		@NamedQuery(name = Account.QUERY_BY_USERNAME_NORMALIZED_OR_EMAIL,
 				query = "SELECT A " +
 						"FROM Account A " +
 						"WHERE A.usernameNormalized = :username " +
-						"OR A.email = :email"),
+						"OR A.email = :email")
 
-		@NamedQuery(name = Account.QUERY_BY_EMAIL,
-				query = "SELECT A " +
-						"FROM Account A " +
-						"WHERE A.email = :email"),
 	}
 )
 public class Account implements java.io.Serializable {
 
 	public static final String QUERY_ALL					= "account.getAll";
 	public static final String QUERY_BY_ID					= "account.byId";
-	public static final String QUERY_BY_EMAIL				= "account.byEmail";
-	public static final String QUERY_BY_USERNAME			= "account.byUsername";
-	public static final String QUERY_BY_USERNAME_NORMALIZED	= "account.byUsernameNormalized";
 	public static final String QUERY_BY_USERNAME_NORMALIZED_OR_EMAIL	= "account.byUsernameNormalizedOrEmail";
 
 	public static final String DISABLED_REASON_GENERIC			= "generic";
