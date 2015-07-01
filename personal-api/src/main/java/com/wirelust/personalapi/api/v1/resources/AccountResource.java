@@ -298,7 +298,7 @@ public class AccountResource {
 			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
 		}
 
-		authorizationRepository.remove(auth);
+		authorizationRepository.attachAndRemove(auth);
 	}
 
 	/**
