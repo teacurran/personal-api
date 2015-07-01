@@ -2,8 +2,6 @@ package com.wirelust.personalapi.data.repositories;
 
 import java.util.Date;
 
-import javax.transaction.Transactional;
-
 import com.wirelust.personalapi.data.model.Account;
 import com.wirelust.personalapi.data.model.ApiApplication;
 import com.wirelust.personalapi.data.model.Authorization;
@@ -19,7 +17,6 @@ import org.apache.deltaspike.data.api.SingleResultType;
  * @author T. Curran
  */
 @Repository
-@Transactional
 public abstract class AuthorizationRepository extends AbstractEntityRepository<Authorization, String> {
 
 	public Authorization getNewSession(
