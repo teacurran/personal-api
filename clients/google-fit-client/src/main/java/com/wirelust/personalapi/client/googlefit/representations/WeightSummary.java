@@ -5,7 +5,7 @@ package com.wirelust.personalapi.client.googlefit.representations;
  *
  * @author T. Curran
  */
-public class HeartRateSummary {
+public class WeightSummary {
 
 	Double average;
 	Double max;
