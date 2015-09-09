@@ -27,9 +27,8 @@ import com.wirelust.personalapi.util.StringUtils;
  *
  * @Author T. Curran
  */
-
 @Entity
-@Access( AccessType.FIELD )
+@Access(AccessType.FIELD)
 @Cacheable
 @NamedQueries({
 		@NamedQuery(name = Account.QUERY_ALL,
@@ -62,7 +61,6 @@ import com.wirelust.personalapi.util.StringUtils;
 						"FROM Account A " +
 						"WHERE A.email = :email"),
 						"OR A.email = :email")
-
 	}
 )
 public class Account implements java.io.Serializable {
