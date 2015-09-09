@@ -14,7 +14,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.api.v1.representations.AccountType;
+import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.util.PAConstants;
+import org.hibernate.validator.constraints.Email;
 
 /**
  * Date: 04-Apr-2015
@@ -37,18 +39,18 @@ public interface V1ApplicationClient {
 
 			@NotNull
 			@Size(min = 3, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_]+$")
+			@Pattern(regexp = PAConstants.USERNAME_PATTERN)
 			@FormParam("username")
 			final String inUsername,
 
 			@NotNull
-			//@Email
+			@Email
 			@FormParam("email")
 			final String inEmail,
 
 			@NotNull
 			@Size(min = 5, max = 20)
-			@Pattern(regexp = "^[A-Za-z0-9_\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\|\\~\\`\\+\\=\\[\\]\\{\\}\\|\\\\]+$")
+			@Pattern(regexp = PAConstants.ACCOUNT_PASSWORD_PATTERN)
 			@FormParam("password")
 			final String inPassword,
 
@@ -82,4 +84,30 @@ public interface V1ApplicationClient {
 		@FormParam("username")
 		final String inUsername);
 
+	@Path("/api/v1/accounts/login")
+	@POST
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response login(
+			@NotNull
+			@FormParam("accessCode")
+			final String inAccessCode,
+
+			@NotNull
+			@FormParam("client_id")
+			final String inClientId,
+
+			@NotNull
+			@FormParam("username")
+			final String inUsername,
+
+			@NotNull
+			@FormParam("password")
+			final String inPassword);
+
+	@Path("/api/v1/accounts/logout")
+	@POST
+	public Response logout(
+			@NotNull
+			@FormParam("oauth_token")
+			String inOauthToken);
 }

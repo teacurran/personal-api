@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -58,7 +59,7 @@ public class AccountResource {
 	AccountService accountService;
 
 	@Inject
-	AuthorizationRepository authorizationService;
+	AuthorizationRepository authorizationRepository;
 
 	@Inject
 	ApiApplicationRepository apiApplicationRepository;
@@ -169,7 +170,7 @@ public class AccountResource {
 		accountRepository.save(account);
 
 		// create a new login session for this app/user
-		Authorization authorization = authorizationService.getNewSession(null, account);
+		Authorization authorization = authorizationRepository.getNewSession(null, account);
 
 		AuthType authType = new AuthType();
 		authType.setToken(authorization.getToken());
@@ -244,7 +245,34 @@ public class AccountResource {
 			@FormParam("password")
 			final String inPassword) {
 
-		return null;
+		ApiApplication apiApplication = apiApplicationRepository.findBy(inClientId);
+		if (apiApplication == null) {
+			throw new ApplicationException(EnumErrorCode.CLIENT_ID_INVALID);
+		}
+
+		Account account = accountRepository.findAnyByUsername(inUsername);
+
+		if (account == null) {
+			account = accountRepository.findAnyByEmail(inUsername);
+
+			if (account == null) {
+				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+			}
+		}
+
+		if (!accountService.checkPassword(account, inPassword)) {
+			throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+		}
+
+		// create a new login session for this app/user
+		Authorization authorization = authorizationRepository.getNewSession(apiApplication, account);
+
+		AuthType authType = new AuthType();
+		authType.setToken(authorization.getToken());
+		authType.setCreated(authorization.getDateCreated());
+		authType.setAccount(AccountHelper.toRepresentation(account, true));
+
+		return authType;
 	}
 
 	/**
@@ -259,6 +287,18 @@ public class AccountResource {
 			@FormParam("oauth_token")
 			String inOauthToken) {
 
+		Authorization auth =  authorizationRepository.findAnyByToken(inOauthToken);
+		if (auth == null) {
+			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+		}
+
+		Account account = auth.getAccount();
+		if (account == null) {
+			// this should never happen
+			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+		}
+
+		authorizationRepository.attachAndRemove(auth);
 	}
 
 	/**
@@ -355,7 +395,7 @@ public class AccountResource {
 			final String inAccountId
 	) {
 
-		Authorization auth = authorizationService.findAnyByToken(inOauthToken);
+		Authorization auth = authorizationRepository.findAnyByToken(inOauthToken);
 		if (auth == null) {
 			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
 		}
@@ -370,7 +410,7 @@ public class AccountResource {
 		if ("self".equalsIgnoreCase(inAccountId) || "me".equalsIgnoreCase(inAccountId)) {
 			account = authAccount;
 		} else {
-			account = accountService.find(inAccountId);
+			account = accountRepository.findAnyByAccountIdOrUsername(inAccountId);
 			if (account == null) {
 				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
 			}

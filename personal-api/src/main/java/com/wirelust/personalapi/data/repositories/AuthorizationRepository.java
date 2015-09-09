@@ -1,9 +1,6 @@
 package com.wirelust.personalapi.data.repositories;
 
 import java.util.Date;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import com.wirelust.personalapi.data.model.Account;
 import com.wirelust.personalapi.data.model.ApiApplication;

@@ -1,7 +1,5 @@
 package com.wirelust.personalapi.data.model;
 
-import com.wirelust.personalapi.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,14 +13,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.wirelust.personalapi.util.StringUtils;
 
 /**
  * Date: 11-03-2015
@@ -63,6 +61,8 @@ import javax.persistence.TemporalType;
 				query = "SELECT A " +
 						"FROM Account A " +
 						"WHERE A.email = :email"),
+						"OR A.email = :email")
+
 	}
 )
 public class Account implements java.io.Serializable {
