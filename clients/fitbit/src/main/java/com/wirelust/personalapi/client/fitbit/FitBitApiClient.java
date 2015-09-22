@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
  */
 public interface FitBitApiClient {
 
-
 	@GET
 	@Path("/1/user/{user-id}/activities/date/{date}.json")
 	@Produces(MediaType.APPLICATION_JSON)

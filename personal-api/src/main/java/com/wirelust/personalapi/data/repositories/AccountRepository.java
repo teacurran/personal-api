@@ -1,8 +1,5 @@
 package com.wirelust.personalapi.data.repositories;
 
-import java.util.List;
-import javax.persistence.TypedQuery;
-
 import com.wirelust.personalapi.data.model.Account;
 import com.wirelust.personalapi.util.PAConstants;
 import com.wirelust.personalapi.util.StringUtils;
