@@ -53,9 +53,6 @@ public class EndpointTest {
 		testWar.addPackages(true, "com.wirelust.personalapi.client.fitbit");
 		testWar.addPackage("test.com.wirelust.personalapi.client.fitbit.providers");
 
-		testWar.addAsWebResource(new File("src/test/resources/mock_responses/user_profile.json"),
-				"/1/user/-/profile.json");
-
 		File dir = new File("src/test/resources");
 		addFilesToWebArchive(testWar, dir);
 
@@ -84,6 +81,7 @@ public class EndpointTest {
 	@After
 	public void destroy() {
 	}
+
 
 	@Test
 	public void deserializeUserActivitiesDate() throws Exception {
