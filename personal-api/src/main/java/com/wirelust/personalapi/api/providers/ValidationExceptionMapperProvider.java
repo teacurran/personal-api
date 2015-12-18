@@ -102,25 +102,27 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 		for (StackTraceElement stackTraceElement : inException.getStackTrace()) {
 			String className = stackTraceElement.getClassName();
 
-			if (className.startsWith(METHOD_CAUSE_PACKAGE)) {
-				// strip off everything before the $ in the case that the class was proxied
-				if (className.contains("$")) {
-					className = className.substring(0, className.indexOf("$"));
-				}
-				try {
-					Class causeClass = Class.forName(className);
-					// look for the first method of the name.
-					// warning: this means that all of our resource methods have to be unique
-					// overloaded method names will cause us to get the wrong one.
-					for (Method thisMethod : causeClass.getMethods()) {
-						if (thisMethod.getName().equals(stackTraceElement.getMethodName())) {
-							return thisMethod;
-						}
+			if (!className.startsWith(METHOD_CAUSE_PACKAGE)) {
+				continue;
+			}
+
+			// strip off everything before the $ in the case that the class was proxied
+			if (className.contains("$")) {
+				className = className.substring(0, className.indexOf("$"));
+			}
+			try {
+				Class causeClass = Class.forName(className);
+				// look for the first method of the name.
+				// warning: this means that all of our resource methods have to be unique
+				// overloaded method names will cause us to get the wrong one.
+				for (Method thisMethod : causeClass.getMethods()) {
+					if (thisMethod.getName().equals(stackTraceElement.getMethodName())) {
+						return thisMethod;
 					}
-				} catch (ClassNotFoundException cnfe) {
-					LOGGER.error("unable to find class:{}", className, cnfe);
 				}
-				break;
+				return null;
+			} catch (ClassNotFoundException cnfe) {
+				LOGGER.error("unable to find class:{}", className, cnfe);
 			}
 		}
 		return null;
