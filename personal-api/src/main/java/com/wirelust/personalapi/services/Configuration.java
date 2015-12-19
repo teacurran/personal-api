@@ -1,14 +1,22 @@
 package com.wirelust.personalapi.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.wirelust.personalapi.qualifiers.ClasspathResource;
 import com.wirelust.personalapi.util.StringUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,15 +31,84 @@ public class Configuration implements Serializable {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
 
+	private static final String ENV_FILE_NAME = "app.personalapi.env";
+
 	@Inject
-	@ClasspathResource("configuration.properties")
+	@ClasspathResource("defaults.properties")
 	Properties defaultProperties;
+
+	Properties configuredProperties;
 
 	public Configuration() {
 
 	}
 
+	@PostConstruct
+	public void init() {
+		// load default properties
+		for (Map.Entry<Object, Object> entry : defaultProperties.entrySet()) {
+			try {
+				BeanUtils.setProperty(this, (String) entry.getKey(), entry.getValue());
+			} catch (Exception e) {
+				LOGGER.warn("unable to load default property:{}", entry.getKey());
+			}
+		}
+
+		String configFileName = System.getProperty(ENV_FILE_NAME);
+		LOGGER.info("{}={}", ENV_FILE_NAME, configFileName);
+
+		if (configFileName == null) {
+			LOGGER.warn("{} was not specified. using 'dev'", ENV_FILE_NAME);
+			configFileName = "dev.properties";
+		}
+
+		InputStream configInputStream = null;
+		File propertyFile = new File(configFileName);
+
+		// Attempt to load the config from a file
+		if (propertyFile.exists() && propertyFile.canRead()) {
+			try {
+				configInputStream = new FileInputStream(propertyFile);
+			} catch (FileNotFoundException e) {
+				// impossible to get here
+				LOGGER.error("config file not found", e);
+			}
+		} else {
+			configInputStream = this.getClass().getResourceAsStream("/environments/" + configFileName);
+		}
+
+		if (configInputStream == null) {
+			throw new RuntimeException("Error initializing config, unable to load property file:" + configFileName);
+		}
+
+		configuredProperties = new Properties();
+		try {
+			configuredProperties.load(configInputStream);
+			try {
+				for (Map.Entry<Object, Object> e : configuredProperties.entrySet()) {
+					BeanUtils.setProperty(this, (String) e.getKey(), e.getValue());
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("Error initializing from properties: " + configuredProperties);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				configInputStream.close();
+			} catch (IOException ioe) {
+				// nothing we can really do here
+				LOGGER.error("error closing input stream", ioe);
+			}
+		}
+		LOGGER.info("env properties loaded:{}", configuredProperties.toString());
+	}
+
 	public String getSetting(final String key) {
+
+		if (this.configuredProperties.containsKey(key)) {
+			return this.configuredProperties.getProperty(key);
+		}
 
 		if (this.defaultProperties.containsKey(key)) {
 			return this.defaultProperties.getProperty(key);
