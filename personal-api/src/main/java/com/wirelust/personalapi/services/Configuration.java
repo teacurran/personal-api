@@ -37,7 +37,7 @@ public class Configuration implements Serializable {
 	@ClasspathResource("defaults.properties")
 	Properties defaultProperties;
 
-	Properties configuredProperties;
+	Properties configuredProperties = new Properties();;
 
 	public Configuration() {
 
@@ -58,8 +58,8 @@ public class Configuration implements Serializable {
 		LOGGER.info("{}={}", ENV_FILE_NAME, configFileName);
 
 		if (configFileName == null) {
-			LOGGER.warn("{} was not specified. using 'dev'", ENV_FILE_NAME);
-			configFileName = "dev.properties";
+			LOGGER.warn("{} was not specified. using defaults only");
+			return;
 		}
 
 		InputStream configInputStream = null;
@@ -81,7 +81,6 @@ public class Configuration implements Serializable {
 			throw new RuntimeException("Error initializing config, unable to load property file:" + configFileName);
 		}
 
-		configuredProperties = new Properties();
 		try {
 			configuredProperties.load(configInputStream);
 			try {

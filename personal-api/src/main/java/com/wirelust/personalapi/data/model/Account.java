@@ -59,8 +59,7 @@ import com.wirelust.personalapi.util.StringUtils;
 		@NamedQuery(name = Account.QUERY_BY_EMAIL,
 				query = "SELECT A " +
 						"FROM Account A " +
-						"WHERE A.email = :email"),
-						"OR A.email = :email")
+						"WHERE A.email = :email")
 	}
 )
 public class Account implements java.io.Serializable {
