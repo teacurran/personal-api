@@ -39,6 +39,9 @@ public class Configuration implements Serializable {
 
 	Properties configuredProperties = new Properties();;
 
+	Boolean fitbitSync;
+	String fitbitSchedule;
+
 	public Configuration() {
 
 	}
@@ -165,5 +168,23 @@ public class Configuration implements Serializable {
 		return resultBool;
 	}
 
+	public String getFitbitSchedule() {
+		return fitbitSchedule;
+	}
 
+	public void setFitbitSchedule(String fitbitSchedule) {
+		this.fitbitSchedule = fitbitSchedule;
+	}
+
+	public Boolean getFitbitSync() {
+		return fitbitSync;
+	}
+
+	public Boolean isFitbitSync() {
+		return fitbitSync;
+	}
+
+	public void setFitbitSync(Boolean fitbitSync) {
+		this.fitbitSync = fitbitSync;
+	}
 }
