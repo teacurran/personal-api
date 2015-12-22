@@ -186,55 +186,44 @@
 	</dependencies>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-
-				<plugin>
-					<artifactId>maven-war-plugin</artifactId>
-					<configuration>
-
-						<failOnMissingWebXml>false</failOnMissingWebXml>
-
-						<archive>
-							<!-- Note, manifest not written to exploded directory.
-							http://jira.codehaus.org/browse/MWAR-167
-							-->
-							<manifestEntries>
-								<Specification-Title>${project.name}</Specification-Title>
-								<Specification-Version>${project.version}</Specification-Version>
-								<Implementation-Version>${build.number}</Implementation-Version>
-								<Implementation-Build>${buildNumber}</Implementation-Build>
-							</manifestEntries>
-						</archive>
-						<!--<warSourceExcludes>css/*,js/*,js/components/**/*</warSourceExcludes> -->
-						<!-- We're only handling CSS files now via the wro4j plugin, makes JS debugging easier.-->
-						<!--<warSourceExcludes>css/*</warSourceExcludes> -->
-						<webappDirectory>${webapp.dir}</webappDirectory>
-						<webResources>
-
-							<resource>
-								<directory>src/main/webapp</directory>
-								<filtering>false</filtering>
-								<excludes>
-									<exclude>**/*.less</exclude>
-									<exclude>**/*.html</exclude>
-								</excludes>
-							</resource>
-							<resource>
-								<directory>src/main/webapp</directory>
-								<filtering>true</filtering>
-								<includes>
-									<include>**/*.html</include>
-								</includes>
-							</resource>
-						</webResources>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
 
 		<plugins>
+			<plugin>
+				<groupId>pl.allegro</groupId>
+				<artifactId>grunt-maven-plugin</artifactId>
+				<version>1.5.0</version>
+				<configuration>
+					<!-- relative to src/main/webapp/, default: static -->
+					<jsSourceDirectory>path_to_js_project</jsSourceDirectory>
+
+					<!-- example options usage to get verbose output in logs -->
+					<gruntOptions>
+						<gruntOption>--verbose</gruntOption>
+					</gruntOptions>
+
+					<!-- example npm install env variable -->
+					<npmEnvironmentVar>
+						<PHANTOMJS_CDNURL>http://cnpmjs.org/downloads</PHANTOMJS_CDNURL>
+					</npmEnvironmentVar>
+
+					<!-- example options usage to filter variables in given resource -->
+					<filteredResources>
+						<filteredResource>maven-properties.json</filteredResource>
+					</filteredResources>
+
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>create-resources</goal>
+							<goal>npm</goal>
+							<!-- or npm-offline if npm failure is not an option -->
+							<goal>bower</goal>
+							<goal>grunt</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
@@ -261,6 +250,48 @@
 					<compilerArguments>
 						<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
 					</compilerArguments>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<artifactId>maven-war-plugin</artifactId>
+
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+
+					<archive>
+						<!-- Note, manifest not written to exploded directory.
+						http://jira.codehaus.org/browse/MWAR-167
+						-->
+						<manifestEntries>
+							<Specification-Title>${project.name}</Specification-Title>
+							<Specification-Version>${project.version}</Specification-Version>
+							<Implementation-Version>${build.number}</Implementation-Version>
+							<Implementation-Build>${buildNumber}</Implementation-Build>
+						</manifestEntries>
+					</archive>
+					<!--<warSourceExcludes>css/*,js/*,js/components/**/*</warSourceExcludes> -->
+					<!-- We're only handling CSS files now via the wro4j plugin, makes JS debugging easier.-->
+					<!--<warSourceExcludes>css/*</warSourceExcludes> -->
+					<webappDirectory>${webapp.dir}</webappDirectory>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp</directory>
+							<filtering>false</filtering>
+							<excludes>
+								<exclude>**/*.scss</exclude>
+								<exclude>**/*.html</exclude>
+							</excludes>
+						</resource>
+						<resource>
+							<directory>src/main/webapp</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>**/*.html</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 		</plugins>
