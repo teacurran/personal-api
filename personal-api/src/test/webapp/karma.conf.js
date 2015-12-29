@@ -22,16 +22,16 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // bower:js
-      '../../target/grunt-build/scripts/components/jquery/dist/jquery.js',
-      '../../target/grunt-build/scripts/components/angular/angular.js',
-      '../../target/grunt-build/scripts/components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
-      '../../target/grunt-build/scripts/components/angular-animate/angular-animate.js',
-      '../../target/grunt-build/scripts/components/angular-cookies/angular-cookies.js',
-      '../../target/grunt-build/scripts/components/angular-resource/angular-resource.js',
-      '../../target/grunt-build/scripts/components/angular-route/angular-route.js',
-      '../../target/grunt-build/scripts/components/angular-sanitize/angular-sanitize.js',
-      '../../target/grunt-build/scripts/components/angular-touch/angular-touch.js',
-      '../../target/grunt-build/scripts/components/angular-mocks/angular-mocks.js',
+      '../../target/grunt/build/scripts/components/jquery/dist/jquery.js',
+      '../../target/grunt/build/scripts/components/angular/angular.js',
+      '../../target/grunt/build/scripts/components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+      '../../target/grunt/build/scripts/components/angular-animate/angular-animate.js',
+      '../../target/grunt/build/scripts/components/angular-cookies/angular-cookies.js',
+      '../../target/grunt/build/scripts/components/angular-resource/angular-resource.js',
+      '../../target/grunt/build/scripts/components/angular-route/angular-route.js',
+      '../../target/grunt/build/scripts/components/angular-sanitize/angular-sanitize.js',
+      '../../target/grunt/build/scripts/components/angular-touch/angular-touch.js',
+      '../../target/grunt/build/scripts/components/angular-mocks/angular-mocks.js',
       // endbower
       '../main/webapp/scripts/app.js',
       '../main/webapp/scripts/controllers/*.js',

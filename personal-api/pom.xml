@@ -196,7 +196,7 @@
 					<!-- relative to src/main/webapp/, default: static -->
 					<jsSourceDirectory>./</jsSourceDirectory>
 
-					<gruntBuildDirectory>target/grunt-build</gruntBuildDirectory>
+					<gruntBuildDirectory>target/grunt/build</gruntBuildDirectory>
 
 					<!-- example options usage to get verbose output in logs -->
 					<gruntOptions>
@@ -294,7 +294,7 @@
 							</includes>
 						</resource>
 						<resource>
-							<directory>target/grunt-build/dist</directory>
+							<directory>target/grunt/build/dist</directory>
 						</resource>
 					</webResources>
 				</configuration>

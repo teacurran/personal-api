@@ -416,7 +416,8 @@ module.exports = function (grunt) {
     // Test settings
     karma: {
       unit: {
-        configFile: '../../src/test/webapp/karma.conf.js',
+        // back-up 3 directories so it works from main/webapp or /target/grunt/build
+        configFile: '../../../src/test/webapp/karma.conf.js',
         singleRun: true
       }
     }
