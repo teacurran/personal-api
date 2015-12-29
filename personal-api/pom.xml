@@ -293,6 +293,9 @@
 								<include>**/*.html</include>
 							</includes>
 						</resource>
+						<resource>
+							<directory>target/grunt-build/dist</directory>
+						</resource>
 					</webResources>
 				</configuration>
 			</plugin>
