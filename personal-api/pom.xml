@@ -211,7 +211,13 @@
 					<!-- example options usage to filter variables in given resource -->
 					<filteredResources>
 						<filteredResource>maven-properties.json</filteredResource>
+
+						<!-- Filter node modules in case grunt has been run directly from webapp dir -->
+						<!-- TODO: look into the source of how filtering works, it dosn't seem to be working -->
+						<filteredResource>**/node_modules/**/*</filteredResource>
 					</filteredResources>
+
+					<warTargetDirectory>/</warTargetDirectory>
 
 				</configuration>
 				<executions>
@@ -285,13 +291,6 @@
 								<exclude>**/*.scss</exclude>
 								<exclude>**/*.html</exclude>
 							</excludes>
-						</resource>
-						<resource>
-							<directory>src/main/webapp</directory>
-							<filtering>true</filtering>
-							<includes>
-								<include>**/*.html</include>
-							</includes>
 						</resource>
 						<resource>
 							<directory>target/grunt/build/dist</directory>
