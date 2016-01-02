@@ -1,4 +1,4 @@
-package com.approachingpi.util;
+package com.wirelust.personalapi.util;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;

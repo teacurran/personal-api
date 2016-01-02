@@ -1,4 +1,4 @@
-package com.approachingpi.services.jobs;
+package com.wirelust.personalapi.jobs;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -12,7 +12,6 @@ import javax.ejb.TimerService;
 import javax.inject.Inject;
 
 import com.wirelust.personalapi.services.Configuration;
-import org.apache.log4j.spi.LoggerFactory;
 import org.slf4j.Logger;
 
 /**

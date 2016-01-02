@@ -7,7 +7,7 @@
 		<properties>
 
 			<!-- use a custom plural naming strategy -->
-			<property name="hibernate.ejb.naming_strategy" value="com.approachingpi.jpa.PluralNamingStrategy"/>
+			<property name="hibernate.ejb.naming_strategy" value="com.wirelust.personalapi.data.jpa.PluralNamingStrategy"/>
 
 			<property name="hibernate.archive.autodetection" value="class, hbm"/>
 

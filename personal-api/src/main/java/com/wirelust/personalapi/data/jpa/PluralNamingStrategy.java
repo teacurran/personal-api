@@ -1,4 +1,4 @@
-package com.approachingpi.jpa;
+package com.wirelust.personalapi.data.jpa;
 
 import org.hibernate.cfg.ImprovedNamingStrategy;
 

@@ -1,4 +1,4 @@
-package com.approachingpi.services.mail;
+package com.wirelust.personalapi.services;
 
 import java.io.Serializable;
 import javax.inject.Named;

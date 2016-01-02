@@ -1,4 +1,4 @@
-package com.approachingpi.web.view;
+package com.wirelust.personalapi.web.view;
 
 import javax.enterprise.inject.Specializes;
 import javax.faces.context.FacesContext;

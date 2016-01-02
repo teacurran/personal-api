@@ -7,8 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import com.approachingpi.services.mail.MailService;
-import com.approachingpi.util.PasswordHash;
+import com.wirelust.personalapi.util.PasswordHash;
 import com.wirelust.personalapi.data.model.Account;
 import com.wirelust.personalapi.data.model.AccountPasswordReset;
 import com.wirelust.personalapi.exceptions.ServiceException;
