@@ -49,13 +49,7 @@ public class Configuration implements Serializable {
 	@PostConstruct
 	public void init() {
 		// load default properties
-		for (Map.Entry<Object, Object> entry : defaultProperties.entrySet()) {
-			try {
-				BeanUtils.setProperty(this, (String) entry.getKey(), entry.getValue());
-			} catch (Exception e) {
-				LOGGER.warn("unable to load default property:{}", entry.getKey());
-			}
-		}
+		bindProperties(defaultProperties, "default");
 
 		String configFileName = System.getProperty(ENV_FILE_NAME);
 		LOGGER.info("{}={}", ENV_FILE_NAME, configFileName);
@@ -86,13 +80,7 @@ public class Configuration implements Serializable {
 
 		try {
 			configuredProperties.load(configInputStream);
-			try {
-				for (Map.Entry<Object, Object> e : configuredProperties.entrySet()) {
-					BeanUtils.setProperty(this, (String) e.getKey(), e.getValue());
-				}
-			} catch (Exception e) {
-				throw new RuntimeException("Error initializing from properties: " + configuredProperties);
-			}
+			bindProperties(configuredProperties, "configured");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -186,5 +174,20 @@ public class Configuration implements Serializable {
 
 	public void setFitbitSync(Boolean fitbitSync) {
 		this.fitbitSync = fitbitSync;
+	}
+
+	/**
+	 * Loads the properties file into the bean properties of this class.
+	 * @param properties
+	 * @param name used for logging only, if a property can't load you will know what file it was from
+	 */
+	private void bindProperties(Properties properties, String name) {
+		for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+			try {
+				BeanUtils.setProperty(this, (String) entry.getKey(), entry.getValue());
+			} catch (Exception e) {
+				LOGGER.warn("unable to load {} property:{}", name, entry.getKey());
+			}
+		}
 	}
 }
