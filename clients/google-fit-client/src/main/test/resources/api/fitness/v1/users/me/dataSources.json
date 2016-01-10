@@ -1,0 +1,820 @@
+{
+  "dataSource": [
+    {
+      "dataStreamId": "derived:com.google.activity.sample:com.google.android.gms:HTC:HTC6525LVW:f194c577:detailed",
+      "dataStreamName": "detailed",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.sample",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          },
+          {
+            "name": "confidence",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.sample:com.google.android.gms:Motorola:Moto 360:e1e19c01:detailed",
+      "dataStreamName": "detailed",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.sample",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          },
+          {
+            "name": "confidence",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "device": {
+        "uid": "e1e19c01",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.apps.fitness:session_activity_segment",
+      "dataStreamName": "session_activity_segment",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.apps.fitness",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:HTC:HTC6525LVW:f194c577:activity_from_steps",
+      "dataStreamName": "activity_from_steps",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:HTC:HTC6525LVW:f194c577:from_sample<-derived:com.google.activity.sample:com.google.android.gms:HTC:HTC6525LVW:f194c577:detailed",
+      "dataStreamName": "from_sample<-derived:com.google.activity.sample:com.google.android.gms:HTC:HTC6525LVW:f194c577:detailed",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:Motorola:Moto 360:5882163b:activity_from_steps",
+      "dataStreamName": "activity_from_steps",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "5882163b",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:Motorola:Moto 360:e1e19c01:activity_from_steps",
+      "dataStreamName": "activity_from_steps",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "e1e19c01",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:Motorola:Moto 360:e1e19c01:from_sample<-derived:com.google.activity.sample:com.google.android.gms:Motorola:Moto 360:e1e19c01:detailed",
+      "dataStreamName": "from_sample<-derived:com.google.activity.sample:com.google.android.gms:Motorola:Moto 360:e1e19c01:detailed",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "e1e19c01",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:activity_from_steps",
+      "dataStreamName": "activity_from_steps",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:merge_activity_segments",
+      "dataStreamName": "merge_activity_segments",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": "1"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:platform_activity_segments",
+      "dataStreamName": "platform_activity_segments",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.google.android.gms:session_activity_segment",
+      "dataStreamName": "session_activity_segment",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.mapmyfitness.android2:session_activity_segment",
+      "dataStreamName": "session_activity_segment",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.mapmyfitness.android2"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.activity.segment:com.mapmywalk.android2:session_activity_segment",
+      "dataStreamName": "session_activity_segment",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.mapmywalk.android2",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.calories.expended:com.google.android.gms:default_calories_expended",
+      "dataStreamName": "default_calories_expended",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.calories.expended",
+        "field": [
+          {
+            "name": "calories",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.calories.expended:com.google.android.gms:from_activities",
+      "dataStreamName": "from_activities",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.calories.expended",
+        "field": [
+          {
+            "name": "calories",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended",
+      "dataStreamName": "merge_calories_expended",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.calories.expended",
+        "field": [
+          {
+            "name": "calories",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": "1"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.calories.expended:com.google.android.gms:platform_calories_expended",
+      "dataStreamName": "platform_calories_expended",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.calories.expended",
+        "field": [
+          {
+            "name": "calories",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.cadence:com.google.android.gms:HTC:HTC6525LVW:f194c577:derive_step_cadence<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "dataStreamName": "derive_step_cadence<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.cadence",
+        "field": [
+          {
+            "name": "rpm",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.cadence:com.google.android.gms:Motorola:Moto 360:5882163b:derive_step_cadence<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "dataStreamName": "derive_step_cadence<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.cadence",
+        "field": [
+          {
+            "name": "rpm",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "device": {
+        "uid": "5882163b",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.cadence:com.google.android.gms:Motorola:Moto 360:e1e19c01:derive_step_cadence<-raw:com.google.step_count.cumulative:Motorola:Moto 360:e1e19c01:Step Counter Sensor",
+      "dataStreamName": "derive_step_cadence<-raw:com.google.step_count.cumulative:Motorola:Moto 360:e1e19c01:Step Counter Sensor",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.cadence",
+        "field": [
+          {
+            "name": "rpm",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "device": {
+        "uid": "e1e19c01",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.cadence:com.google.android.gms:derive_step_cadence<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "dataStreamName": "derive_step_cadence<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.cadence",
+        "field": [
+          {
+            "name": "rpm",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.cadence:com.google.android.gms:derive_step_cadence<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "dataStreamName": "derive_step_cadence<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.cadence",
+        "field": [
+          {
+            "name": "rpm",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "dataStreamName": "soft_step_counter",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.cumulative",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.delta:com.google.android.gms:HTC:HTC6525LVW:f194c577:derive_step_deltas<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "dataStreamName": "derive_step_deltas<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.delta:com.google.android.gms:Motorola:Moto 360:5882163b:derive_step_deltas<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "dataStreamName": "derive_step_deltas<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "5882163b",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.delta:com.google.android.gms:Motorola:Moto 360:e1e19c01:derive_step_deltas<-raw:com.google.step_count.cumulative:Motorola:Moto 360:e1e19c01:Step Counter Sensor",
+      "dataStreamName": "derive_step_deltas<-raw:com.google.step_count.cumulative:Motorola:Moto 360:e1e19c01:Step Counter Sensor",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "e1e19c01",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      },
+      "application": {
+        "packageName": "com.google.android.gms"
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.delta:com.google.android.gms:derive_step_deltas<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "dataStreamName": "derive_step_deltas<-derived:com.google.step_count.cumulative:com.google.android.gms:HTC:HTC6525LVW:f194c577:soft_step_counter",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.delta:com.google.android.gms:derive_step_deltas<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "dataStreamName": "derive_step_deltas<-raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps",
+      "dataStreamName": "estimated_steps",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "derived:com.google.step_count.delta:com.google.android.gms:merge_step_deltas",
+      "dataStreamName": "merge_step_deltas",
+      "type": "derived",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.gms",
+        "version": "1"
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.activity.segment:com.google.android.apps.fitness:HTC:HTC6525LVW:f194c577:user_input",
+      "dataStreamName": "user_input",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.apps.fitness",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.activity.segment:com.google.android.apps.fitness:manual",
+      "dataStreamName": "manual",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.activity.segment",
+        "field": [
+          {
+            "name": "activity",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.apps.fitness",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.calories.expended:com.google.android.apps.fitness:HTC:HTC6525LVW:f194c577:user_input",
+      "dataStreamName": "user_input",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.calories.expended",
+        "field": [
+          {
+            "name": "calories",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "device": {
+        "uid": "f194c577",
+        "type": "phone",
+        "version": "",
+        "model": "HTC6525LVW",
+        "manufacturer": "HTC"
+      },
+      "application": {
+        "packageName": "com.google.android.apps.fitness"
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.calories.expended:com.mapmyfitness.android2:",
+      "name": "Calories",
+      "dataStreamName": "",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.calories.expended",
+        "field": [
+          {
+            "name": "calories",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.mapmyfitness.android2"
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.calories.expended:com.mapmywalk.android2:",
+      "name": "Calories",
+      "dataStreamName": "",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.calories.expended",
+        "field": [
+          {
+            "name": "calories",
+            "format": "floatPoint"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.mapmywalk.android2",
+        "version": ""
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.step_count.cumulative:Motorola:Moto 360:5882163b:Step Counter Sensor",
+      "dataStreamName": "Step Counter Sensor",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.step_count.cumulative",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "5882163b",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.step_count.cumulative:Motorola:Moto 360:e1e19c01:Step Counter Sensor",
+      "dataStreamName": "Step Counter Sensor",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.step_count.cumulative",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "device": {
+        "uid": "e1e19c01",
+        "type": "watch",
+        "version": "",
+        "model": "Moto 360",
+        "manufacturer": "Motorola"
+      }
+    },
+    {
+      "dataStreamId": "raw:com.google.step_count.delta:com.google.android.apps.fitness:imported",
+      "dataStreamName": "imported",
+      "type": "raw",
+      "dataType": {
+        "name": "com.google.step_count.delta",
+        "field": [
+          {
+            "name": "steps",
+            "format": "integer"
+          }
+        ]
+      },
+      "application": {
+        "packageName": "com.google.android.apps.fitness",
+        "version": ""
+      }
+    }
+  ]
+}
