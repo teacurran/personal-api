@@ -1,4 +1,4 @@
-package java.test.wirelust.personalapi.client.googlefit.rest;
+package test.wirelust.personalapi.client.googlefit.rest;
 
 /**
  * Date: 10-Sep-2015

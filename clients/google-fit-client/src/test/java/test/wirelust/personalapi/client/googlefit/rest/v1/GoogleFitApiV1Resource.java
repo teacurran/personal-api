@@ -1,4 +1,4 @@
-package java.test.wirelust.personalapi.client.googlefit.rest.v1;
+package test.wirelust.personalapi.client.googlefit.rest.v1;
 
 import com.wirelust.personalapi.client.googlefit.GoogleFitApiV1Client;
 import com.wirelust.personalapi.client.googlefit.representations.DataSource;
