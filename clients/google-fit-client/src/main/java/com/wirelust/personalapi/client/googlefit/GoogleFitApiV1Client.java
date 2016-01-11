@@ -27,12 +27,16 @@ public interface GoogleFitApiV1Client {
 	@GET
 	@Path("/{user-id}/dataSources")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDataSources();
+	public Response getDataSources(
+		@PathParam("user-id") String userId
+	);
 
 	@GET
 	@Path("/{user-id}/dataSources/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDataSource();
+	public Response getDataSource(
+		@PathParam("user-id") String userId
+	);
 
 
 }
