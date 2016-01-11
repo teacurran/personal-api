@@ -37,6 +37,7 @@ package com.wirelust.personalapi.client.googlefit.representations;
  */
 public class DataSource {
 	String dataStreamId;
+	String name;
 	String dataStreamName;
 	String type;
 	DataType dataType;
@@ -89,5 +90,13 @@ public class DataSource {
 
 	public void setApplication(Application application) {
 		this.application = application;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

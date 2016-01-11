@@ -16,6 +16,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -51,9 +53,13 @@ public class EndpointTest {
 	public static WebArchive create() {
 		WebArchive testWar = ShrinkWrap.create(WebArchive.class, "googlefit-client-test.war");
 		testWar.addPackages(true, "com.wirelust.personalapi.client.googlefit");
-		testWar.addPackage("test.wirelust.personalapi.client.googlefit.providers");
+		testWar.addPackages(true, "test.wirelust.personalapi.client.googlefit");
+
+		testWar.addAsLibraries(Maven.resolver().loadPomFromFile("pom.xml").importDependencies(ScopeType.TEST).resolve
+			().withTransitivity().asFile());
 
 		File dir = new File("src/test/resources");
+		addResourceFilesToArchive(testWar, dir);
 		addFilesToWebArchive(testWar, dir);
 
 		System.out.println("test.war:" + testWar.toString(true));
@@ -90,7 +96,7 @@ public class EndpointTest {
 
 		DataSourceList dataSources = response.readEntity(DataSourceList.class);
 
-		Assert.assertEquals(40, dataSources.getDataSources().size());
+		Assert.assertEquals(39, dataSources.getDataSources().size());
 	}
 
 
@@ -103,6 +109,19 @@ public class EndpointTest {
 				war.addAsWebResource(f, f.getPath().replace("\\", "/").substring("src/test/resources/".length()));
 			} else {
 				addFilesToWebArchive(war, f);
+			}
+		}
+	}
+
+	private static void addResourceFilesToArchive(WebArchive war, File dir) throws IllegalArgumentException {
+		if (dir == null || !dir.isDirectory()) {
+			throw new IllegalArgumentException("not a directory");
+		}
+		for (File f : dir.listFiles()) {
+			if (f.isFile()) {
+				war.addAsResource(f, f.getPath().replace("\\", "/").substring("src/test/resources/".length()));
+			} else {
+				addResourceFilesToArchive(war, f);
 			}
 		}
 	}
