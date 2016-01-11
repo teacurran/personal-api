@@ -19,20 +19,20 @@ import javax.ws.rs.core.Response;
 public interface GoogleFitApiV1Client {
 
 	@POST
-	@Path("/{user-id}/dataSources")
+	@Path("/fitness/v1/{user-id}/dataSources")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postUserDatasource(DataSource dataSource);
 
 	@GET
-	@Path("/{user-id}/dataSources")
+	@Path("/fitness/v1/{user-id}/dataSources")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDataSources(
 		@PathParam("user-id") String userId
 	);
 
 	@GET
-	@Path("/{user-id}/dataSources/{id}")
+	@Path("/fitness/v1/{user-id}/dataSources/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDataSource(
 		@PathParam("user-id") String userId

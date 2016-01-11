@@ -2,7 +2,6 @@ package test.wirelust.personalapi.client.googlefit;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +19,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class EndpointTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EndpointTest.class);
 
-	static final String ROOT_URL = "http://localhost:8080/fitbit-client-test";
+	static final String ROOT_URL = "http://localhost:8080/googlefit-client-test/api";
 	static final String MOCK_USER_ID = "me";
 	static final String DATE_FORMAT = "yyyy-MM-dd";
 	static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -82,6 +82,7 @@ public class EndpointTest {
 	public void destroy() {
 	}
 
+	@Test
 	public void shouldBeAbleToDeseralizeDataSources() throws Exception {
 
 		Response response = apiClient.getDataSources(MOCK_USER_ID);
