@@ -1,0 +1,26 @@
+{
+	"dataStreamId": "derived:com.google.step_count.delta:1234567890:Example Manufacturer:ExampleTablet:1000001:MyDataSource",
+	"dataStreamName": "MyDataSource",
+	"type": "derived",
+	"application": {
+		"detailsUrl": "http://example.com",
+		"name": "Foo Example App",
+		"version": "1"
+	},
+	"dataType": {
+		"field": [
+			{
+				"name": "steps",
+				"format": "integer"
+			}
+		],
+		"name": "com.google.step_count.delta"
+	},
+	"device": {
+		"manufacturer": "Example Manufacturer",
+		"model": "ExampleTablet",
+		"type": "tablet",
+		"uid": "1000001",
+		"version": "2.0"
+	}
+}

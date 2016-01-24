@@ -1,0 +1,15 @@
+{
+	"id": "someSessionId",
+	"name": "My example workout",
+	"description": "A very intense workout",
+	"startTimeMillis": 1396710000000,
+	"endTimeMillis": 1396713600000,
+	"version": 1,
+	"lastModifiedToken": "exampleToken"
+	"application": {
+		"detailsUrl": "http://example.com",
+		"name": "Foo Example App",
+		"version": "1.0"
+	},
+	"activityType": 1
+}

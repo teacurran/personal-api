@@ -3,6 +3,7 @@ package com.wirelust.personalapi.client.googlefit;
 import com.wirelust.personalapi.client.googlefit.representations.DataSource;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,8 +36,23 @@ public interface GoogleFitApiV1Client {
 	@Path("/fitness/v1/users/{user-id}/dataSources/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDataSource(
-		@PathParam("user-id") String userId
+		@PathParam("user-id") String userId,
+		@PathParam("id") String id
 	);
 
+	@POST
+	@Path("/fitness/v1/users/{user-id}/dataSources/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response putDataSource(
+		@PathParam("user-id") String userId,
+		@PathParam("id") String id
+	);
 
+	@DELETE
+	@Path("/fitness/v1/users/{user-id}/dataSources/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteDataSource(
+		@PathParam("user-id") String userId,
+		@PathParam("id") String id
+	);
 }
