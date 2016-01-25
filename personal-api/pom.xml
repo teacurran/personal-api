@@ -373,8 +373,8 @@
 							<systemPropertyVariables>
 								<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 								<!-- the maven dependency plugin will have already downloaded the server on /target -->
-								<jboss.home>${project.basedir}/../../target/wildfly-${version.wildfly}</jboss.home>
-								<module.path>${project.basedir}/../../target/wildfly-${version.wildfly}/modules
+								<jboss.home>${project.basedir}/../target/wildfly-${version.wildfly}</jboss.home>
+								<module.path>${project.basedir}/../target/wildfly-${version.wildfly}/modules
 								</module.path>
 								<!-- Do not use ./test/resources-wildfly/configuration because jboss will write to the
 								config directory and we don't want these files to change -->

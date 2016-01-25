@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.client.googlefit.GoogleFitApiV1Client;
+import com.wirelust.personalapi.client.googlefit.representations.DataSource;
 import com.wirelust.personalapi.client.googlefit.representations.DataSourceList;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -89,6 +90,16 @@ public class EndpointTest {
 	}
 
 	@Test
+	public void shouldBeAbleToDeseralizeDataSource() throws Exception {
+		Response response = apiClient.getDataSource(MOCK_USER_ID, "id");
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		DataSource dataSource = response.readEntity(DataSource.class);
+
+		Assert.assertEquals("Foo Example App", dataSource.getApplication().getName());
+	}
+
+	@Test
 	public void shouldBeAbleToDeseralizeDataSources() throws Exception {
 
 		Response response = apiClient.getDataSources(MOCK_USER_ID);
@@ -125,5 +136,6 @@ public class EndpointTest {
 			}
 		}
 	}
+
 
 }

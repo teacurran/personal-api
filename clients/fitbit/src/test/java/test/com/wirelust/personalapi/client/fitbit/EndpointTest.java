@@ -10,7 +10,6 @@ import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.client.fitbit.FitBitApiClient;
 import com.wirelust.personalapi.client.fitbit.representations.*;
-import junit.framework.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -19,6 +18,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,14 +104,14 @@ public class EndpointTest {
 
 		ActivityGoalsType goals = responseType.getGoals();
 		Assert.assertEquals(2826, goals.getCaloriesOut().intValue());
-		Assert.assertEquals(8.05, goals.getDistance());
+		Assert.assertEquals(8.05, goals.getDistance(), 0);
 		Assert.assertEquals(150, goals.getFloors().intValue());
 
 		ActivitySummaryType summary = responseType.getSummary();
 		Assert.assertEquals(8, summary.getDistances().size());
 
 		DistanceType distance1 = summary.getDistances().get(0);
-		Assert.assertEquals(Double.parseDouble("1.32"), distance1.getDistance());
+		Assert.assertEquals(1.32, distance1.getDistance(), 0);
 
 	}
 
@@ -126,7 +126,7 @@ public class EndpointTest {
 
 		ActivityGoalsType goals = responseType.getGoals();
 		Assert.assertEquals(2500, goals.getCaloriesOut().intValue());
-		Assert.assertEquals(8.05, goals.getDistance());
+		Assert.assertEquals(8.05, goals.getDistance(), 0);
 		Assert.assertEquals(15, goals.getFloors().intValue());
 		Assert.assertEquals(10000, goals.getSteps().intValue());
 	}
@@ -141,7 +141,7 @@ public class EndpointTest {
 		UserActivitiesDateResponseType responseType = response.readEntity(UserActivitiesDateResponseType.class);
 
 		ActivityGoalsType goals = responseType.getGoals();
-		Assert.assertEquals(60d, goals.getDistance());
+		Assert.assertEquals(60d, goals.getDistance(), 0);
 		Assert.assertEquals(250, goals.getFloors().intValue());
 		Assert.assertEquals(70000, goals.getSteps().intValue());
 	}
@@ -156,10 +156,10 @@ public class EndpointTest {
 		UserBodyDateResponseType responseType = response.readEntity(UserBodyDateResponseType.class);
 
 		BodyType bodyType = responseType.getBody();
-		Assert.assertEquals(Double.parseDouble("16.14"), bodyType.getBmi());
+		Assert.assertEquals(16.14, bodyType.getBmi(), 0);
 
 		BodyGoalsType goalsType = responseType.getGoals();
-		Assert.assertEquals(Double.parseDouble("75"), goalsType.getWeight());
+		Assert.assertEquals(75, goalsType.getWeight(), 0);
 	}
 
 	@Test
@@ -176,13 +176,13 @@ public class EndpointTest {
 		Date weightDate = simpleDateFormat.parse("2012-03-05");
 
 		FatType fat1 = fats.get(0);
-		Assert.assertEquals(14d, fat1.getFat());
+		Assert.assertEquals(14d, fat1.getFat(), 0);
 		Assert.assertEquals(weightDate, fat1.getDate());
 		Assert.assertEquals(1330991999000L, fat1.getLogId().longValue());
 		Assert.assertEquals("23:59:59", fat1.getTime());
 
 		FatType fat2 = fats.get(1);
-		Assert.assertEquals(13.5, fat2.getFat());
+		Assert.assertEquals(13.5, fat2.getFat(), 0);
 		Assert.assertEquals(weightDate, fat2.getDate());
 		Assert.assertEquals(1330991999000L, fat2.getLogId().longValue());
 		Assert.assertEquals("21:20:59", fat2.getTime());
@@ -196,7 +196,7 @@ public class EndpointTest {
 		UserBodyLogGoalResponseType responseType = response.readEntity(UserBodyLogGoalResponseType.class);
 
 		BodyGoalType goalType = responseType.getGoal();
-		Assert.assertEquals(15d, goalType.getFat());
+		Assert.assertEquals(15d, goalType.getFat(), 0);
 	}
 
 	@Test
@@ -212,18 +212,18 @@ public class EndpointTest {
 		Date weightDate = simpleDateFormat.parse("2012-03-05");
 
 		WeightType weight1 = weights.get(0);
-		Assert.assertEquals(23.57, weight1.getBmi());
+		Assert.assertEquals(23.57, weight1.getBmi(), 0);
 		Assert.assertEquals(weightDate, weight1.getDate());
 		Assert.assertEquals(1330991999000L, weight1.getLogId().longValue());
 		Assert.assertEquals("23:59:59", weight1.getTime());
-		Assert.assertEquals(73d, weight1.getWeight());
+		Assert.assertEquals(73d, weight1.getWeight(), 0);
 
 		WeightType weight2 = weights.get(1);
-		Assert.assertEquals(22.57, weight2.getBmi());
+		Assert.assertEquals(22.57, weight2.getBmi(), 0);
 		Assert.assertEquals(weightDate, weight2.getDate());
 		Assert.assertEquals(1330991999000L, weight2.getLogId().longValue());
 		Assert.assertEquals("21:10:59", weight2.getTime());
-		Assert.assertEquals(72.5, weight2.getWeight());
+		Assert.assertEquals(72.5, weight2.getWeight(), 0);
 	}
 
 	@Test
@@ -237,8 +237,8 @@ public class EndpointTest {
 
 		BodyGoalType goalType = responseType.getGoal();
 		Assert.assertEquals(goalDate, goalType.getStartDate());
-		Assert.assertEquals(70d, goalType.getStartWeight());
-		Assert.assertEquals(75d, goalType.getWeight());
+		Assert.assertEquals(70d, goalType.getStartWeight(), 0);
+		Assert.assertEquals(75d, goalType.getWeight(), 0);
 	}
 
 	@Test
@@ -274,11 +274,11 @@ public class EndpointTest {
 		Assert.assertEquals(147L, food1.getLoggedFood().getUnit().getId().longValue());
 
 		Assert.assertEquals(752, food1.getNutritionalValues().getCalories().intValue());
-		Assert.assertEquals(66.5, food1.getNutritionalValues().getCarbs());
-		Assert.assertEquals(49d, food1.getNutritionalValues().getFat());
-		Assert.assertEquals(0.5, food1.getNutritionalValues().getFiber());
-		Assert.assertEquals(12.5, food1.getNutritionalValues().getProtein());
-		Assert.assertEquals(186d, food1.getNutritionalValues().getSodium());
+		Assert.assertEquals(66.5, food1.getNutritionalValues().getCarbs(), 0);
+		Assert.assertEquals(49d, food1.getNutritionalValues().getFat(), 0);
+		Assert.assertEquals(0.5, food1.getNutritionalValues().getFiber(), 0);
+		Assert.assertEquals(12.5, food1.getNutritionalValues().getProtein(), 0);
+		Assert.assertEquals(186d, food1.getNutritionalValues().getSodium(), 0);
 	}
 
 	@Test
@@ -297,7 +297,7 @@ public class EndpointTest {
 		Date date = simpleDateFormat.parse("2012-12-31");
 		Assert.assertEquals("MEDIUM", foodPlan.getIntensity());
 		Assert.assertEquals(date, foodPlan.getEstimatedDate());
-		Assert.assertEquals(true, foodPlan.getPersonalized().booleanValue());
+		Assert.assertEquals(true, foodPlan.getPersonalized());
 	}
 
 	@Test
@@ -310,13 +310,13 @@ public class EndpointTest {
 		UserWaterLogDateResponseType responseType = response.readEntity(UserWaterLogDateResponseType.class);
 
 		WaterSummaryType summary = responseType.getSummary();
-		Assert.assertEquals(800d, summary.getWater());
+		Assert.assertEquals(800d, summary.getWater(), 0);
 
 		List<WaterType> water = responseType.getWater();
 		Assert.assertEquals(3, water.size());
 
 		WaterType water1 = water.get(0);
-		Assert.assertEquals(500d, water1.getAmount());
+		Assert.assertEquals(500d, water1.getAmount(), 0);
 		Assert.assertEquals(950L, water1.getLogId().longValue());
 
 	}
@@ -330,7 +330,7 @@ public class EndpointTest {
 
 		WaterGoalType responseType = response.readEntity(WaterGoalType.class);
 
-		Assert.assertEquals(15d, responseType.getGoal());
+		Assert.assertEquals(15d, responseType.getGoal(), 0);
 	}
 
 	@Test
@@ -342,7 +342,7 @@ public class EndpointTest {
 
 		GlucoseType glucose = response.readEntity(GlucoseType.class);
 
-		Assert.assertEquals(4.5, glucose.getHba1c());
+		Assert.assertEquals(4.5, glucose.getHba1c(), 0);
 
 		List<GlucoseLogType> log = glucose.getLog();
 		Assert.assertEquals(4, log.size());
@@ -350,7 +350,7 @@ public class EndpointTest {
 		GlucoseLogType log1 = log.get(0);
 
 		GlucoseLogType log2 = log.get(1);
-		Assert.assertEquals(5.5, log2.getGlucose());
+		Assert.assertEquals(5.5, log2.getGlucose(), 0);
 	}
 
 	@Test
