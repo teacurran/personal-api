@@ -1,5 +1,7 @@
 package com.wirelust.personalapi.client.googlefit;
 
+import com.wirelust.personalapi.client.googlefit.annotations.PATCH;
+import com.wirelust.personalapi.client.googlefit.representations.DataSet;
 import com.wirelust.personalapi.client.googlefit.representations.DataSource;
 
 import javax.ws.rs.Consumes;
@@ -54,5 +56,24 @@ public interface GoogleFitApiV1Client {
 	public Response deleteDataSource(
 		@PathParam("user-id") String userId,
 		@PathParam("id") String id
+	);
+
+	@GET
+	@Path("/fitness/v1/users/{user-id}/dataSources/{datasource-id}/datasets/{dataset-id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDataSet(
+		@PathParam("user-id") String userId,
+		@PathParam("datasource-id") String datasourceId,
+		@PathParam("dataset-id") String datasetId
+	);
+
+	@PATCH
+	@Path("/fitness/v1/users/{user-id}/dataSources/{datasource-id}/datasets/{dataset-id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response patchDataSet(
+		@PathParam("user-id") String userId,
+		@PathParam("datasource-id") String datasourceId,
+		@PathParam("dataset-id") String datasetId,
+		DataSet dataset
 	);
 }
