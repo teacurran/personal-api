@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.client.googlefit.GoogleFitApiV1Client;
+import com.wirelust.personalapi.client.googlefit.representations.DataSet;
 import com.wirelust.personalapi.client.googlefit.representations.DataSource;
 import com.wirelust.personalapi.client.googlefit.representations.DataSourceList;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -110,6 +111,18 @@ public class EndpointTest {
 		Assert.assertEquals(39, dataSources.getDataSources().size());
 	}
 
+	@Test
+	public void shouldBeAbleToPatchDatasource() throws Exception {
+
+		DataSet dataSet = new DataSet();
+		dataSet.setDataSourceId("id");
+
+		Response response = apiClient.patchDataSet(MOCK_USER_ID, "id", "id", dataSet);
+		Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+
+		DataSet dataSetResponse = response.readEntity(DataSet.class);
+
+	}
 
 	private static void addFilesToWebArchive(WebArchive war, File dir) throws IllegalArgumentException {
 		if (dir == null || !dir.isDirectory()) {

@@ -73,4 +73,18 @@ public class MockApiEndpointServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
 	}
+
+	protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
+	}
+
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+		IOException {
+		if (request.getMethod().equals("PATCH")) {
+			doPatch(request, response);
+		} else {
+			super.service(request, response);
+		}
+	}
 }
