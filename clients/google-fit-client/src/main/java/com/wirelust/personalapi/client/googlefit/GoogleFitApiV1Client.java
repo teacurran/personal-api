@@ -70,6 +70,7 @@ public interface GoogleFitApiV1Client {
 	@PATCH
 	@Path("/fitness/v1/users/{user-id}/dataSources/{datasource-id}/datasets/{dataset-id}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response patchDataSet(
 		@PathParam("user-id") String userId,
 		@PathParam("datasource-id") String datasourceId,
