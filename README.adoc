@@ -30,3 +30,10 @@ This project is not intended to ever be finished but is a testing ground for Jav
 5. from the base directory, run the command: mvn package
 6. take the build war file from ./target/ and deploy it to WildFly 8
 
+Notes:
+IDE builders may not properly run Grunt.
+If you are getting stylesheets missing from the assembled war this is probably the case.
+
+If there is an error with compass, you may have to instll the compass gem into your local Ruby.
+
+
