@@ -33,14 +33,10 @@ CREATE TABLE account_password_resets (
 	uuid         VARCHAR(45) NOT NULL UNIQUE,
 	date_created DATETIME,
 	account_id   BIGINT,
-	PRIMARY KEY (uuid)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;;
-
-ALTER TABLE account_password_resets
-ADD INDEX fk_account_password_resets_accounts (account_id),
-ADD CONSTRAINT fk_account_password_resets_accounts
-FOREIGN KEY (account_id)
-REFERENCES accounts (id);
+	PRIMARY KEY (uuid),
+	KEY `fk_account_password_resets_accounts` (`account_id`),
+	CONSTRAINT `fk_account_password_resets_accounts` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE account_settings (
 	id         BIGINT NOT NULL AUTO_INCREMENT,
@@ -48,14 +44,10 @@ CREATE TABLE account_settings (
 	`key`      VARCHAR(255),
 	value      VARCHAR(255),
 	account_id BIGINT,
-	PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;;
-
-ALTER TABLE account_settings
-ADD INDEX fk_account_settings_accounts (account_id),
-ADD CONSTRAINT fk_account_settings_accounts
-FOREIGN KEY (account_id)
-REFERENCES accounts (id);
+	PRIMARY KEY (id),
+	KEY `fk_account_settings_accounts` (`account_id`),
+	CONSTRAINT `fk_account_settings_accounts` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE login_audits (
 	uuid          VARCHAR(45) NOT NULL UNIQUE,
@@ -64,14 +56,10 @@ CREATE TABLE login_audits (
 	is_successful BOOLEAN,
 	username      VARCHAR(255),
 	account_id    BIGINT,
-	PRIMARY KEY (uuid)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;;
-
-ALTER TABLE login_audits
-ADD INDEX fk_login_audits_accounts (account_id),
-ADD CONSTRAINT fk_login_audits_accounts
-FOREIGN KEY (account_id)
-REFERENCES accounts (id);
+	PRIMARY KEY (uuid),
+	KEY `fk_login_audits_accounts` (`account_id`),
+	CONSTRAINT `fk_login_audits_accounts` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE restricted_usernames (
 	id                  BIGINT NOT NULL AUTO_INCREMENT,
@@ -91,5 +79,6 @@ CREATE TABLE restricted_usernames (
 DROP TABLE restricted_usernames;
 DROP TABLE login_audits;
 DROP TABLE account_settings;
+DROP TABLE account_password_resets;
 DROP TABLE accounts;
 

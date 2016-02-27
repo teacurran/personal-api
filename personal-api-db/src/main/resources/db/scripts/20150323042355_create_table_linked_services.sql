@@ -13,7 +13,7 @@ CREATE TABLE linked_services (
 	type                    VARCHAR(255),
 	account_id              BIGINT,
 	PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 ALTER TABLE linked_services
 ADD INDEX fk_linked_services_accounts (account_id),
