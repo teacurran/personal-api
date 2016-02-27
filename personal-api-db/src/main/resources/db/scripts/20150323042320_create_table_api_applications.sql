@@ -12,7 +12,7 @@ CREATE TABLE api_applications (
 	secret        VARCHAR(255),
 	account_id    BIGINT,
 	PRIMARY KEY (uuid)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 ALTER TABLE api_applications
 ADD INDEX fk_api_applications_accounts (account_id),

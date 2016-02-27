@@ -27,14 +27,14 @@ CREATE TABLE accounts (
 	username_normalized VARCHAR(255) UNIQUE,
 	website             VARCHAR(255),
 	PRIMARY KEY (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE account_password_resets (
 	uuid         VARCHAR(45) NOT NULL UNIQUE,
 	date_created DATETIME,
 	account_id   BIGINT,
 	PRIMARY KEY (uuid)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;;
 
 ALTER TABLE account_password_resets
 ADD INDEX fk_account_password_resets_accounts (account_id),
@@ -49,7 +49,7 @@ CREATE TABLE account_settings (
 	value      VARCHAR(255),
 	account_id BIGINT,
 	PRIMARY KEY (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;;
 
 ALTER TABLE account_settings
 ADD INDEX fk_account_settings_accounts (account_id),
@@ -65,7 +65,7 @@ CREATE TABLE login_audits (
 	username      VARCHAR(255),
 	account_id    BIGINT,
 	PRIMARY KEY (uuid)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;;
 
 ALTER TABLE login_audits
 ADD INDEX fk_login_audits_accounts (account_id),
@@ -81,7 +81,7 @@ CREATE TABLE restricted_usernames (
 	username            VARCHAR(255),
 	username_normalized VARCHAR(255),
 	PRIMARY KEY (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
 

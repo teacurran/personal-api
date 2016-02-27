@@ -5,6 +5,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -23,27 +24,28 @@ public class Activity {
 	@ManyToOne
 	ActivityType activityType;
 
+	@Lob
 	String notes;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	Date created;
+	Date dateCreated;
 
     @Temporal(TemporalType.TIMESTAMP)
-	Date modified;
+	Date dateModified;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	Date start;
+	Date dateStarted;
 
     @Temporal(TemporalType.TIMESTAMP)
-	Date completed;
+	Date dateCompleted;
 
 	@PrePersist
 	@PreUpdate
 	public void updateTimestamps() {
-		if (created == null) {
-			setCreated(new Date());
+		if (dateCreated == null) {
+			setDateCompleted(new Date());
 		}
-		setModified(new Date());
+		setDateModified(new Date());
 	}
 
 	public ActivityType getActivityType() {
@@ -62,35 +64,35 @@ public class Activity {
 		this.notes = notes;
 	}
 
-	public Date getCreated() {
-		return created;
+	public Date getDateCreated() {
+		return dateCreated;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
-	public Date getModified() {
-		return modified;
+	public Date getDateModified() {
+		return dateModified;
 	}
 
-	public void setModified(Date modified) {
-		this.modified = modified;
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
 	}
 
-	public Date getStart() {
-		return start;
+	public Date getDateStarted() {
+		return dateStarted;
 	}
 
-	public void setStart(Date start) {
-		this.start = start;
+	public void setDateStarted(Date dateStarted) {
+		this.dateStarted = dateStarted;
 	}
 
-	public Date getCompleted() {
-		return completed;
+	public Date getDateCompleted() {
+		return dateCompleted;
 	}
 
-	public void setCompleted(Date completed) {
-		this.completed = completed;
+	public void setDateCompleted(Date dateCompleted) {
+		this.dateCompleted = dateCompleted;
 	}
 }

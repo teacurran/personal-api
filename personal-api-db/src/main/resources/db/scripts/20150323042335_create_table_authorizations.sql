@@ -11,7 +11,7 @@ CREATE TABLE authorizations (
 	account_id         BIGINT,
 	api_applicaiton_id VARCHAR(45),
 	PRIMARY KEY (uuid)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE UNIQUE INDEX ix_authorizations_token ON authorizations (token);
 CREATE UNIQUE INDEX ix_authorizations_refresh_token ON authorizations (refresh_token);

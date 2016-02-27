@@ -32,18 +32,18 @@ public class ActivityType {
 	String name;
 
 	@Temporal(TemporalType.DATE)
-	Date created;
+	Date dateCreated;
 
     @Temporal(TemporalType.DATE)
-	Date modified;
+	Date dateModified;
 
 	@PrePersist
 	@PreUpdate
 	public void updateTimestamps() {
-		if (created == null) {
-			setCreated(new Date());
+		if (dateCreated == null) {
+			setDateCreated(new Date());
 		}
-		setModified(new Date());
+		setDateModified(new Date());
 	}
 
 	public Long getId() {
@@ -62,19 +62,19 @@ public class ActivityType {
 		this.name = name;
 	}
 
-	public Date getCreated() {
-		return created;
+	public Date getDateCreated() {
+		return dateCreated;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
-	public Date getModified() {
-		return modified;
+	public Date getDateModified() {
+		return dateModified;
 	}
 
-	public void setModified(Date modified) {
-		this.modified = modified;
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
 	}
 }
