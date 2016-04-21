@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JacksonObjectMapper extends ObjectMapper {
 
+	private static final long serialVersionUID = 1800750500920847139L;
+
 	public static JacksonObjectMapper get() {
 
 		// Jackson 2.0

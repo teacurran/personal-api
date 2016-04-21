@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 public class Configuration implements Serializable {
 
+	private static final long serialVersionUID = -3221266624481566406L;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
 
 	private static final String ENV_FILE_NAME = "app.personalapi.env";
@@ -37,7 +39,7 @@ public class Configuration implements Serializable {
 	@ClasspathResource("defaults.properties")
 	Properties defaultProperties;
 
-	Properties configuredProperties = new Properties();;
+	Properties configuredProperties = new Properties();
 
 	Boolean fitbitSync;
 	String fitbitSchedule;
@@ -186,7 +188,7 @@ public class Configuration implements Serializable {
 			try {
 				BeanUtils.setProperty(this, (String) entry.getKey(), entry.getValue());
 			} catch (Exception e) {
-				LOGGER.warn("unable to load {} property:{}", name, entry.getKey());
+				LOGGER.warn("unable to load {} property:{}", name, entry.getKey(), e);
 			}
 		}
 	}

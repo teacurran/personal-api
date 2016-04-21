@@ -27,6 +27,7 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UTF8ResourceBundleControl.class);
 
 	public UTF8ResourceBundleControl() {
+		// default constructor because ResourceBundle.Control constructor is protected
 	}
 
 	public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
