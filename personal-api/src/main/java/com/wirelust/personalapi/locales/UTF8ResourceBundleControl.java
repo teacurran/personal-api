@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Date: 09-03-2015
  *
- * @Author T. Curran
+ * @author T. Curran
  *
  * see: http://stackoverflow.com/a/4660195/1330640
  */

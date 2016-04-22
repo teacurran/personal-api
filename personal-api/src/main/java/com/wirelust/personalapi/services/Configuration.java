@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Date: 14-03-2015
  *
- * @Author T. Curran
+ * @author T. Curran
  */
 @Named
 @ApplicationScoped
