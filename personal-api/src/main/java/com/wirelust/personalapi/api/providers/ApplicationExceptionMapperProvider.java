@@ -5,7 +5,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.wirelust.personalapi.api.exceptions.ApplicationException;
+import com.wirelust.personalapi.api.exceptions.ApiException;
 import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.services.Configuration;
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @Author T. Curran
  */
 @Provider
-public class ApplicationExceptionMapperProvider implements ExceptionMapper<ApplicationException> {
+public class ApplicationExceptionMapperProvider implements ExceptionMapper<ApiException> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationExceptionMapperProvider.class);
 
@@ -29,7 +29,7 @@ public class ApplicationExceptionMapperProvider implements ExceptionMapper<Appli
 	}
 
 	@Override
-	public Response toResponse(final ApplicationException inException) {
+	public Response toResponse(final ApiException inException) {
 
 		LOGGER.debug("Mapping exception to response: ", inException);
 

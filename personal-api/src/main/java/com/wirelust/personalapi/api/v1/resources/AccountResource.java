@@ -1,6 +1,6 @@
 package com.wirelust.personalapi.api.v1.resources;
 
-import com.wirelust.personalapi.api.exceptions.ApplicationException;
+import com.wirelust.personalapi.api.exceptions.ApiException;
 import com.wirelust.personalapi.api.v1.representations.AccountType;
 import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
@@ -126,34 +126,34 @@ public class AccountResource {
 		// TODO: re-implement access codes
 		//if (!testingAccessCode.equals(inAccessCode)
 		//		&& !sessionService.getAccessCode().equals(inAccessCode)) {
-		//	throw new ApplicationException(EnumErrorCode.ACCESS_CODE_INVALID);
+		//	throw new ApiException(EnumErrorCode.ACCESS_CODE_INVALID);
 		//}
 
 		ApiApplication apiApplication = apiApplicationRepository.findBy(inClientId);
 		if (apiApplication == null) {
-			throw new ApplicationException(EnumErrorCode.CLIENT_ID_INVALID);
+			throw new ApiException(EnumErrorCode.CLIENT_ID_INVALID);
 		}
 
 		// check to make sure the username is valid
 		if (!accountRepository.usernameIsValid(inUsername)) {
-			throw new ApplicationException(EnumErrorCode.USERNAME_INVALID);
+			throw new ApiException(EnumErrorCode.USERNAME_INVALID);
 		}
 
 		// Make sure the username isn't taken
 		if (accountRepository.usernameExists(inUsername)) {
-			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS);
 		}
 
 		// Make sure the username isn't restricted
 		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
-			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
 		// Check for an account by email address to make sure it doesn't already exist
 		if (accountRepository.findAnyByEmail(inEmail) != null) {
-			throw new ApplicationException(EnumErrorCode.EMAIL_EXISTS);
+			throw new ApiException(EnumErrorCode.EMAIL_EXISTS);
 		}
 
 		Account account = new Account();
@@ -199,18 +199,18 @@ public class AccountResource {
 		String usernameNormalized = StringUtils.normalizeUsername(inUsername);
 
 		if (accountRepository.usernameExists(inUsername)) {
-			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
 		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
-			throw new ApplicationException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
 		}
 
 		// check to make sure the username is valid
 		if (!accountRepository.usernameIsValid(inUsername)) {
-			throw new ApplicationException(EnumErrorCode.USERNAME_INVALID);
+			throw new ApiException(EnumErrorCode.USERNAME_INVALID);
 		}
 	}
 
@@ -246,7 +246,7 @@ public class AccountResource {
 
 		ApiApplication apiApplication = apiApplicationRepository.findBy(inClientId);
 		if (apiApplication == null) {
-			throw new ApplicationException(EnumErrorCode.CLIENT_ID_INVALID);
+			throw new ApiException(EnumErrorCode.CLIENT_ID_INVALID);
 		}
 
 		Account account = accountRepository.findAnyByUsername(inUsername);
@@ -255,12 +255,12 @@ public class AccountResource {
 			account = accountRepository.findAnyByEmail(inUsername);
 
 			if (account == null) {
-				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+				throw new ApiException(EnumErrorCode.ACCOUNT_NOT_FOUND);
 			}
 		}
 
 		if (!accountService.checkPassword(account, inPassword)) {
-			throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+			throw new ApiException(EnumErrorCode.ACCOUNT_NOT_FOUND);
 		}
 
 		// create a new login session for this app/user
@@ -288,13 +288,13 @@ public class AccountResource {
 
 		Authorization auth =  authorizationRepository.findAnyByToken(inOauthToken);
 		if (auth == null) {
-			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+			throw new ApiException(EnumErrorCode.SESSION_INVALID);
 		}
 
 		Account account = auth.getAccount();
 		if (account == null) {
 			// this should never happen
-			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+			throw new ApiException(EnumErrorCode.SESSION_INVALID);
 		}
 
 		authorizationRepository.attachAndRemove(auth);
@@ -396,13 +396,13 @@ public class AccountResource {
 
 		Authorization auth = authorizationRepository.findAnyByToken(inOauthToken);
 		if (auth == null) {
-			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+			throw new ApiException(EnumErrorCode.SESSION_INVALID);
 		}
 
 		Account authAccount = auth.getAccount();
 		if (authAccount == null) {
 			// this should never happen
-			throw new ApplicationException(EnumErrorCode.SESSION_INVALID);
+			throw new ApiException(EnumErrorCode.SESSION_INVALID);
 		}
 
 		Account account;
@@ -411,7 +411,7 @@ public class AccountResource {
 		} else {
 			account = accountRepository.findAnyByAccountIdOrUsername(inAccountId);
 			if (account == null) {
-				throw new ApplicationException(EnumErrorCode.ACCOUNT_NOT_FOUND);
+				throw new ApiException(EnumErrorCode.ACCOUNT_NOT_FOUND);
 			}
 		}
 

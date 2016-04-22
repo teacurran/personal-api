@@ -14,6 +14,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.wirelust.personalapi.exceptions.ServiceException;
 import com.wirelust.personalapi.qualifiers.ClasspathResource;
 import com.wirelust.personalapi.util.StringUtils;
 import org.apache.commons.beanutils.BeanUtils;
@@ -77,14 +78,14 @@ public class Configuration implements Serializable {
 		}
 
 		if (configInputStream == null) {
-			throw new RuntimeException("Error initializing config, unable to load property file:" + configFileName);
+			throw new ServiceException("Error initializing config, unable to load property file:" + configFileName);
 		}
 
 		try {
 			configuredProperties.load(configInputStream);
 			bindProperties(configuredProperties, "configured");
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new ServiceException(e);
 		} finally {
 			try {
 				configInputStream.close();

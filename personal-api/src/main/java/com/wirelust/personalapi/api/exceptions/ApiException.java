@@ -7,24 +7,24 @@ import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
  *
  * @Author T. Curran
  */
-public class ApplicationException extends RuntimeException {
+public class ApiException extends RuntimeException {
 
 	private static final long serialVersionUID = 2510224909561211312L;
 
 	private EnumErrorCode errorCode;
 
-	public ApplicationException() {
+	public ApiException() {
 
 		super();
 	}
 
-	public ApplicationException(
+	public ApiException(
 		final EnumErrorCode inErrorCode) {
 
 		this.errorCode = inErrorCode;
 	}
 
-	public ApplicationException(
+	public ApiException(
 		final EnumErrorCode inErrorCode,
 		final String inMessage) {
 
@@ -33,20 +33,20 @@ public class ApplicationException extends RuntimeException {
 		this.errorCode = inErrorCode;
 	}
 
-	public ApplicationException(
+	public ApiException(
 		final String inMessage ) {
 
 		super( inMessage );
 	}
 
-	public ApplicationException(
+	public ApiException(
 		final String inMessage,
 		final Throwable inCause ) {
 
 		super( inMessage, inCause );
 	}
 
-	public ApplicationException(
+	public ApiException(
 		final EnumErrorCode inErrorCode,
 		final String inMessage,
 		final Throwable inCause ) {
@@ -56,7 +56,7 @@ public class ApplicationException extends RuntimeException {
 		this.errorCode = inErrorCode;
 	}
 
-	public ApplicationException(
+	public ApiException(
 		final Throwable inCause ) {
 
 		super( inCause );

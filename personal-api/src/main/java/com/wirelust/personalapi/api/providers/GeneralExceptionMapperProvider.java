@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.wirelust.personalapi.api.exceptions.ApplicationException;
+import com.wirelust.personalapi.api.exceptions.ApiException;
 import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.services.Configuration;
@@ -63,11 +63,11 @@ public class GeneralExceptionMapperProvider
 
 			applicationError.setCode(EnumErrorCode.RESOURCE_NOT_FOUND);
 
-		} else if (cause instanceof ApplicationException) {
+		} else if (cause instanceof ApiException) {
 
-			final ApplicationException applicationException = (ApplicationException) cause;
-			applicationError.setCode(applicationException.getErrorCode());
-			applicationError.setDetail(applicationException.getMessage());
+			final ApiException apiException = (ApiException) cause;
+			applicationError.setCode(apiException.getErrorCode());
+			applicationError.setDetail(apiException.getMessage());
 
 		} else {
 
