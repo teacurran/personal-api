@@ -33,10 +33,14 @@
 		<!-- Hibernate Tools requires a different version than what is shipped with the app serever-->
 		<version.hibernate.tools>4.3.1-CR1</version.hibernate.tools>
 		<version.hibernate.tools.hibernate>4.0.1.Final</version.hibernate.tools.hibernate>
+		<version.jacoco>0.7.6.201602180812</version.jacoco>
 		<version.junit>4.12</version.junit>
 		<version.mockito>1.10.19</version.mockito>
 		<version.resteasy>3.0.10.Final</version.resteasy>
 		<version.slf4j>1.7.10</version.slf4j>
+		<version.sonar-jacoco-listener>3.11</version.sonar-jacoco-listener>
+		<version.surefire>2.19.1</version.surefire>
+		<version.war.plugin>2.1.1</version.war.plugin>
 		<version.mysql.connector>5.1.28</version.mysql.connector>
 		<version.wildfly>8.2.0.Final</version.wildfly>
 	</properties>
@@ -96,6 +100,22 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>org.jacoco.core</artifactId>
+			<version>${version.jacoco}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.sonarsource.java</groupId>
+			<artifactId>sonar-jacoco-listeners</artifactId>
+			<version>${version.sonar-jacoco-listener}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -111,7 +131,46 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<!-- You need the maven dependency plugin to download locally a zip with the server, unless you provide your own, it will download under the /target directory -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${version.jacoco}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${version.surefire}</version>
+				<configuration>
+					<!-- same configuration as in the regular test execution goal -->
+					<!-- plus argLine parameter configured by JaCoCo prepare-agent -->
+					<argLine>${argLine} -XX:-UseSplitVerifier</argLine>
+
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>org.sonar.java.jacoco.JUnitListener</value>
+						</property>
+					</properties>
+				</configuration>
+			</plugin>
+
+			<!-- You need the maven dependency plugin to download locally a zip with the server,
+			unless you provide your own, it will download under the /target directory -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
