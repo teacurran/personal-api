@@ -3,7 +3,6 @@ package test.wirelust.personalapi.client.googlefit;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 

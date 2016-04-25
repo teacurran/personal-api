@@ -24,8 +24,10 @@ import org.junit.runner.RunWith;
 @AdditionalClasses(ResourceBundleProducer.class)
 public class ResourceBundleProducerTest {
 
+	private static final String APPLICATION_NAME = "Personal API";
+
 	@Inject
-	@ClasspathResource("default.properties")
+	@ClasspathResource("defaults.properties")
 	Properties defaultProperties;
 
 	@Inject
@@ -43,7 +45,7 @@ public class ResourceBundleProducerTest {
 
 	@Test
 	public void shouldBeAbleToReadLocalization() {
-		Assert.assertEquals("Sample Project", localization.getString("application.name"));
+		Assert.assertEquals(APPLICATION_NAME, localization.getString("application.name"));
 	}
 
 	@Test
@@ -56,6 +58,6 @@ public class ResourceBundleProducerTest {
 		UTF8ResourceBundleControl utf8ResourceBundleControl = new UTF8ResourceBundleControl();
 		localization = utf8ResourceBundleControl.newBundle("locales.I18n", Locale.US, "java.properties",
 			this.getClass().getClassLoader(), true);
-		Assert.assertEquals("Sample Project", localization.getString("application.name"));
+		Assert.assertEquals(APPLICATION_NAME, localization.getString("application.name"));
 	}
 }

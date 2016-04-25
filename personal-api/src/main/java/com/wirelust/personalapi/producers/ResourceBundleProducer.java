@@ -45,19 +45,10 @@ public class ResourceBundleProducer {
 		Properties properties = new Properties();
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream inputStream = classLoader.getResourceAsStream(name);
-		try {
+		try (InputStream inputStream = classLoader.getResourceAsStream(name)) {
 			properties.load(inputStream);
-		} catch (IOException e) {
+		} catch (IOException | NullPointerException e) {
 			LOGGER.error("error loading properties file", e);
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					LOGGER.error("error closing properties file", e);
-				}
-			}
 		}
 		return properties;
 	}
