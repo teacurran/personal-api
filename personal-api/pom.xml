@@ -189,49 +189,53 @@
 
 		<plugins>
 			<plugin>
-				<groupId>pl.allegro</groupId>
-				<artifactId>grunt-maven-plugin</artifactId>
-				<version>1.5.0</version>
-				<configuration>
-					<!-- relative to src/main/webapp/, default: static -->
-					<jsSourceDirectory>./</jsSourceDirectory>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.0</version>
 
-					<gruntBuildDirectory>target/grunt/build</gruntBuildDirectory>
-
-					<!-- example options usage to get verbose output in logs -->
-					<gruntOptions>
-						<gruntOption>--verbose</gruntOption>
-					</gruntOptions>
-
-					<!-- example npm install env variable -->
-					<npmEnvironmentVar>
-						<PHANTOMJS_CDNURL>http://cnpmjs.org/downloads</PHANTOMJS_CDNURL>
-					</npmEnvironmentVar>
-
-					<!-- example options usage to filter variables in given resource -->
-					<filteredResources>
-						<filteredResource>maven-properties.json</filteredResource>
-
-						<!-- Filter node modules in case grunt has been run directly from webapp dir -->
-						<!-- TODO: look into the source of how filtering works, it dosn't seem to be working -->
-						<filteredResource>**/node_modules/**/*</filteredResource>
-					</filteredResources>
-
-					<warTargetDirectory>/</warTargetDirectory>
-
-				</configuration>
 				<executions>
 					<execution>
+						<id>install node and npm</id>
 						<goals>
-							<goal>create-resources</goal>
-							<goal>npm</goal>
-							<!-- or npm-offline if npm failure is not an option -->
-							<goal>bower</goal>
-							<goal>grunt</goal>
+							<goal>install-node-and-npm</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>grunt build</id>
+						<goals>
+							<goal>grunt</goal>
+						</goals>
+
+						<!-- optional: the default phase is "generate-resources" -->
+						<phase>generate-resources</phase>
+
+						<configuration>
+							<!-- optional: if not specified, it will run Grunt's default
+                            task (and you can remove this whole <configuration> section.) -->
+							<arguments>build</arguments>
+						</configuration>
+					</execution>
 				</executions>
+
+				<configuration>
+					<nodeVersion>v6.1.0</nodeVersion>
+					<npmVersion>2.12.1</npmVersion>
+					<installDirectory>target</installDirectory>
+					<workingDirectory>src/main/webapp</workingDirectory>
+				</configuration>
+
 			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
