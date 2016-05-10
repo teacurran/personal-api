@@ -204,33 +204,33 @@ module.exports = function (grunt) {
     },
 
     // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      options: {
-        sassDir: 'styles/',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: 'images',
-        javascriptsDir: 'scripts',
-        fontsDir: 'styles/fonts',
-        importPath: './scripts/components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
-      dist: {
-        options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-        }
-      },
-      server: {
-        options: {
-          sourcemap: true
-        }
-      }
-    },
+    //compass: {
+    //  options: {
+    //    sassDir: 'styles/',
+    //    cssDir: '.tmp/styles',
+    //    generatedImagesDir: '.tmp/images/generated',
+    //    imagesDir: 'images',
+    //    javascriptsDir: 'scripts',
+    //    fontsDir: 'styles/fonts',
+    //    importPath: './scripts/components',
+    //    httpImagesPath: '/images',
+    //    httpGeneratedImagesPath: '/images/generated',
+    //    httpFontsPath: '/styles/fonts',
+    //    relativeAssets: false,
+    //    assetCacheBuster: false,
+    //    raw: 'Sass::Script::Number.precision = 10\n'
+    //  },
+    //  dist: {
+    //    options: {
+    //      generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+    //    }
+    //  },
+    //  server: {
+    //    options: {
+    //      sourcemap: true
+    //    }
+    //  }
+    //},
 
     // Renames files for browser caching purposes
     filerev: {

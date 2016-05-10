@@ -211,13 +211,13 @@
 					<resources>
 						<resource>
 							<source>
-								<directory>${basedir}/src/main/webapp/styles</directory>
+								<directory>${basedir}/src/main/webapp/styles/sass</directory>
 								<includes>
 									<include>*.scss</include>
 								</includes>
 								<excludes/>
 							</source>
-							<destination>${project.build.directory}/${project.build.finalName}/styles</destination>
+							<destination>${basedir}/src/main/webapp/styles</destination>
 						</resource>
 					</resources>
 				</configuration>
