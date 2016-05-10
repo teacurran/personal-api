@@ -211,6 +211,12 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>bower install</id>
+						<goals>
+							<goal>bower</goal>
+						</goals>
+					</execution>
+					<execution>
 						<id>grunt build</id>
 						<goals>
 							<goal>grunt</goal>
