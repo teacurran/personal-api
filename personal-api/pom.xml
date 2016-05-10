@@ -189,6 +189,40 @@
 
 		<plugins>
 			<plugin>
+				<groupId>nl.geodienstencentrum.maven</groupId>
+				<artifactId>sass-maven-plugin</artifactId>
+				<version>2.18</version>
+
+				<executions>
+					<execution>
+						<goals>
+							<goal>update-stylesheets</goal>
+							<goal>scss-lint</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sassOptions>
+						<always_update>true</always_update>
+						<style>:expanded</style>
+						<debug_info>true</debug_info>
+					</sassOptions>
+					<useCompass>true</useCompass>
+					<resources>
+						<resource>
+							<source>
+								<directory>${basedir}/src/main/webapp/styles</directory>
+								<includes>
+									<include>*.scss</include>
+								</includes>
+								<excludes/>
+							</source>
+							<destination>${project.build.directory}/${project.build.finalName}/styles</destination>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>1.0</version>
