@@ -207,11 +207,11 @@
 						<style>:expanded</style>
 						<debug_info>true</debug_info>
 					</sassOptions>
-					<useCompass>true</useCompass>
+					<useCompass>false</useCompass>
 					<resources>
 						<resource>
 							<source>
-								<directory>${basedir}/src/main/webapp/styles/sass</directory>
+								<directory>${basedir}/src/main/webapp/styles/scss</directory>
 								<includes>
 									<include>*.scss</include>
 								</includes>
