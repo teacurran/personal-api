@@ -262,7 +262,7 @@
 						<configuration>
 							<!-- optional: if not specified, it will run Grunt's default
                             task (and you can remove this whole <configuration> section.) -->
-							<arguments>build</arguments>
+							<arguments>build -v</arguments>
 						</configuration>
 					</execution>
 				</executions>
@@ -271,7 +271,6 @@
 					<nodeVersion>v6.1.0</nodeVersion>
 					<npmVersion>2.12.1</npmVersion>
 					<installDirectory>target</installDirectory>
-					<workingDirectory>src/main/webapp</workingDirectory>
 				</configuration>
 
 			</plugin>
