@@ -1,5 +1,4 @@
 *.class
-transaction.log
 
 # Package Files #
 *.jar
@@ -41,9 +40,6 @@ projectFilesBackup/*
 */.pydevproject
 .metadata/
 
-personal-api/src/main/webapp/node_modules
-personal-api/src/main/webapp/scripts/components
-dist
 .tmp
-.sass-cache
-
+node_modules
+*/src/main/webapp/scripts/components
