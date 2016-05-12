@@ -188,6 +188,7 @@
 	<build>
 
 		<plugins>
+
 			<plugin>
 				<groupId>nl.geodienstencentrum.maven</groupId>
 				<artifactId>sass-maven-plugin</artifactId>
@@ -199,6 +200,7 @@
 							<goal>update-stylesheets</goal>
 							<goal>scss-lint</goal>
 						</goals>
+						<phase>process-resources</phase>
 					</execution>
 				</executions>
 				<configuration>
@@ -211,7 +213,7 @@
 					<resources>
 						<resource>
 							<source>
-								<directory>${basedir}/src/main/webapp/styles/scss</directory>
+								<directory>${basedir}/src/main/sourceapp/styles/scss</directory>
 								<includes>
 									<include>*.scss</include>
 								</includes>
@@ -249,6 +251,7 @@
 						<goals>
 							<goal>bower</goal>
 						</goals>
+						<phase>generate-resources</phase>
 					</execution>
 					<execution>
 						<id>grunt build</id>
@@ -262,7 +265,7 @@
 						<configuration>
 							<!-- optional: if not specified, it will run Grunt's default
                             task (and you can remove this whole <configuration> section.) -->
-							<arguments>build -v</arguments>
+							<arguments>build -v --distdir=${webapp.dir}</arguments>
 						</configuration>
 					</execution>
 				</executions>

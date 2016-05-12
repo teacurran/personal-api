@@ -19,14 +19,14 @@ module.exports = function (grunt) {
   var appConfig = {
     app: require('./bower.json').appPath || '.',
     source: 'src/main/sourceapp',
-    dist: 'src/main/webapp'
+    dist: grunt.option('distdir')
   };
 
   // Define the configuration for all the tasks
   grunt.initConfig({
 
     // Project settings
-    yeoman: appConfig,
+    appConfig: appConfig,
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -142,7 +142,7 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
-            '<%= appConfig.dist %>/{,*/}*',
+            '<%= appConfig.dist %>/styles/{,*/}*',
             '!<%= appConfig.dist %>/.git{,*/}*'
           ]
         }]
@@ -223,7 +223,7 @@ module.exports = function (grunt) {
     //  },
     //  dist: {
     //    options: {
-    //      generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+    //      generatedImagesDir: '<%= appConfig.dist %>/images/generated'
     //    }
     //  },
     //  server: {
@@ -293,7 +293,7 @@ module.exports = function (grunt) {
      uglify: {
        dist: {
          files: {
-           '<%= yeoman.dist %>/scripts/scripts.js': [
+           '<%= appConfig.dist %>/scripts/scripts.js': [
              '<%= appConfig.dist %>/scripts/scripts.js'
            ]
          }
@@ -375,13 +375,13 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
+          dest: '<%= appConfig.dist %>/images',
           src: ['generated/*']
         }, {
           expand: true,
           cwd: '.',
           src: 'components/bootstrap-sass-official/assets/fonts/bootstrap/*',
-          dest: '<%= yeoman.dist %>'
+          dest: '<%= appConfig.dist %>'
         }]
       },
       styles: {

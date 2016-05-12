@@ -16,6 +16,6 @@
 
 	<modules>
 		<module>fitbit</module>
-	  <module>google-fit-client</module>
+		<!-- <module>google-fit-client</module> -->
 	</modules>
 </project>
