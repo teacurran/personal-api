@@ -41,5 +41,5 @@ projectFilesBackup/*
 .metadata/
 
 .tmp
-node_modules
+personal-api/node_modules
 */src/main/webapp/scripts/components

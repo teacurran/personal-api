@@ -18,7 +18,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || '.',
-    source: 'src/main/sourceapp',
+    source: 'src/main/webapp',
     dist: grunt.option('distdir')
   };
 
@@ -370,7 +370,8 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'scripts/{,*/}*.*',
+            'styles/{,*/}*.*'
           ]
         }, {
           expand: true,

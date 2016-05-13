@@ -13,6 +13,7 @@
 
 	<properties>
 		<webapp.dir>${project.build.directory}/${project.build.finalName}-exploded.war</webapp.dir>
+		<grunt.dist.dir>${project.build.directory}/grunt/dist</grunt.dist.dir>
 	</properties>
 
 	<dependencies>
@@ -186,98 +187,7 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
-
-			<plugin>
-				<groupId>nl.geodienstencentrum.maven</groupId>
-				<artifactId>sass-maven-plugin</artifactId>
-				<version>2.18</version>
-
-				<executions>
-					<execution>
-						<goals>
-							<goal>update-stylesheets</goal>
-							<goal>scss-lint</goal>
-						</goals>
-						<phase>process-resources</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<sassOptions>
-						<always_update>true</always_update>
-						<style>:expanded</style>
-						<debug_info>true</debug_info>
-					</sassOptions>
-					<useCompass>false</useCompass>
-					<resources>
-						<resource>
-							<source>
-								<directory>${basedir}/src/main/sourceapp/styles/scss</directory>
-								<includes>
-									<include>*.scss</include>
-								</includes>
-								<excludes/>
-							</source>
-							<destination>${basedir}/src/main/webapp/styles</destination>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.0</version>
-
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<phase>generate-resources</phase>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>bower install</id>
-						<goals>
-							<goal>bower</goal>
-						</goals>
-						<phase>generate-resources</phase>
-					</execution>
-					<execution>
-						<id>grunt build</id>
-						<goals>
-							<goal>grunt</goal>
-						</goals>
-
-						<!-- optional: the default phase is "generate-resources" -->
-						<phase>generate-resources</phase>
-
-						<configuration>
-							<!-- optional: if not specified, it will run Grunt's default
-                            task (and you can remove this whole <configuration> section.) -->
-							<arguments>build -v --distdir=${webapp.dir}</arguments>
-						</configuration>
-					</execution>
-				</executions>
-
-				<configuration>
-					<nodeVersion>v6.1.0</nodeVersion>
-					<npmVersion>2.12.1</npmVersion>
-					<installDirectory>target</installDirectory>
-				</configuration>
-
-			</plugin>
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
@@ -339,7 +249,7 @@
 							</excludes>
 						</resource>
 						<resource>
-							<directory>target/grunt/build/dist</directory>
+							<directory>${grunt.dist.dir}</directory>
 						</resource>
 					</webResources>
 				</configuration>
@@ -679,5 +589,103 @@
 			</build>
 		</profile>
 
+		<profile>
+			<id>frontend</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>nl.geodienstencentrum.maven</groupId>
+						<artifactId>sass-maven-plugin</artifactId>
+						<version>2.18</version>
+
+						<executions>
+							<execution>
+								<goals>
+									<goal>update-stylesheets</goal>
+									<goal>scss-lint</goal>
+								</goals>
+								<phase>process-resources</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<sassOptions>
+								<always_update>true</always_update>
+								<style>:expanded</style>
+								<debug_info>true</debug_info>
+							</sassOptions>
+							<useCompass>false</useCompass>
+							<resources>
+								<resource>
+									<source>
+										<directory>${basedir}/src/main/sourceapp/styles/scss</directory>
+										<includes>
+											<include>*.scss</include>
+										</includes>
+										<excludes/>
+									</source>
+									<destination>${basedir}/src/main/webapp/styles</destination>
+								</resource>
+							</resources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.0</version>
+
+						<executions>
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>bower install</id>
+								<goals>
+									<goal>bower</goal>
+								</goals>
+								<phase>generate-resources</phase>
+							</execution>
+							<execution>
+								<id>grunt build</id>
+								<goals>
+									<goal>grunt</goal>
+								</goals>
+
+								<!-- optional: the default phase is "generate-resources" -->
+								<phase>prepare-package</phase>
+
+								<configuration>
+									<!-- optional: if not specified, it will run Grunt's default
+									task (and you can remove this whole <configuration> section.) -->
+									<arguments>build -v --distdir=${grunt.dist.dir}</arguments>
+								</configuration>
+							</execution>
+						</executions>
+
+						<configuration>
+							<nodeVersion>v6.1.0</nodeVersion>
+							<npmVersion>2.12.1</npmVersion>
+							<installDirectory>target</installDirectory>
+						</configuration>
+
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
