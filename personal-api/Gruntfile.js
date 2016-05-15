@@ -281,15 +281,17 @@ module.exports = function (grunt) {
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
     // to use the Usemin blocks.
-     cssmin: {
-       dist: {
-         files: {
-           '<%= appConfig.dist %>/styles/main.css': [
-             '.tmp/styles/{,*/}*.css'
-           ]
-         }
-       }
-     },
+    cssmin: {
+        dist: {
+          files: [{
+            expand: true,
+            cwd: '<%= appConfig.dist %>/styles',
+            src: ['*.css'],
+            dest: '<%= appConfig.dist %>/styles',
+            ext: '.min.css'
+          }]
+        }
+    },
      uglify: {
        dist: {
          files: {
