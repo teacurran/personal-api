@@ -1,6 +1,7 @@
 package com.wirelust.personalapi.api.providers;
 
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -10,7 +11,6 @@ import com.wirelust.personalapi.api.exceptions.ApiException;
 import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.services.Configuration;
-import org.jboss.resteasy.spi.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
