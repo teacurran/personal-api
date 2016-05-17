@@ -18,14 +18,6 @@
 		<param-value>json : application/json, xml : application/xml</param-value>
 	</context-param>
 
-	<context-param>
-		<param-name>resteasy.providers</param-name>
-		<param-value>
-			io.swagger.jaxrs.listing.ApiListingResource,
-			io.swagger.jaxrs.listing.SwaggerSerializers
-		</param-value>
-	</context-param>
-
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -33,15 +25,13 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>SwaggerConfig</servlet-name>
-		<servlet-class>io.swagger.jaxrs.config.DefaultJaxrsConfig</servlet-class>
+		<servlet-name>SwaggerBootstrap</servlet-name>
+		<servlet-class>com.wirelust.personalapi.web.servlet.SwaggerBootstrap</servlet-class>
 		<init-param>
-			<param-name>api.version</param-name>
-			<param-value>1.0.0</param-value>
-		</init-param>
-		<init-param>
-			<param-name>swagger.api.basepath</param-name>
-			<param-value>http://localhost:8080/</param-value>
+			<!-- This make sure that all resources are scanned whether or not they use Swagger Annotations.
+			https://github.com/swagger-api/swagger-samples/tree/master/java/java-jaxrs-no-annotations -->
+			<param-name>scan.all.resources</param-name>
+			<param-value>true</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>

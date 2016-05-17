@@ -10,6 +10,7 @@ import com.wirelust.personalapi.api.providers.GeneralExceptionMapperProvider;
 import com.wirelust.personalapi.api.providers.JacksonConfigurationProvider;
 import com.wirelust.personalapi.api.providers.ValidationExceptionMapperProvider;
 import com.wirelust.personalapi.api.v1.resources.AccountResource;
+import com.wirelust.personalapi.api.v1.resources.SwaggerApiListingResource;
 
 
 /**
@@ -31,6 +32,9 @@ public class V1Application extends Application {
 		classes.add(ApplicationExceptionMapperProvider.class);
 		classes.add(ValidationExceptionMapperProvider.class);
 		classes.add(GeneralExceptionMapperProvider.class);
+
+		classes.add(SwaggerApiListingResource.class);
+		classes.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
 
 		return classes;
 	}
