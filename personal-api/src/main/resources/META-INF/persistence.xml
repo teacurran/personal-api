@@ -4,12 +4,7 @@
 	<persistence-unit name="personalapi" transaction-type="JTA">
 		<jta-data-source>personalapi-ds</jta-data-source>
 
-		<class>com.wirelust.personalapi.data.model.Account</class>
-		<class>com.wirelust.personalapi.data.model.AccountSetting</class>
-		<class>com.wirelust.personalapi.data.model.ApiApplication</class>
-		<class>com.wirelust.personalapi.data.model.LinkedService</class>
-
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 
 		<properties>

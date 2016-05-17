@@ -16,15 +16,12 @@ public class PluralNamingStrategy extends ImprovedNamingStrategy {
 
 	@Override
 	public String columnName(String columnName) {
-		if (columnName.startsWith("`") && columnName.endsWith("`")) {
-			return addUnderscores(columnName);
-		}
-		return "`" + addUnderscores(columnName) + "`";
+		return addUnderscores(columnName);
 	}
 
 	@Override
 	public String propertyToColumnName(String propertyName) {
-		return "`" + super.propertyToColumnName(propertyName) + "`";
+		return super.propertyToColumnName(propertyName);
 	}
 
 	@Override
