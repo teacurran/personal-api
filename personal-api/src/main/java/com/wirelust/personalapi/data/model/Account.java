@@ -148,10 +148,10 @@ public class Account implements java.io.Serializable {
 	protected String disabledReason;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	protected List<LinkedService> linkedServices = new ArrayList<LinkedService>(0);
+	protected ArrayList<LinkedService> linkedServices = new ArrayList<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	protected List<AccountSetting> settings = new ArrayList<AccountSetting>(0);
+	protected ArrayList<AccountSetting> settings = new ArrayList<>(0);
 
 	public Account() {
 		dateCreated = new Date();
@@ -291,7 +291,7 @@ public class Account implements java.io.Serializable {
 	}
 
 	public void setLinkedServices(List<LinkedService> linkedServices) {
-		this.linkedServices = linkedServices;
+		this.linkedServices = new ArrayList<>(linkedServices);
 	}
 
 	public String getPasswordSalt() {
@@ -307,7 +307,7 @@ public class Account implements java.io.Serializable {
 	}
 
 	public void setSettings(List<AccountSetting> settings) {
-		this.settings = settings;
+		this.settings = new ArrayList<>(settings);
 	}
 
 	public String getUsernameNormalized() {
