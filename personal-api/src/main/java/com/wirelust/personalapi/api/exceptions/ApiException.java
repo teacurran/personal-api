@@ -11,12 +11,7 @@ public class ApiException extends RuntimeException {
 
 	private static final long serialVersionUID = 2510224909561211312L;
 
-	private EnumErrorCode errorCode;
-
-	public ApiException() {
-
-		super();
-	}
+	private final EnumErrorCode errorCode;
 
 	public ApiException(
 		final EnumErrorCode inErrorCode) {
@@ -34,19 +29,6 @@ public class ApiException extends RuntimeException {
 	}
 
 	public ApiException(
-		final String inMessage ) {
-
-		super( inMessage );
-	}
-
-	public ApiException(
-		final String inMessage,
-		final Throwable inCause ) {
-
-		super( inMessage, inCause );
-	}
-
-	public ApiException(
 		final EnumErrorCode inErrorCode,
 		final String inMessage,
 		final Throwable inCause ) {
@@ -56,18 +38,9 @@ public class ApiException extends RuntimeException {
 		this.errorCode = inErrorCode;
 	}
 
-	public ApiException(
-		final Throwable inCause ) {
-
-		super( inCause );
-	}
-
 	public EnumErrorCode getErrorCode() {
 
 		return this.errorCode;
 	}
 
-	public void setErrorCode(EnumErrorCode errorCode) {
-		this.errorCode = errorCode;
-	}
 }

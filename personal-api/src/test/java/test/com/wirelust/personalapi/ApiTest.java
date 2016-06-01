@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 import com.wirelust.personalapi.api.v1.V1ApplicationClient;
 import com.wirelust.personalapi.api.v1.representations.AccountType;
-import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
+import com.wirelust.personalapi.api.v1.representations.ApiErrorType;
 import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.data.model.ApiApplication;
@@ -184,7 +184,7 @@ public class ApiTest {
 
 		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 
-		ApplicationErrorType error = response.readEntity(ApplicationErrorType.class);
+		ApiErrorType error = response.readEntity(ApiErrorType.class);
 		Assert.assertEquals(error.getCode().value(), EnumErrorCode.USERNAME_EXISTS.value());
 	}
 
@@ -205,7 +205,7 @@ public class ApiTest {
 				"Terrence Curran",
 				REG_INVITE_CODE);
 		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, badUsernameResponse.getStatus());
-		ApplicationErrorType accountError = badUsernameResponse.readEntity(ApplicationErrorType.class);
+		ApiErrorType accountError = badUsernameResponse.readEntity(ApiErrorType.class);
 		Assert.assertEquals(accountError.getCode().value(), EnumErrorCode.ILLEGAL_ARGUMENT_ERROR.value());
 		Assert.assertEquals(accountError.getParameterErrors().size(), 1);
 		Assert.assertEquals(accountError.getParameterErrors().get(0).getParameter(), "username");
@@ -220,7 +220,7 @@ public class ApiTest {
 				"Terrence Curran",
 				REG_INVITE_CODE);
 		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, badUsernameResponse.getStatus());
-		ApplicationErrorType emailError = badEmailResponse.readEntity(ApplicationErrorType.class);
+		ApiErrorType emailError = badEmailResponse.readEntity(ApiErrorType.class);
 
 		Assert.assertEquals(emailError.getCode().value(), EnumErrorCode.ILLEGAL_ARGUMENT_ERROR.value());
 		Assert.assertEquals(emailError.getParameterErrors().size(), 1);
@@ -234,8 +234,8 @@ public class ApiTest {
 				application.getUuid(),
 				REG_USER_1_USERNAME,
 				"Invalid password");
-		Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, responseWrongPassword.getStatus());
-		ApplicationErrorType error = responseWrongPassword.readEntity(ApplicationErrorType.class);
+		Assert.assertEquals(HttpServletResponse.SC_UNAUTHORIZED, responseWrongPassword.getStatus());
+		ApiErrorType error = responseWrongPassword.readEntity(ApiErrorType.class);
 		Assert.assertEquals(error.getCode().value(), EnumErrorCode.ACCOUNT_NOT_FOUND.value());
 
 		Response responseCorrectPassword = v1ApplicationClient.login(application.getUuid(),

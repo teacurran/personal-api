@@ -28,7 +28,6 @@ import com.wirelust.personalapi.util.StringUtils;
  * @Author T. Curran
  */
 @Entity
-@Access(AccessType.FIELD)
 @Cacheable
 @NamedQueries({
 		@NamedQuery(name = Account.QUERY_ALL,
@@ -147,10 +146,8 @@ public class Account implements java.io.Serializable {
 	@Basic
 	protected String disabledReason;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	protected ArrayList<LinkedService> linkedServices = new ArrayList<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	protected ArrayList<AccountSetting> settings = new ArrayList<>(0);
 
 	public Account() {
@@ -286,6 +283,7 @@ public class Account implements java.io.Serializable {
 		this.disabled = disabled;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	public List<LinkedService> getLinkedServices() {
 		return linkedServices;
 	}
@@ -302,6 +300,7 @@ public class Account implements java.io.Serializable {
 		this.passwordSalt = passwordSalt;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	public List<AccountSetting> getSettings() {
 		return settings;
 	}

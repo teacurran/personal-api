@@ -22,7 +22,6 @@ import javax.persistence.TemporalType;
  * @Author T. Curran
  */
 @Entity
-@Access( AccessType.FIELD )
 @Cacheable
 @NamedQueries({
 		@NamedQuery(name = LinkedService.QUERY_TYPE_SERVICEID,

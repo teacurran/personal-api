@@ -8,7 +8,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.wirelust.personalapi.api.exceptions.ApiException;
-import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
+import com.wirelust.personalapi.api.v1.representations.ApiErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.services.Configuration;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class GeneralExceptionMapperProvider
 
 		final Response response;
 
-		final ApplicationErrorType applicationError = new ApplicationErrorType();
+		final ApiErrorType applicationError = new ApiErrorType();
 
 		final Exception cause = this.resolveCause(inException);
 

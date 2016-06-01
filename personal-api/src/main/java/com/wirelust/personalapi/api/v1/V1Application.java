@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.wirelust.personalapi.api.providers.ApplicationExceptionMapperProvider;
+import com.wirelust.personalapi.api.providers.ApiExceptionMapperProvider;
 import com.wirelust.personalapi.api.providers.GeneralExceptionMapperProvider;
 import com.wirelust.personalapi.api.providers.JacksonConfigurationProvider;
 import com.wirelust.personalapi.api.providers.ValidationExceptionMapperProvider;
@@ -29,7 +29,7 @@ public class V1Application extends Application {
 
 		classes.add(JacksonConfigurationProvider.class);
 
-		classes.add(ApplicationExceptionMapperProvider.class);
+		classes.add(ApiExceptionMapperProvider.class);
 		classes.add(ValidationExceptionMapperProvider.class);
 		classes.add(GeneralExceptionMapperProvider.class);
 

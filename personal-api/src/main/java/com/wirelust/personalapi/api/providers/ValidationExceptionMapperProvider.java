@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.wirelust.personalapi.api.v1.representations.ApplicationErrorType;
+import com.wirelust.personalapi.api.v1.representations.ApiErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.api.v1.representations.ParameterErrorType;
 import com.wirelust.personalapi.locales.I18n;
@@ -52,7 +52,7 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 
 		final Response response;
 
-		final ApplicationErrorType applicationError = new ApplicationErrorType();
+		final ApiErrorType applicationError = new ApiErrorType();
 
 
 		if (inException instanceof ResteasyViolationException) {
@@ -129,7 +129,7 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 	}
 
 	private void handleResteasyViolation(final ResteasyViolationException inException,
-										 final ApplicationErrorType inError) {
+										 final ApiErrorType inError) {
 
 		inError.setCode(EnumErrorCode.ILLEGAL_ARGUMENT_ERROR);
 
