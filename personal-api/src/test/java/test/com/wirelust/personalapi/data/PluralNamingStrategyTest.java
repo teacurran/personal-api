@@ -21,10 +21,10 @@ public class PluralNamingStrategyTest {
 	@Test
 	public void shouldBeAbleToSetColumnName() {
 		// should add tick marks around column
-		Assert.assertEquals("`column`", namingStrategy.columnName("column"));
+		Assert.assertEquals("column", namingStrategy.columnName("column"));
 
 		// should convert camel case to snake case and add ticks
-		Assert.assertEquals("`column_name`", namingStrategy.columnName("columnName"));
+		Assert.assertEquals("column_name", namingStrategy.columnName("columnName"));
 
 		// should not add ticks if the column name already has them
 		Assert.assertEquals("`column_name`", namingStrategy.columnName("`columnName`"));
@@ -33,25 +33,25 @@ public class PluralNamingStrategyTest {
 	@Test
 	public void shouldBeAbleToConvertPropertyToColumnName() {
 		// should convert camel case to snake case and add ticks
-		Assert.assertEquals("`column_name`", namingStrategy.propertyToColumnName("columnName"));
+		Assert.assertEquals("column_name", namingStrategy.propertyToColumnName("columnName"));
 	}
 
 	@Test
 	public void shouldBeAbleToSetJoinColumnName() {
 		// should convert camel case to snake case and add ticks
-		Assert.assertEquals("`column_name`", namingStrategy.joinKeyColumnName("columnName", "table"));
+		Assert.assertEquals("column_name", namingStrategy.joinKeyColumnName("columnName", "table"));
 	}
 
 	@Test
 	public void shouldBeAbleToSetForeignKeyColumnName() {
 
-		Assert.assertEquals("`foreign_id`", namingStrategy.foreignKeyColumnName(
+		Assert.assertEquals("foreign_id", namingStrategy.foreignKeyColumnName(
 			"com.scholastic.test.Foreign",
 			"foreignObject",
 			null,
 			"id"));
 
-		Assert.assertEquals("`foreign_id`", namingStrategy.foreignKeyColumnName(
+		Assert.assertEquals("foreign_id", namingStrategy.foreignKeyColumnName(
 			null,
 			"foreignObject",
 			"foreign",
