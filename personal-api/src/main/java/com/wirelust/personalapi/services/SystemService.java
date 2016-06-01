@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
-import java.util.jar.Manifest;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,8 +28,6 @@ public class SystemService implements Serializable {
 	protected Properties versionProperties;
 
 	protected String hostName = null;
-
-	protected Manifest manifest;
 
 	public String getHostName() {
 		if (hostName != null) {
