@@ -33,7 +33,10 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 	public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
 			throws IllegalAccessException, InstantiationException, IOException {
 		String bundleName = toBundleName(baseName, locale);
-		ResourceBundle bundle = null;
+
+		LOGGER.info("Loading resource bundle:{} format:{}", bundleName, format);
+
+		ResourceBundle bundle;
 		switch (format) {
 			case "java.class":
 				try {
@@ -44,7 +47,7 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 					if (ResourceBundle.class.isAssignableFrom(bundleClass)) {
 
 						Class<? extends ResourceBundle> resourceBundleClass =
-								(Class<? extends ResourceBundle>)bundleClass;
+							(Class<? extends ResourceBundle>)bundleClass;
 
 						bundle = resourceBundleClass.newInstance();
 					} else {
@@ -57,28 +60,20 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 				}
 				break;
 			case "java.properties":
-				InputStream stream = null;
-				try {
-					stream = AccessController.doPrivileged(
+				try (InputStream stream  = AccessController.doPrivileged(
 							new PrivilegedInputStreamAccessAction(
 									reload,
 									toResourceName(bundleName, "properties"),
-									loader)
-					);
+									loader))) {
+
+					bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
+
 				} catch (PrivilegedActionException e) {
 					Exception unwrappedException = e.getException();
 					if (unwrappedException instanceof IOException) {
 						throw (IOException) unwrappedException;
 					}
 					throw new IOException(e);
-				}
-				if (stream != null) {
-					try {
-						// Only this line is changed to make it to read properties files as UTF-8.
-						bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
-					} finally {
-						stream.close();
-					}
 				}
 				break;
 			default:
