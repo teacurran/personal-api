@@ -8,13 +8,13 @@ import com.wirelust.personalapi.qualifiers.Localization;
 /**
  * Date: 14-03-2015
  *
- * @Author T. Curran
+ * @author T. Curran
  */
 public class Messages {
 
 	@Inject
 	@Localization
-	transient protected ResourceBundle locale;
+	protected ResourceBundle locale;
 
 	/**
 	 * @param key

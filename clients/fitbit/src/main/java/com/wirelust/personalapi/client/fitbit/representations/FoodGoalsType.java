@@ -1,7 +1,5 @@
 package com.wirelust.personalapi.client.fitbit.representations;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
-
 /**
  * 1/17/15
  *

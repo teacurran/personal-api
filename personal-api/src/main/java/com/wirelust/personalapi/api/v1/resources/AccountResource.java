@@ -107,7 +107,7 @@ public class AccountResource {
 
 			@NotNull
 			@Size(min = 5, max = 20)
-			@Pattern(regexp = PAConstants.ACCOUNT_PASSWORD_PATTERN)
+			@Pattern(regexp = PAConstants.ACCOUNT_AUTH_PATTERN)
 			@FormParam("password")
 			final String inPassword,
 
@@ -332,7 +332,7 @@ public class AccountResource {
 			String inEmail,
 
 			@Size(min = 5, max = 20)
-			@Pattern(regexp = PAConstants.ACCOUNT_PASSWORD_PATTERN)
+			@Pattern(regexp = PAConstants.ACCOUNT_AUTH_PATTERN)
 			@FormParam("password")
 			String inPassword,
 

@@ -14,6 +14,10 @@ public class StringUtils {
 	private static final char[] ALL_CHARS =
 		("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789").toCharArray();
 
+	private StringUtils() {
+		// utility class shouldn't be instantiated
+	}
+
 	/**
 	 * Performs a wildcard matching for the text and pattern provided.
 	 *
@@ -27,25 +31,24 @@ public class StringUtils {
 	 * @return <tt>true</tt> if a match is found, <tt>false</tt> otherwise.
 	 *
 	 */
-	public static boolean wildCardMatch(
-		String text,
-		final String pattern ) {
+	public static boolean wildCardMatch(final String text, final String pattern) {
 
 		// Create the cards by splitting using a RegEx. If more speed
 		// is desired, a simpler character based splitting can be done.
-		final String[] cards = pattern.split( "\\*" );
+		final String[] cards = pattern.split("\\*");
 
+		String operationText = text;
 		// Iterate over the cards.
-		for ( final String card : cards ) {
-			final int idx = text.indexOf( card );
+		for (final String card : cards) {
+			final int idx = operationText.indexOf(card);
 
 			// Card not detected in the text.
-			if ( idx == -1 ) {
+			if (idx == -1) {
 				return false;
 			}
 
 			// Move ahead, towards the right of the text.
-			text = text.substring( idx + card.length() );
+			operationText = operationText.substring(idx + card.length());
 		}
 
 		return true;
@@ -61,14 +64,13 @@ public class StringUtils {
 		return value.isEmpty();
 	}
 
-	public static String generateRandomString(
-		final String pattern ) {
+	public static String generateRandomString(final String pattern) {
 
-		if ( (pattern == null) || (pattern.length() == 0) ) {
+		if ((pattern == null) || (pattern.length() == 0)) {
 			return "";
 		}
 		final char[] patternChars = pattern.toCharArray();
-		final StringBuffer retVal = new StringBuffer( pattern.length() );
+		final StringBuilder retVal = new StringBuilder(pattern.length());
 		final java.util.Random rndGen = new java.util.Random();
 		for (char patternChar : patternChars) {
 			if (patternChar == '#') {

@@ -30,6 +30,7 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 		// default constructor because ResourceBundle.Control constructor is protected
 	}
 
+	@Override
 	public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
 			throws IllegalAccessException, InstantiationException, IOException {
 		String bundleName = toBundleName(baseName, locale);
@@ -99,6 +100,7 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 			this.classLoader = classLoader;
 		}
 
+		@Override
 		public InputStream run() throws IOException {
 			InputStream is = null;
 			if (reloadFlag) {

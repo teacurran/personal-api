@@ -9,6 +9,6 @@ public class PAConstants {
 
 	public static final String USERNAME_PATTERN = "^[A-Za-z0-9_]+$";
 
-	public static final String ACCOUNT_PASSWORD_PATTERN =
+	public static final String ACCOUNT_AUTH_PATTERN =
 			"^[A-Za-z0-9_\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\|\\~\\`\\+\\=\\[\\]\\{\\}\\|\\\\]+$";
 }

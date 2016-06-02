@@ -13,8 +13,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.wirelust.personalapi.api.v1.representations.AccountType;
-import com.wirelust.personalapi.api.v1.representations.AuthType;
 import com.wirelust.personalapi.util.PAConstants;
 import org.hibernate.validator.constraints.Email;
 
@@ -50,7 +48,7 @@ public interface V1ApplicationClient {
 
 			@NotNull
 			@Size(min = 5, max = 20)
-			@Pattern(regexp = PAConstants.ACCOUNT_PASSWORD_PATTERN)
+			@Pattern(regexp = PAConstants.ACCOUNT_AUTH_PATTERN)
 			@FormParam("password")
 			final String inPassword,
 

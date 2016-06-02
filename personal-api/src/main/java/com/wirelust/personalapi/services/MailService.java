@@ -3,9 +3,6 @@ package com.wirelust.personalapi.services;
 import java.io.Serializable;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Date: 6/23/11
  *
@@ -15,9 +12,6 @@ import org.slf4j.LoggerFactory;
 public class MailService implements Serializable {
 
 	private static final long serialVersionUID = 3572183154201772538L;
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
-
 
 	public void setTemplate(
 			final String template) {
