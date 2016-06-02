@@ -54,10 +54,37 @@ public class ResourceBundleProducerTest {
 	}
 
 	@Test
-	public void loadLocaleWithReload() throws Exception {
+	public void shouldBeAbleToloadLocaleWithReload() throws Exception {
 		UTF8ResourceBundleControl utf8ResourceBundleControl = new UTF8ResourceBundleControl();
-		localization = utf8ResourceBundleControl.newBundle("locales.I18n", Locale.US, "java.properties",
+		ResourceBundle loadedLocale = utf8ResourceBundleControl.newBundle("locales.I18n", Locale.US, "java.properties",
 			this.getClass().getClassLoader(), true);
-		Assert.assertEquals(APPLICATION_NAME, localization.getString("application.name"));
+		Assert.assertEquals(APPLICATION_NAME, loadedLocale.getString("application.name"));
 	}
+
+	@Test
+	public void shouldBeAbleToLoadResourceBundleClass() throws Exception {
+		UTF8ResourceBundleControl utf8ResourceBundleControl = new UTF8ResourceBundleControl();
+		ResourceBundle loadedBUndle = utf8ResourceBundleControl
+			.newBundle("test.com.wirelust.personalapi.util.TestResourceBundle", Locale.US, "java.class",
+				this.getClass().getClassLoader(), false);
+
+		Assert.assertEquals("value1", loadedBUndle.getString("test1"));
+	}
+
+	@Test(expected = ClassCastException.class)
+	public void shouldThrowClassCastExceptionOnNonResourceBundle() throws Exception {
+		UTF8ResourceBundleControl utf8ResourceBundleControl = new UTF8ResourceBundleControl();
+
+		utf8ResourceBundleControl.newBundle("test.com.wirelust.personalapi.util.TestNonResourceBundle",
+			Locale.US, "java.class", this.getClass().getClassLoader(), false);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldThrowIllegalArguementException() throws Exception {
+		UTF8ResourceBundleControl utf8ResourceBundleControl = new UTF8ResourceBundleControl();
+
+		utf8ResourceBundleControl.newBundle("test.com.wirelust.personalapi.util.TestResourceBundle",
+			Locale.US, "invalid.format", this.getClass().getClassLoader(), false);
+	}
+
 }
