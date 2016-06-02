@@ -38,7 +38,6 @@ public class ApiExceptionMapperProvider implements ExceptionMapper<ApiException>
 
 		final ApiErrorType apiErrorType = new ApiErrorType();
 
-
 		apiErrorType.setCode(inException.getErrorCode());
 		apiErrorType.setDetail(inException.getMessage());
 

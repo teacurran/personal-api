@@ -29,6 +29,7 @@ public class SwaggerApiListingResource extends ApiListingResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("swagger")
 	@ApiOperation(value = "The swagger definition in JSON", hidden = true)
+	@Override
 	public Response getListingJson(@Context Application app,
 								   @Context ServletConfig sc,
 								   @Context HttpHeaders headers,

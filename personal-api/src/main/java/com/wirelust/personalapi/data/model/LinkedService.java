@@ -2,8 +2,6 @@ package com.wirelust.personalapi.data.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
@@ -31,8 +29,6 @@ import javax.persistence.TemporalType;
 	}
 )
 public class LinkedService implements Serializable {
-
-	public static final String TYPE_fitbit = "fitbit";
 
 	public static final String QUERY_TYPE_SERVICEID = "LinkedService.getByTypeServiceId";
 

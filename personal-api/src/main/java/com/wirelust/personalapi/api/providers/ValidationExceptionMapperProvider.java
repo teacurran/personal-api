@@ -35,7 +35,7 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationExceptionMapperProvider.class);
 	private static final String METHOD_CAUSE_PACKAGE = "com.wirelust.personalapi.api.v1.resources.";
-	private static Pattern ARGUMENT_PATTERN = Pattern.compile("^(.*)\\..*(\\d)$");
+	private static final Pattern ARGUMENT_PATTERN = Pattern.compile("^(.*)\\..*(\\d)$");
 
 	@Inject
 	Configuration configuration;
@@ -54,17 +54,11 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 
 		final ApiErrorType applicationError = new ApiErrorType();
 
-
 		if (inException instanceof ResteasyViolationException) {
 			handleResteasyViolation((ResteasyViolationException)inException, applicationError);
 		}
 
-		// TODO: look up error text from configuration
 		EnumErrorCode errorCode = applicationError.getCode();
-		if (errorCode == null) {
-			errorCode = EnumErrorCode.GENERIC_ERROR;
-		}
-
 		applicationError.setText(locale.getString("api.v1.error." + errorCode.value()));
 
 		// Initialize the entity response
@@ -74,28 +68,6 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 			.getCode(), applicationError.getDetail());
 
 		return response;
-	}
-
-	public static int resolveStatus(final EnumErrorCode inErrorCode) {
-
-		final int status;
-		switch (inErrorCode) {
-			case RESOURCE_NOT_FOUND:
-				status = Response.Status.NOT_FOUND.getStatusCode();
-				break;
-			case REPRESENTATION_PARSE_ERROR:
-			case REPRESENTATION_FORMAT_ERROR:
-				status = Response.Status.BAD_REQUEST.getStatusCode();
-				break;
-			case ILLEGAL_ARGUMENT_ERROR:
-				status = Response.Status.BAD_REQUEST.getStatusCode();
-				break;
-			default:
-				status = Response.Status.INTERNAL_SERVER_ERROR.getStatusCode();
-				break;
-		}
-
-		return status;
 	}
 
 	private Method resolveMethodCause(final Exception inException) {
@@ -108,22 +80,32 @@ public class ValidationExceptionMapperProvider implements ExceptionMapper<Valida
 
 			// strip off everything before the $ in the case that the class was proxied
 			if (className.contains("$")) {
-				className = className.substring(0, className.indexOf("$"));
+				className = className.substring(0, className.indexOf('$'));
 			}
-			try {
-				Class causeClass = Class.forName(className);
-				// look for the first method of the name.
-				// warning: this means that all of our resource methods have to be unique
-				// overloaded method names will cause us to get the wrong one.
-				for (Method thisMethod : causeClass.getMethods()) {
-					if (thisMethod.getName().equals(stackTraceElement.getMethodName())) {
-						return thisMethod;
-					}
+			return findMethodByName(className, stackTraceElement.getMethodName());
+		}
+		return null;
+	}
+
+	/**
+	 * Finds a method by name within a class.
+	 * warning: this means that all of our resource methods have to be unique
+	 * overloaded method names will cause us to get the wrong one.
+	 * @param methodName the method name to look for
+	 * @param className the class to look at
+	 * @return the method that was found or null if not found
+	 */
+	private Method findMethodByName(final String className, final String methodName) {
+		try {
+			Class causeClass = Class.forName(className);
+			for (Method thisMethod : causeClass.getMethods()) {
+				if (thisMethod.getName().equals(methodName)) {
+					return thisMethod;
 				}
-				return null;
-			} catch (ClassNotFoundException cnfe) {
-				LOGGER.error("unable to find class:{}", className, cnfe);
 			}
+			return null;
+		} catch (ClassNotFoundException cnfe) {
+			LOGGER.error("unable to find class:{}", className, cnfe);
 		}
 		return null;
 	}

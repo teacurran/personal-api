@@ -1,5 +1,6 @@
 package com.wirelust.personalapi.api.providers;
 
+import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
@@ -10,6 +11,7 @@ import javax.ws.rs.ext.Provider;
 import com.wirelust.personalapi.api.exceptions.ApiException;
 import com.wirelust.personalapi.api.v1.representations.ApiErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
+import com.wirelust.personalapi.qualifiers.Localization;
 import com.wirelust.personalapi.services.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,24 +30,9 @@ public class GeneralExceptionMapperProvider
 	@Inject
 	Configuration configuration;
 
-	public GeneralExceptionMapperProvider() {
-	}
-
-	private Exception resolveCause(
-			final Exception inException) {
-
-		// Unwrap container exception?
-		if (inException instanceof WebApplicationException) {
-			// Is there an associated cause?
-			if ((inException.getCause() != null)
-					&& (inException.getCause() instanceof Exception)) {
-				// Return the cause
-				return (Exception) inException.getCause();
-			}
-		}
-
-		return inException;
-	}
+	@Inject
+	@Localization
+	ResourceBundle localization;
 
 	@Override
 	public Response toResponse(
@@ -77,13 +64,8 @@ public class GeneralExceptionMapperProvider
 			LOGGER.error("unmapped exception", cause);
 		}
 
-		// TODO: look up error text from configuration
 		EnumErrorCode errorCode = applicationError.getCode();
-		if (errorCode == null) {
-			errorCode = EnumErrorCode.GENERIC_ERROR;
-		}
-		// TODO: get the message from I18N
-		//applicationError.setText(configuration.getMessage("api.v1.error." + errorCode.value(), errorCode.name()));
+		applicationError.setText(localization.getString("api.v1.error." + errorCode.value()));
 
 		LOGGER.debug(
 				"Initialized application error response: code=[{}] message=[{}]",
@@ -91,9 +73,7 @@ public class GeneralExceptionMapperProvider
 				applicationError.getDetail());
 
 		// Initialize the entity response
-		response =
-				Response.status(GeneralExceptionMapperProvider.resolveStatus(applicationError.getCode()))
-						.entity(applicationError).build();
+		response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(applicationError).build();
 
 		LOGGER.debug(
 				"Returning error response: status=[{}] entity=[{}]",
@@ -104,27 +84,20 @@ public class GeneralExceptionMapperProvider
 		return response;
 	}
 
-	public static int resolveStatus(
-			final EnumErrorCode inErrorCode) {
+	private Exception resolveCause(
+			final Exception inException) {
 
-		final int status;
-		switch (inErrorCode) {
-			case RESOURCE_NOT_FOUND:
-				status = Response.Status.NOT_FOUND.getStatusCode();
-				break;
-			case REPRESENTATION_PARSE_ERROR:
-			case REPRESENTATION_FORMAT_ERROR:
-				status = Response.Status.BAD_REQUEST.getStatusCode();
-				break;
-			case ILLEGAL_ARGUMENT_ERROR:
-				status = Response.Status.BAD_REQUEST.getStatusCode();
-				break;
-			default:
-				status = Response.Status.INTERNAL_SERVER_ERROR.getStatusCode();
-				break;
+		// Unwrap container exception?
+		if (inException instanceof WebApplicationException) {
+			// Is there an associated cause?
+			if ((inException.getCause() != null)
+					&& (inException.getCause() instanceof Exception)) {
+				// Return the cause
+				return (Exception) inException.getCause();
+			}
 		}
 
-		return status;
+		return inException;
 	}
 
 }

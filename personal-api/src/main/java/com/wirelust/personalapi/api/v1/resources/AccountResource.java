@@ -47,7 +47,7 @@ public class AccountResource {
 	password.  It will get past validation but not set the password to the user's account.
 	This is a UX edge case because of how we are implementing various oAuth providers.
 	 */
-	public static final String PASSWORD_BYPASS_STRING = "8fkjd6jXG392knd927ur98oijljKHjhjj66kjhkSDSWEXF";
+	public static final String BYPASS_STRING_KEY = "account.bypass";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
 
@@ -161,7 +161,7 @@ public class AccountResource {
 		account.setEmail(inEmail);
 		account.setFullName(inFullName);
 
-		if (!inPassword.equals(AccountResource.PASSWORD_BYPASS_STRING)) {
+		if (!inPassword.equals(configuration.getSetting(BYPASS_STRING_KEY))) {
 			accountService.setPassword(account, inPassword);
 		}
 

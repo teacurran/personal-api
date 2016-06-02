@@ -99,7 +99,7 @@ public class ApiErrorType {
 
 	public List<ParameterErrorType> getParameterErrors() {
 		if (parameterErrors == null) {
-			parameterErrors = new ArrayList<ParameterErrorType>();
+			parameterErrors = new ArrayList<>();
 		}
 		return parameterErrors;
 	}
@@ -110,7 +110,7 @@ public class ApiErrorType {
 
 	public void addParameterError(ParameterErrorType error) {
 		if (parameterErrors == null) {
-			parameterErrors = new ArrayList<ParameterErrorType>();
+			parameterErrors = new ArrayList<>();
 		}
 		parameterErrors.add(error);
 	}

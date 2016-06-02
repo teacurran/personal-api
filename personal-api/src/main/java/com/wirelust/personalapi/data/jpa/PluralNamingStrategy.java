@@ -20,11 +20,6 @@ public class PluralNamingStrategy extends ImprovedNamingStrategy {
 	}
 
 	@Override
-	public String propertyToColumnName(String propertyName) {
-		return super.propertyToColumnName(propertyName);
-	}
-
-	@Override
 	public String joinKeyColumnName(String joinedColumn, String joinedTable) {
 		return columnName( joinedColumn );
 	}
@@ -48,9 +43,9 @@ public class PluralNamingStrategy extends ImprovedNamingStrategy {
 			final String className) {
 
 		final String tableName = super.classToTableName(className);
-		if (tableName.contains("_")) {
-			String toPlural = tableName.substring(tableName.lastIndexOf("_") + 1);
-			final String prefix = tableName.substring(0, tableName.lastIndexOf("_"));
+		if (tableName.lastIndexOf('_') > -1) {
+			String toPlural = tableName.substring(tableName.lastIndexOf('_') + 1);
+			final String prefix = tableName.substring(0, tableName.lastIndexOf('_'));
 			toPlural = Noun.pluralOf(toPlural);
 			final String combined = prefix + "_" + toPlural;
 			return this.toLowerCase(combined);
@@ -73,7 +68,7 @@ public class PluralNamingStrategy extends ImprovedNamingStrategy {
 	private String unqualify(
 			final String qualifiedName) {
 
-		final int loc = qualifiedName.lastIndexOf(".");
+		final int loc = qualifiedName.lastIndexOf('.');
 		return (loc < 0) ? qualifiedName : qualifiedName.substring(loc + 1);
 	}
 }

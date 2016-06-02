@@ -3,7 +3,6 @@ package com.wirelust.personalapi.data.model;
 import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

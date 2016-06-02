@@ -1,7 +1,5 @@
 package com.wirelust.personalapi.client.fitbit.representations;
 
-import java.util.List;
-
 /**
  * 1/19/15
  *

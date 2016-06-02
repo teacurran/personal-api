@@ -5,6 +5,8 @@ import com.wirelust.personalapi.util.PAConstants;
 import com.wirelust.personalapi.util.StringUtils;
 import org.apache.deltaspike.data.api.AbstractEntityRepository;
 import org.apache.deltaspike.data.api.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Date: 5/22/15
@@ -13,6 +15,8 @@ import org.apache.deltaspike.data.api.Repository;
  */
 @Repository
 public abstract class AccountRepository extends AbstractEntityRepository<Account, Long> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(AccountRepository.class);
 
 	public abstract Account findAnyByEmail(final String inEmail);
 
@@ -27,7 +31,8 @@ public abstract class AccountRepository extends AbstractEntityRepository<Account
 			account = findBy(Long.parseLong(inAccountId));
 			return account;
 		} catch (NumberFormatException nfe) {
-			// do nothing, perhaps they passed in a username;
+			// do nothing, perhaps they passed in a username
+			LOGGER.debug("account is not numeric, switching to username check");
 		}
 
 		account = findAnyByUsername(inAccountId);
@@ -41,7 +46,7 @@ public abstract class AccountRepository extends AbstractEntityRepository<Account
 
 	public boolean usernameExists(final String inUsername) {
 		Account restrictedUsername = findAnyByUsernameNormalized(StringUtils.normalizeUsername(inUsername));
-		return (restrictedUsername != null);
+		return restrictedUsername != null;
 	}
 
 	public boolean usernameIsValid(final String inUsername) {
