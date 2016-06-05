@@ -33,8 +33,9 @@ import org.slf4j.LoggerFactory;
 @Provider
 public class ValidationExceptionMapperProvider implements ExceptionMapper<ValidationException> {
 
+	public static final String METHOD_CAUSE_PACKAGE = "com.wirelust.personalapi.api.v1.resources.";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationExceptionMapperProvider.class);
-	private static final String METHOD_CAUSE_PACKAGE = "com.wirelust.personalapi.api.v1.resources.";
 	private static final Pattern ARGUMENT_PATTERN = Pattern.compile("^(.*)\\..*(\\d)$");
 
 	@Inject

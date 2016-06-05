@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.wirelust.personalapi.api.exceptions.ApiException;
 import com.wirelust.personalapi.api.v1.representations.ApiErrorType;
 import com.wirelust.personalapi.api.v1.representations.EnumErrorCode;
 import com.wirelust.personalapi.qualifiers.Localization;
@@ -50,12 +49,6 @@ public class GeneralExceptionMapperProvider
 
 			applicationError.setCode(EnumErrorCode.RESOURCE_NOT_FOUND);
 
-		} else if (cause instanceof ApiException) {
-
-			final ApiException apiException = (ApiException) cause;
-			applicationError.setCode(apiException.getErrorCode());
-			applicationError.setDetail(apiException.getMessage());
-
 		} else {
 
 			applicationError.setCode(EnumErrorCode.GENERIC_ERROR);
@@ -73,7 +66,7 @@ public class GeneralExceptionMapperProvider
 				applicationError.getDetail());
 
 		// Initialize the entity response
-		response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(applicationError).build();
+		response = Response.status(applicationError.getCode().responseStatus()).entity(applicationError).build();
 
 		LOGGER.debug(
 				"Returning error response: status=[{}] entity=[{}]",
@@ -88,13 +81,12 @@ public class GeneralExceptionMapperProvider
 			final Exception inException) {
 
 		// Unwrap container exception?
-		if (inException instanceof WebApplicationException) {
-			// Is there an associated cause?
-			if ((inException.getCause() != null)
-					&& (inException.getCause() instanceof Exception)) {
-				// Return the cause
-				return (Exception) inException.getCause();
-			}
+		// Is there an associated cause?
+		if (inException instanceof WebApplicationException
+			&& inException.getCause() != null
+			&& (inException.getCause() instanceof Exception)) {
+			// Return the cause
+			return (Exception) inException.getCause();
 		}
 
 		return inException;
