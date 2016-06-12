@@ -15,7 +15,6 @@ import com.wirelust.personalapi.services.AccountService;
 import com.wirelust.personalapi.data.repositories.AuthorizationRepository;
 import com.wirelust.personalapi.services.Configuration;
 import com.wirelust.personalapi.util.PAConstants;
-import com.wirelust.personalapi.util.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +73,6 @@ public class AccountResource {
 	 * <p/>
 	 * Registers a new account with the site.
 	 *
-	 * @param inAccessCode restricted API access code
 	 * @param inClientId   application id
 	 * @param inUsername   the requested username
 	 * @param inEmail      the user's email address.
@@ -137,7 +135,7 @@ public class AccountResource {
 		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
-			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS);
 		}
 
 		// Check for an account by email address to make sure it doesn't already exist
@@ -184,17 +182,14 @@ public class AccountResource {
 			@FormParam("username")
 			final String inUsername) {
 
-		// Normalize the username
-		String usernameNormalized = StringUtils.normalizeUsername(inUsername);
-
 		if (accountRepository.usernameExists(inUsername)) {
-			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS);
 		}
 
 		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
-			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS);
 		}
 
 		// check to make sure the username is valid
@@ -207,7 +202,6 @@ public class AccountResource {
 	/**
 	 * [ restricted ]
 	 *
-	 * @param inAccessCode access code
 	 * @param inClientId   application id
 	 * @param inUsername   Username or email address of account
 	 * @param inPassword   password
@@ -217,10 +211,6 @@ public class AccountResource {
 	@POST
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public AuthType login(
-			@NotNull
-			@FormParam("accessCode")
-			final String inAccessCode,
-
 			@NotNull
 			@FormParam("client_id")
 			final String inClientId,
@@ -331,6 +321,7 @@ public class AccountResource {
 			@FormParam("timezone")
 			Integer inTimezone) {
 
+		throw new ApiException(EnumErrorCode.NOT_IMPLEMENTED);
 	}
 
 	/**
@@ -355,8 +346,7 @@ public class AccountResource {
 
 			@FormParam("value") String inValue) {
 
-		// TODO: Implement
-
+		throw new ApiException(EnumErrorCode.NOT_IMPLEMENTED);
 	}
 
 	/**
