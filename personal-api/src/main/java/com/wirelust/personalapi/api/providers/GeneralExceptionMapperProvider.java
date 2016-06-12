@@ -87,6 +87,13 @@ public class GeneralExceptionMapperProvider
 			&& (inException.getCause() instanceof Exception)) {
 			// Return the cause
 			return (Exception) inException.getCause();
+		// Is there an associated cause?
+		if (inException instanceof WebApplicationException
+			&& inException.getCause() != null
+			&& inException.getCause() instanceof Exception) {
+
+			// Return the cause
+			return (Exception) inException.getCause();
 		}
 
 		return inException;

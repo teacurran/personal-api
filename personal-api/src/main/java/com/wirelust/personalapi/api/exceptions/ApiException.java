@@ -21,19 +21,9 @@ public class ApiException extends RuntimeException {
 
 	public ApiException(
 		final EnumErrorCode inErrorCode,
-		final String inMessage) {
-
-		super(inMessage, null);
-
-		this.errorCode = inErrorCode;
-	}
-
-	public ApiException(
-		final EnumErrorCode inErrorCode,
-		final String inMessage,
 		final Throwable inCause ) {
 
-		super( inMessage, inCause );
+		super( inErrorCode.name(), inCause );
 
 		this.errorCode = inErrorCode;
 	}

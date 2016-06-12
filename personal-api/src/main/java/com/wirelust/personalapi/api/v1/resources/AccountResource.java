@@ -87,10 +87,6 @@ public class AccountResource {
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public AuthType register(
 			@NotNull
-			@FormParam("accessCode")
-			final String inAccessCode,
-
-			@NotNull
 			@FormParam("client_id")
 			final String inClientId,
 
@@ -122,13 +118,6 @@ public class AccountResource {
 
 		LOGGER.debug("register()");
 
-		String testingAccessCode = configuration.getSetting("accesscode.testing", "");
-		// TODO: re-implement access codes
-		//if (!testingAccessCode.equals(inAccessCode)
-		//		&& !sessionService.getAccessCode().equals(inAccessCode)) {
-		//	throw new ApiException(EnumErrorCode.ACCESS_CODE_INVALID);
-		//}
-
 		ApiApplication apiApplication = apiApplicationRepository.findBy(inClientId);
 		if (apiApplication == null) {
 			throw new ApiException(EnumErrorCode.CLIENT_ID_INVALID);
@@ -148,7 +137,7 @@ public class AccountResource {
 		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
-			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, null);
 		}
 
 		// Check for an account by email address to make sure it doesn't already exist
@@ -199,13 +188,13 @@ public class AccountResource {
 		String usernameNormalized = StringUtils.normalizeUsername(inUsername);
 
 		if (accountRepository.usernameExists(inUsername)) {
-			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, null);
 		}
 
 		if (restrictedUsernameRepository.isRestricted(inUsername)) {
 			// we're throwing username_exists because we
 			// don't want the end user to know that this username is restricted.
-			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, "username exists", null);
+			throw new ApiException(EnumErrorCode.USERNAME_EXISTS, null);
 		}
 
 		// check to make sure the username is valid
