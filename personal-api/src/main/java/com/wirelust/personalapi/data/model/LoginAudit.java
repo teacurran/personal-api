@@ -42,10 +42,6 @@ public class LoginAudit implements Serializable {
 	@Basic
 	private String ipAddress;
 
-	public LoginAudit() {
-
-	}
-
 	public LoginAudit(
 		final Account account,
 		final Boolean isSuccessful ) {

@@ -35,7 +35,7 @@ public class AccountService implements Serializable {
 	@Inject
 	Messages messages;
 
-	public void setPassword(Account inAccount, String inPassword) throws ServiceException {
+	public void setPassword(Account inAccount, String inPassword) {
 		if (inAccount == null) {
 			return;
 		}
@@ -79,7 +79,7 @@ public class AccountService implements Serializable {
 				messages.getMessage("email.passwordreset.subject", "Shortvid - password reset"));
 	}
 
-	public boolean checkPassword(Account inAccount, String inPassword) throws ServiceException {
+	public boolean checkPassword(Account inAccount, String inPassword) {
 		if (inAccount == null || inPassword == null) {
 			return false;
 		}

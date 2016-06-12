@@ -17,6 +17,6 @@ public abstract class RestrictedUsernameRepository extends AbstractEntityReposit
 
 	public boolean isRestricted(final String username) {
 		RestrictedUsername restrictedUsername = findAnyByUsernameNormalized(StringUtils.normalizeUsername(username));
-		return (restrictedUsername != null);
+		return restrictedUsername != null;
 	}
 }

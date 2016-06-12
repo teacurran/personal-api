@@ -10,6 +10,10 @@ import com.wirelust.personalapi.data.model.Account;
  */
 public class AccountHelper {
 
+	private AccountHelper() {
+		// class is static only
+	}
+
 	public static AccountType toRepresentation(Account account) {
 		return toRepresentation(account, false);
 	}

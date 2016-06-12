@@ -154,7 +154,7 @@ public class Account implements java.io.Serializable {
 	}
 
 	public LinkedService getLinkedService(final String inService) {
-		if (linkedServices != null && linkedServices.size() > 0) {
+		if (linkedServices != null && linkedServices.isEmpty()) {
 			for (LinkedService ls : linkedServices) {
 				if (inService.equals(ls.getType())) {
 					return ls;
@@ -167,10 +167,6 @@ public class Account implements java.io.Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 		this.setUsernameNormalized(StringUtils.normalizeUsername(username));
-	}
-
-	public String toString() {
-		return getUsername();
 	}
 
 	public Long getId() {

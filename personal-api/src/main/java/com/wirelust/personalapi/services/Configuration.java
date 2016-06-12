@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -45,10 +44,6 @@ public class Configuration implements Serializable {
 	Boolean fitbitSync;
 	String fitbitSchedule;
 
-	public Configuration() {
-
-	}
-
 	@PostConstruct
 	public void init() {
 		// load default properties
@@ -81,19 +76,8 @@ public class Configuration implements Serializable {
 			throw new ServiceException("Error initializing config, unable to load property file:" + configFileName);
 		}
 
-		try {
-			configuredProperties.load(configInputStream);
-			bindProperties(configuredProperties, "configured");
-		} catch (IOException e) {
-			throw new ServiceException(e);
-		} finally {
-			try {
-				configInputStream.close();
-			} catch (IOException ioe) {
-				// nothing we can really do here
-				LOGGER.error("error closing input stream", ioe);
-			}
-		}
+		loadFromInputStreamAndClose(configInputStream);
+
 		LOGGER.info("env properties loaded:{}", configuredProperties.toString());
 	}
 
@@ -193,4 +177,21 @@ public class Configuration implements Serializable {
 			}
 		}
 	}
+
+	private void loadFromInputStreamAndClose(InputStream inputStream) {
+		try {
+			configuredProperties.load(inputStream);
+			bindProperties(configuredProperties, "configured");
+		} catch (IOException e) {
+			throw new ServiceException(e);
+		} finally {
+			try {
+				inputStream.close();
+			} catch (IOException ioe) {
+				// nothing we can really do here
+				LOGGER.error("error closing input stream", ioe);
+			}
+		}
+	}
+
 }

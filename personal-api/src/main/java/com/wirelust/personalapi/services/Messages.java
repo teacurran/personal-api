@@ -28,7 +28,10 @@ public class Messages {
 			final Object... params) {
 
 		if (locale.containsKey(key)) {
-			return locale.getString(key);
+			if (params == null) {
+				return locale.getString(key);
+			}
+			return String.format(locale.getString(key), params);
 		}
 		return defaultValue;
 	}

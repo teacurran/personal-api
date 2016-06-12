@@ -60,6 +60,6 @@ public class FitbitSyncJob {
 
 	@Timeout
 	public void timeout(Timer timer) {
-		LOGGER.info("Fitbit sync timer timeout");
+		LOGGER.info("Fitbit sync timer timeout. next timeout: {}", timer.getNextTimeout());
 	}
 }
