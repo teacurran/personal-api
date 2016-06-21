@@ -31,7 +31,7 @@
 		<version.ee>1.0.2.Final</version.ee>
 		<version.findbugs>3.0.0</version.findbugs>
 		<version.findbugs.maven>3.0.0</version.findbugs.maven>
-		<version.hibernate>4.3.7.Final</version.hibernate>
+		<version.hibernate>5.0.7.Final</version.hibernate>
 		<!-- Hibernate Tools requires a different version than what is shipped with the app serever-->
 		<version.hibernate.tools>4.3.1-CR1</version.hibernate.tools>
 		<version.hibernate.tools.hibernate>4.0.1.Final</version.hibernate.tools.hibernate>
