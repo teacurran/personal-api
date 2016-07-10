@@ -19,6 +19,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class AccountHelperTest {
 
+	Date dateCreated = new Date(new Date().getTime() - 10000);
+	Date dateModified =  new Date(new Date().getTime() - 90000);
+	Date dateLogin =  new Date(new Date().getTime() - 80000);
+
 	/**
 	 * This method simply instantiates a private constructor to ensure code coverage for it so the
 	 * coverage reports aren't diminished
@@ -33,12 +37,11 @@ public class AccountHelperTest {
 
 	@Test
 	public void shouldTransformAccountToAccountType() {
-		Date dateCreated = new Date(new Date().getTime() - 10000);
-		Date dateModified =  new Date(new Date().getTime() - 90000);
-		Date dateLogin =  new Date(new Date().getTime() - 80000);
-
 		Account account = new Account();
+		account.setId(1234L);
 		account.setAdmin(true);
+		account.setUsername("username");
+		account.setFullName("Full Name");
 		account.setAvatar("avatar");
 		account.setBackground("background");
 		account.setBio("bio");
@@ -47,6 +50,27 @@ public class AccountHelperTest {
 		account.setDateLogin(dateLogin);
 
 		AccountType accountType = AccountHelper.toRepresentation(account);
+
+		assertEquals(account.getId(), accountType.getId());
+		assertEquals(account.getUsername(), accountType.getUsername());
+		assertEquals(account.getFullName(), accountType.getRealName());
+		assertEquals(account.getAvatar(), accountType.getAvatar());
+	}
+
+	@Test
+	public void shouldTransformAccountToExtendedAccountType() {
+
+		Account account = new Account();
+		account.setId(1234L);
+		account.setAdmin(true);
+		account.setAvatar("avatar");
+		account.setBackground("background");
+		account.setBio("bio");
+		account.setDateCreated(dateCreated);
+		account.setDateModified(dateModified);
+		account.setDateLogin(dateLogin);
+
+		AccountType accountType = AccountHelper.toExtendedRepresentation(account);
 
 		assertEquals(account.getAvatar(), accountType.getAvatar());
 		assertEquals(account.getBackground(), accountType.getBackground());

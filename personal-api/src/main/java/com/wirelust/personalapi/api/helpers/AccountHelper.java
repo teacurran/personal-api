@@ -18,7 +18,11 @@ public class AccountHelper {
 		return toRepresentation(account, false);
 	}
 
-	public static AccountType toRepresentation(Account account, boolean withExtended) {
+	public static AccountType toExtendedRepresentation(Account account) {
+		return toRepresentation(account, true);
+	}
+
+	private static AccountType toRepresentation(Account account, boolean withExtended) {
 		if (account == null) {
 			return null;
 		}

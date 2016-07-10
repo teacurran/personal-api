@@ -161,7 +161,7 @@ public class AccountResource {
 		AuthType authType = new AuthType();
 		authType.setToken(authorization.getToken());
 		authType.setCreated(authorization.getDateCreated());
-		authType.setAccount(AccountHelper.toRepresentation(account, true));
+		authType.setAccount(AccountHelper.toExtendedRepresentation(account));
 
 		return authType;
 	}
@@ -248,7 +248,7 @@ public class AccountResource {
 		AuthType authType = new AuthType();
 		authType.setToken(authorization.getToken());
 		authType.setCreated(authorization.getDateCreated());
-		authType.setAccount(AccountHelper.toRepresentation(account, true));
+		authType.setAccount(AccountHelper.toExtendedRepresentation(account));
 
 		return authType;
 	}
@@ -394,7 +394,7 @@ public class AccountResource {
 			}
 		}
 
-		AccountType at = AccountHelper.toRepresentation(account, true);
+		AccountType at = AccountHelper.toExtendedRepresentation(account);
 
 		if (account.getId().equals(authAccount.getId())) {
 			at.setEmail(account.getEmail());
