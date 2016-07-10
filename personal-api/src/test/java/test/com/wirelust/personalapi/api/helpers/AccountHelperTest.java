@@ -10,6 +10,7 @@ import com.wirelust.personalapi.data.model.Account;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -34,6 +35,12 @@ public class AccountHelperTest {
 		constructor.setAccessible(true);
 		constructor.newInstance();
 	}
+
+	@Test
+	public void shouldReturnNullWhenPassedNull() {
+		assertNull(AccountHelper.toRepresentation(null));
+	}
+
 
 	@Test
 	public void shouldTransformAccountToAccountType() {
