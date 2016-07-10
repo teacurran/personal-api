@@ -10,7 +10,7 @@ import com.wirelust.personalapi.data.model.Authorization;
 import com.wirelust.personalapi.data.repositories.AccountRepository;
 import com.wirelust.personalapi.data.repositories.ApiApplicationRepository;
 import com.wirelust.personalapi.data.repositories.RestrictedUsernameRepository;
-import com.wirelust.personalapi.helpers.AccountHelper;
+import com.wirelust.personalapi.api.helpers.AccountHelper;
 import com.wirelust.personalapi.services.AccountService;
 import com.wirelust.personalapi.data.repositories.AuthorizationRepository;
 import com.wirelust.personalapi.services.Configuration;

@@ -1,4 +1,4 @@
-package com.wirelust.personalapi.helpers;
+package com.wirelust.personalapi.api.helpers;
 
 import com.wirelust.personalapi.api.v1.representations.AccountType;
 import com.wirelust.personalapi.data.model.Account;
