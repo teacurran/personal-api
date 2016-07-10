@@ -1,5 +1,7 @@
 package com.wirelust.personalapi.api.helpers;
 
+import java.util.Date;
+
 import com.wirelust.personalapi.api.v1.representations.AccountType;
 import com.wirelust.personalapi.data.model.Account;
 
@@ -36,7 +38,10 @@ public class AccountHelper {
 		if (withExtended) {
 			at.setBackground(account.getBackground());
 			at.setBio(account.getBio());
-			at.setDateCreated(account.getDateCreated());
+			at.setDateCreated(account.getDateCreated() == null ? null : new Date(account.getDateCreated().getTime()));
+			at.setDateModified(account.getDateModified() == null ? null
+				: new Date(account.getDateModified().getTime()));
+			at.setDateLogin(account.getDateLogin() == null ? null : new Date(account.getDateLogin().getTime()));
 			at.setLocation(account.getLocation());
 			at.setTimezone(account.getTimezone());
 			at.setWebsite(account.getWebsite());
