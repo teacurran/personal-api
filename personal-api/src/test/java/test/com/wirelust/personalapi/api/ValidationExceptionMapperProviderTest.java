@@ -157,7 +157,7 @@ public class ValidationExceptionMapperProviderTest {
 			new StackTraceElement(
 				ValidationExceptionMapperProvider.METHOD_CAUSE_PACKAGE + ".NotClass", "getValidation",
 				"NotClass.java", 65)
-		};
+		};	
 
 		Mockito.when(restEasyException.getStackTrace()).thenReturn(ste);
 
