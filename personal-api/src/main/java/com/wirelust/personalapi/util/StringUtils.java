@@ -1,5 +1,8 @@
 package com.wirelust.personalapi.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Date: 4/11/11
  *
@@ -18,40 +21,30 @@ public class StringUtils {
 		// utility class shouldn't be instantiated
 	}
 
-	/**
-	 * Performs a wildcard matching for the text and pattern provided.
-	 *
-	 * method taken from http://www.adarshr.com/papers/wildcard
-	 *
-	 * @param text
-	 *            the text to be tested for matches.
-	 * @param pattern
-	 *            the pattern to be matched for. This can contain the wildcard character '*'
-	 *            (asterisk).
-	 * @return <tt>true</tt> if a match is found, <tt>false</tt> otherwise.
-	 *
-	 */
-	public static boolean wildCardMatch(final String text, final String pattern) {
+	public static boolean matches(final String input, final String pattern) {
+		Pattern regexPattern = Pattern.compile(wildcardToRegex(pattern));
+		Matcher matcher = regexPattern.matcher(input);
+		return matcher.matches();
+	}
 
-		// Create the cards by splitting using a RegEx. If more speed
-		// is desired, a simpler character based splitting can be done.
-		final String[] cards = pattern.split("\\*");
-
-		String operationText = text;
-		// Iterate over the cards.
-		for (final String card : cards) {
-			final int idx = operationText.indexOf(card);
-
-			// Card not detected in the text.
-			if (idx == -1) {
-				return false;
+	public static String wildcardToRegex(final String input) {
+		StringBuilder sb = new StringBuilder(input.length() + 10);
+		sb.append('^');
+		for (int i = 0; i < input.length(); ++i) {
+			char c = input.charAt(i);
+			if (c == '*') {
+				sb.append(".*");
+			} else if (c == '?') {
+				sb.append('.');
+			} else if ("\\.[]{}()+-^$|".indexOf(c) >= 0) {
+				sb.append('\\');
+				sb.append(c);
+			} else {
+				sb.append(c);
 			}
-
-			// Move ahead, towards the right of the text.
-			operationText = operationText.substring(idx + card.length());
 		}
-
-		return true;
+		sb.append('$');
+		return sb.toString();
 	}
 
 	public static boolean isEmpty(

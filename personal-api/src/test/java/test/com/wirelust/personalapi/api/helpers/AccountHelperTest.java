@@ -20,9 +20,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class AccountHelperTest {
 
-	Date dateCreated = new Date(new Date().getTime() - 10000);
-	Date dateModified =  new Date(new Date().getTime() - 90000);
-	Date dateLogin =  new Date(new Date().getTime() - 80000);
+	private Date dateCreated = new Date(new Date().getTime() - 10000);
+	private Date dateModified =  new Date(new Date().getTime() - 90000);
+	private Date dateLogin =  new Date(new Date().getTime() - 80000);
 
 	/**
 	 * This method simply instantiates a private constructor to ensure code coverage for it so the

@@ -54,7 +54,7 @@ public class ValidationExceptionMapperProviderTest {
 
 		fieldViolations.add(new ResteasyConstraintViolation(
 			ConstraintType.Type.FIELD,
-			"getValidation.2",
+			"getValidation.1",
 			"username validation exception",
 			"invalid"
 		));
