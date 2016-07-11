@@ -144,7 +144,7 @@ public class ValidationExceptionMapperProviderTest {
 			ApiErrorType apiError = (ApiErrorType)response.getEntity();
 			List<ParameterErrorType> parameterErrors = apiError.getParameterErrors();
 
-			assertEquals("getValidation.2", parameterErrors.get(0).getParameter());
+			assertEquals("getValidation.1", parameterErrors.get(0).getParameter());
 		}
 	}
 
@@ -169,7 +169,7 @@ public class ValidationExceptionMapperProviderTest {
 			ApiErrorType apiError = (ApiErrorType)response.getEntity();
 			List<ParameterErrorType> parameterErrors = apiError.getParameterErrors();
 
-			assertEquals("getValidation.2", parameterErrors.get(0).getParameter());
+			assertEquals("getValidation.1", parameterErrors.get(0).getParameter());
 		}
 
 	}
