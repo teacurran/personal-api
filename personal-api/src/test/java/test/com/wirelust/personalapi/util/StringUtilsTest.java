@@ -58,5 +58,14 @@ public class StringUtilsTest {
 		assertEquals("", StringUtils.generateRandomString(""));
 	}
 
+	@Test
+	public void shouldBeAbleToNormalizeUsername() {
+		assertEquals("", StringUtils.normalizeUsername(null));
+		assertEquals("", StringUtils.normalizeUsername(""));
+
+		assertEquals("lonley", "1onley");
+		assertEquals("lodine", "Iodine");
+		assertEquals("lopht", "l0pht");
+	}
 
 }
