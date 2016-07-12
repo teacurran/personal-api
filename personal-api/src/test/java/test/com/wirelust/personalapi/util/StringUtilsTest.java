@@ -7,6 +7,7 @@ import com.wirelust.personalapi.api.helpers.AccountHelper;
 import com.wirelust.personalapi.util.StringUtils;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -41,5 +42,21 @@ public class StringUtilsTest {
 		assertFalse(StringUtils.matches(SEARCH_STRING, "*lazy dog"));
 		assertFalse(StringUtils.matches(SEARCH_STRING, "The quick [a-z]ox jumped over [a-z]he lazy dog."));
 	}
+
+	@Test
+	public void shouldBeAbleToGenerateRandomString() {
+		String randomNumber = StringUtils.generateRandomString("######");
+		assertTrue(randomNumber.matches("\\d\\d\\d\\d\\d\\d"));
+
+		String randomString = StringUtils.generateRandomString("#LUS*");
+		assertTrue(randomString.matches("\\d[a-z][A-Z][!@#$%^&*()]."));
+
+		randomString = StringUtils.generateRandomString("#LUS*XXXXXXXXX");
+		assertTrue(randomString.matches("\\d[a-z][A-Z][!@#$%^&*()]."));
+
+		assertEquals("", StringUtils.generateRandomString(null));
+		assertEquals("", StringUtils.generateRandomString(""));
+	}
+
 
 }
