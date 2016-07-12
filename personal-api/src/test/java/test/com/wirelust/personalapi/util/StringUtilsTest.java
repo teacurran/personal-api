@@ -63,9 +63,9 @@ public class StringUtilsTest {
 		assertEquals("", StringUtils.normalizeUsername(null));
 		assertEquals("", StringUtils.normalizeUsername(""));
 
-		assertEquals("lonley", "1onley");
-		assertEquals("lodine", "Iodine");
-		assertEquals("lopht", "l0pht");
+		assertEquals("lonley", StringUtils.normalizeUsername("1onley"));
+		assertEquals("lodine", StringUtils.normalizeUsername("Iodine"));
+		assertEquals("lopht", StringUtils.normalizeUsername("l0pht"));
 	}
 
 }
