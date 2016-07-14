@@ -132,4 +132,31 @@ public class AccountResourceTest {
 		}
 	}
 
+	@Test
+	public void shouldBeAbleToCheckForUsername() {
+
+		when(accountRepository.usernameExists(any(String.class))).thenReturn(true);
+
+		try {
+			accountResource.checkUsername("username");
+			Assert.fail();
+		} catch (ApiException e) {
+			assertEquals(EnumErrorCode.USERNAME_EXISTS, e.getErrorCode());
+		}
+	}
+
+	@Test
+	public void shouldBeAbleToCheckForRestrictedUsername() {
+
+		when(accountRepository.usernameExists(any(String.class))).thenReturn(false);
+		when(restrictedUsernameRepository.isRestricted(any(String.class))).thenReturn(true);
+
+		try {
+			accountResource.checkUsername("username");
+			Assert.fail();
+		} catch (ApiException e) {
+			assertEquals(EnumErrorCode.USERNAME_EXISTS, e.getErrorCode());
+		}
+	}
+
 }
