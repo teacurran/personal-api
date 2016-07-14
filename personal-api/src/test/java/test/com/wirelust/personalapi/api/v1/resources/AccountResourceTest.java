@@ -173,4 +173,30 @@ public class AccountResourceTest {
 			assertEquals(EnumErrorCode.USERNAME_INVALID, e.getErrorCode());
 		}
 	}
+
+	@Test
+	public void loginShouldThrowExceptionOnInvalidClientId() {
+
+		try {
+			accountResource.login("clientId", "username", "password");
+			Assert.fail();
+		} catch (ApiException e) {
+			assertEquals(EnumErrorCode.CLIENT_ID_INVALID, e.getErrorCode());
+		}
+	}
+
+	@Test
+	public void loginShouldThrowExceptionWhenAccountNotFound() {
+
+		when(apiApplicationRepository.findBy(any(String.class))).thenReturn(new ApiApplication());
+		when(accountRepository.findAnyByEmail(any(String.class))).thenReturn(null);
+
+		try {
+			accountResource.login("clientId", "username", "password");
+			Assert.fail();
+		} catch (ApiException e) {
+			assertEquals(EnumErrorCode.ACCOUNT_NOT_FOUND, e.getErrorCode());
+		}
+	}
+
 }

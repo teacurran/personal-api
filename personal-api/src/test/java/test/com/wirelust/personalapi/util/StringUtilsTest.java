@@ -68,4 +68,10 @@ public class StringUtilsTest {
 		assertEquals("lopht", StringUtils.normalizeUsername("l0pht"));
 	}
 
+	@Test
+	public void shouldBeAbleToTestForEmptyString() {
+		assertTrue(StringUtils.isEmpty(""));
+		assertTrue(StringUtils.isEmpty(null));
+		assertFalse(StringUtils.isEmpty("string"));
+	}
 }

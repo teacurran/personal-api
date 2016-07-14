@@ -47,6 +47,16 @@ public class StringUtils {
 		return sb.toString();
 	}
 
+	public static boolean isEmpty(
+		final String value ) {
+
+		if ( value == null ) {
+			return true;
+		}
+
+		return value.isEmpty();
+	}
+
 	public static String generateRandomString(final String pattern) {
 
 		if ((pattern == null) || (pattern.length() == 0)) {
