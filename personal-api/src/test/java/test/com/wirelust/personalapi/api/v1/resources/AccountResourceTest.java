@@ -159,4 +159,18 @@ public class AccountResourceTest {
 		}
 	}
 
+	@Test
+	public void shouldBeAbleToCheckForInvalidUsername() {
+
+		when(accountRepository.usernameExists(any(String.class))).thenReturn(false);
+		when(restrictedUsernameRepository.isRestricted(any(String.class))).thenReturn(false);
+		when(accountRepository.usernameIsValid(any(String.class))).thenReturn(false);
+
+		try {
+			accountResource.checkUsername("username");
+			Assert.fail();
+		} catch (ApiException e) {
+			assertEquals(EnumErrorCode.USERNAME_INVALID, e.getErrorCode());
+		}
+	}
 }
