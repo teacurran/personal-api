@@ -26,7 +26,7 @@ public class StringUtilsTest {
 	 */
 	@Test
 	public void testConstantsConstructorIsPrivate() throws Exception {
-		Constructor<AccountHelper> constructor = AccountHelper.class.getDeclaredConstructor();
+		Constructor<StringUtils> constructor = StringUtils.class.getDeclaredConstructor();
 		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		constructor.setAccessible(true);
 		constructor.newInstance();
